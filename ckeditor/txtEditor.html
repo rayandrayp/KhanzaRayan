@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>A Simple Page with CKEditor 4</title>
+    <!-- Make sure the path to CKEditor is correct. -->
+    <script src="ckeditor.js"></script>
+  </head>
+  <body>
+    <form>
+      <textarea name="editor1" id="editor1" rows="10" cols="80">
+            This is my textarea to be replaced with CKEditor 4.
+        </textarea
+      >
+      <button type="submit" name="btn_save_rm004rj" onclick="save_ctpp()">
+        Submit
+      </button>
+      <script>
+        CKEDITOR.replace("editor1");
+      </script>
+      <script type="text/javascript">
+        function save_ctpp(load = true) {
+          var formData = "aaaaaaa";
+          // $("#editor1").val(CKEDITOR.instances.editor1.getData());
+          // formData = new FormData($('#editor1')[0]);
+          alert("Save|" + formData);
+          // if ($("#form_rm004rj")[0].checkValidity()) {
+          //     alertify.confirm("Anda yakin akan menyimpan catatan ini ?", function (e) {
+          //         if (e) {
+          //             var formData = new FormData($('#form_rm004rj')[0]);
+          //             $(".loading").show();
+          //             $.ajax({
+          //                 url: 'rawat/jalan/catatan_terintegrasi/createbyreg/' +{{$dataRegistrasi->id_reg_periksa}},
+          //                 method: 'POST',
+          //                 data: formData,
+          //                 contentType: false,
+          //                 processData: false,
+          //                 success: function (result) {
+          //                     if (result == 'success') {
+          //                         alertify.log('Data berhasil disimpan.');
+          //                         if (load == true) {
+
+          //                             $("#form_rm004rj")[0].reset();
+          //                             CKEDITOR.instances['hasil_rm004rj'].setData('');
+          //                             $('select[name="nip_rm004rj"]').val('').change();
+
+          //                             $("#collapseformrm004rj").show();
+          //                             $("#formrm004rj").collapse("hide");
+          //                             rm004rj.draw();
+          //                         } else {
+
+          //                         }
+
+          //                     } else {
+          //                         alertify.log(result);
+          //                         $('#message_area').html(result).show();
+          //                     }
+          //                     $(".loading").hide();
+          //                 }
+          //             });
+          //         }
+          //     });
+          // } else {
+          //     console.log('not');
+          // }
+        }
+      </script>
+    </form>
+  </body>
+</html>
