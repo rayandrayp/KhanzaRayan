@@ -9819,7 +9819,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
 //                "order by "+order);
             pskasir=koneksi.prepareStatement("SELECT a.no_reg,a.no_rawat,a.tgl_registrasi,a.jam_reg,a.kd_dokter,a.nm_dokter,a.no_rkm_medis,a.nm_pasien, " +
                 "a.nm_poli,a.p_jawab,a.almt_pj,a.hubunganpj,a.biaya_reg,a.stts,a.png_jawab, a.umur, a.status_bayar,a.status_poli,a.kd_pj,a.kd_poli,a.no_tlp,  " +
-                "IFNULL(b.nomorantrean, '-') AS mobile, IFNULL(c.no_rkm_medis, '-') AS web  " +
+                "IFNULL(b.nomorantrean, '-') AS mobile, IFNULL(c.no_rkm_medis, '-') AS web ,IFNULL(d.nobooking,'-') AS anjungan  " +
                 "FROM  " +
                 "( " +
                     "SELECT reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.kd_dokter,dokter.nm_dokter,reg_periksa.no_rkm_medis,pasien.nm_pasien, " +
@@ -9833,11 +9833,12 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                     (semua?"":"and reg_periksa.kd_pj like ? and poliklinik.nm_poli like ? and dokter.nm_dokter like ? and reg_periksa.stts like ? and reg_periksa.status_bayar like ? and "+
                     "(reg_periksa.no_reg like ? or reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or reg_periksa.kd_dokter like ? or dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or pasien.nm_pasien like ? or poliklinik.nm_poli like ? or "+
                     "reg_periksa.p_jawab like ? or penjab.png_jawab like ? or reg_periksa.almt_pj like ? or reg_periksa.status_bayar like ? or reg_periksa.hubunganpj like ?)")+
-                    "order by "+order+ 
+                    "order by reg_periksa.tgl_registrasi, "+order+
                 ") AS a " +
                 "LEFT JOIN record_antrian_mobilejkn b ON b.no_rawat = a.no_rawat " +
                 "LEFT JOIN  " +
                 "   (SELECT no_rkm_medis FROM booking_registrasi WHERE tanggal_periksa = '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"') AS c ON c.no_rkm_medis = a.no_rkm_medis " +
+                " LEFT JOIN referensi_mobilejkn_bpjs d ON d.no_rawat = a.no_rawat " +
                 "ORDER BY jam_reg DESC");
             try{
                 pskasir.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
@@ -9862,19 +9863,21 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                     pskasir.setString(19,"%"+TCari.getText().trim()+"%");
                     pskasir.setString(20,"%"+TCari.getText().trim()+"%");
                 }
-//                System.out.println("pskasir "+pskasir.toString());
+                //System.out.println("pskasir "+pskasir.toString());
                 rskasir=pskasir.executeQuery();
                 while(rskasir.next()){
 //                    int jmlMobileJKN = Sequel.cariInteger("SELECT count(*) FROM record_antrian_mobilejkn WHERE no_rawat = '"+rskasir.getString("no_rawat")+"'");
 //                    int jmlWeb = Sequel.cariInteger("SELECT count(*) FROM booking_registrasi WHERE tanggal_periksa between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' AND no_rkm_medis = '"+rskasir.getString("no_rkm_medis")+"'");
                     String jnsDaftar = "";
                     
-                    if(!rskasir.getString("mobile").equalsIgnoreCase("-") && rskasir.getString("web").equalsIgnoreCase("-")){
+                    if(!rskasir.getString("mobile").equalsIgnoreCase("-") && rskasir.getString("web").equalsIgnoreCase("-") && rskasir.getString("anjungan").equalsIgnoreCase("-")){
                         jnsDaftar = "Mobile JKN";
-                    } else if (rskasir.getString("mobile").equalsIgnoreCase("-") && !rskasir.getString("web").equalsIgnoreCase("-")){
+                    } else if (rskasir.getString("mobile").equalsIgnoreCase("-") && !rskasir.getString("web").equalsIgnoreCase("-") && rskasir.getString("anjungan").equalsIgnoreCase("-")){
                         jnsDaftar = "Website RS";
-                    } else {
+                    } else if (rskasir.getString("mobile").equalsIgnoreCase("-") && rskasir.getString("web").equalsIgnoreCase("-") && !rskasir.getString("anjungan").equalsIgnoreCase("-")){
                         jnsDaftar = "Anjungan";
+                    } else {
+                        jnsDaftar = "SIMRS Desktop";
                     }
                     tabModekasir.addRow(new String[] {
                         rskasir.getString(5),rskasir.getString(6),rskasir.getString(7),rskasir.getString(8)+" ("+rskasir.getString("umur")+")",

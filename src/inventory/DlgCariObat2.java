@@ -1481,6 +1481,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                 }
                             }else{ //jika tidak dicentang
                                 double jumlah_obat = Double.parseDouble(tbObat.getValueAt(i,1).toString());
+                                //System.out.println("start simpan ");
                                 if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                     Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
                                     tbObat.getValueAt(i,6).toString(),""+Double.parseDouble(tbObat.getValueAt(i,1).toString()),
@@ -1489,17 +1490,19 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                         Double.parseDouble(tbObat.getValueAt(i,1).toString()))),
                                     "Ranap",kdgudang.getText(),tbObat.getValueAt(i,16).toString(),tbObat.getValueAt(i,17).toString(),"0",""+Double.parseDouble(tbObat.getValueAt(i,1).toString())
                                 })==true){ 
+//                                    System.out.println("save detail_pemberian_obat berhasil");
                                     ttljual=ttljual+Math.round(Double.parseDouble(tbObat.getValueAt(i,8).toString())+
                                             Double.parseDouble(tbObat.getValueAt(i,9).toString())+(Double.parseDouble(tbObat.getValueAt(i,6).toString())*
                                                     Double.parseDouble(tbObat.getValueAt(i,1).toString())));
                                     ttlhpp=ttlhpp+Math.round(Double.parseDouble(tbObat.getValueAt(i,12).toString())*
                                                     Double.parseDouble(tbObat.getValueAt(i,1).toString()));
+                                    System.out.println("sipman aturan pakai " + tbObat.getValueAt(i,13).toString().equals(""));
                                     if(!tbObat.getValueAt(i,13).toString().equals("")){
                                         Sequel.menyimpan("aturan_pakai","?,?,?,?,?",5,new String[]{
                                             Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,13).toString()
                                         });
                                     }                                
-                                    
+//                                    System.out.println("aktifkanbatch " +aktifkanbatch);
                                     if(aktifkanbatch.equals("yes")){
                                         Sequel.mengedit("data_batch","no_batch=? and kode_brng=? and no_faktur=?","sisa=sisa-?",4,new String[]{
                                             ""+Double.parseDouble(tbObat.getValueAt(i,1).toString()),tbObat.getValueAt(i,16).toString(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,17).toString()
@@ -1508,14 +1511,18 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                         Sequel.menyimpan("gudangbarang","'"+tbObat.getValueAt(i,2).toString()+"','"+kdgudang.getText()+"','-"+Double.parseDouble(tbObat.getValueAt(i,1).toString())+"','"+tbObat.getValueAt(i,16).toString()+"','"+tbObat.getValueAt(i,17).toString()+"'", 
                                                  "stok=stok-'"+Double.parseDouble(tbObat.getValueAt(i,1).toString())+"'","kode_brng='"+tbObat.getValueAt(i,2).toString()+"' and kd_bangsal='"+kdgudang.getText()+"' and no_batch='"+tbObat.getValueAt(i,16).toString()+"' and no_faktur='"+tbObat.getValueAt(i,17).toString()+"'");   
                                     }else{ 
+//                                        System.out.println("track obat ");
                                         Trackobat.catatRiwayat(tbObat.getValueAt(i,2).toString(),0,Double.parseDouble(tbObat.getValueAt(i,1).toString()),"Pemberian Obat",akses.getkode(),kdgudang.getText(),"Simpan","","",TNoRw.getText()+" "+TNoRM.getText()+" "+TPasien.getText());
+//                                        System.out.println("simpan gudangbarang"); 
                                         Sequel.menyimpan("gudangbarang","'"+tbObat.getValueAt(i,2).toString()+"','"+kdgudang.getText()+"','-"+Double.parseDouble(tbObat.getValueAt(i,1).toString())+"','',''", 
                                                  "stok=stok-'"+Double.parseDouble(tbObat.getValueAt(i,1).toString())+"'","kode_brng='"+tbObat.getValueAt(i,2).toString()+"' and kd_bangsal='"+kdgudang.getText()+"' and no_batch='' and no_faktur=''");  
+//                                        System.out.println("gudangbarang sukses");
                                     }
                                     
                                     //System.out.println("paket HD "+tbObat.getValueAt(i,2).equals("B000009066"));
                                     //System.out.println("paket HD single use ? "+tbObat.getValueAt(i,2).equals("B000009374"));
                                     //begin save data paket HD
+//                                    System.out.println("paket HD " + tbObat.getValueAt(i,2).equals("B000009066"));
                                     if(tbObat.getValueAt(i,2).equals("B000009066")){ //paket HD
                                         //tambah obat untuk paket HD reguler
                                         paketHD.add(new String[] {"G000009929", "0.05"});//Asam Sitrat/citric acid #11
@@ -1591,7 +1598,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                         }
                                     }
                                     //end of save data paket HD
-                                            
+                                    System.out.println("aktifpcare "+aktifpcare);
                                     if(aktifpcare.equals("yes")){
                                         arrSplit = tbObat.getValueAt(i,13).toString().toLowerCase().split("x");
                                         signa1="1";
@@ -1622,8 +1629,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                 }                                   
                             }                            
                         }
-                    }  
-
+                    }
+                    
                     for(i=0;i<tbObatRacikan.getRowCount();i++){ 
                         if(Valid.SetAngka(tbObatRacikan.getValueAt(i,4).toString())>0){ 
                             if(Sequel.menyimpantf2("obat_racikan","?,?,?,?,?,?,?,?,?","Obat Racikan",9,new String[]{
@@ -1711,7 +1718,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     if(!noresep.equals("")){
                         Sequel.mengedit("resep_obat","no_resep='"+noresep+"'","tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"',jam='"+cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem()+"'");
                     }
-                    
+//                    System.out.println("1 sukses? "+sukses);
                     if(sukses==true){
                         Sequel.queryu("delete from tampjurnal");    
                         if(ttljual>0){
@@ -1727,6 +1734,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         }
                     }
                     
+//                    System.out.println("2 sukses? "+sukses);
                     if(sukses==true){
                         Sequel.Commit();
                         for(i=0;i<tbObat.getRowCount();i++){
@@ -1742,7 +1750,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     
                     Sequel.AutoComitTrue();
                     ChkJln.setSelected(true);
-                                                                    
+                                            
+//                    System.out.println("3 sukses? "+sukses);                        
                     if(sukses==true){
                         if(ChkNoResep.isSelected()==true){
                             DlgResepObat resep=new DlgResepObat(null,false);

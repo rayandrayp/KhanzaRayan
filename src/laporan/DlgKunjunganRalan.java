@@ -904,7 +904,7 @@ public final class DlgKunjunganRalan extends javax.swing.JDialog {
             param.put("laki",laki);   
             param.put("perempuan",per);   
             param.put("tanggal",Tgl2.getDate());   
-            Sequel.queryu("truncate table temporary");
+            Sequel.queryu("truncate table sik.`temporary`");
             if(TabRawat.getSelectedIndex()==0){
                 for(int r=0;r<tabMode.getRowCount();r++){ 
                     if(!table1.getValueAt(r,0).toString().contains(">>")){

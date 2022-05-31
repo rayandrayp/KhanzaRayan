@@ -1002,6 +1002,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                     }
                                         
                                     simpanbatch();
+                                    //update harga
+                                    Sequel.mengedit("databarang","kode_brng='"+tbDokter.getValueAt(i,2).toString()+"'","h_beli='"+tbDokter.getValueAt(i,7).toString()+"'");
                                 }else{
                                     sukses=false;
                                 }                                        

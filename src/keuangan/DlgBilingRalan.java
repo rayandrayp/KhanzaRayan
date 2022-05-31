@@ -2364,8 +2364,11 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 try{
                     j = 0;
+                    double ttlBiayaNota = 0.0;
+                    double ttlObatNota = 0.0;
+                    String kolomDua = "";
                     try{
-                          biaya = (String)JOptionPane.showInputDialog(null,"Silahkan pilih nota yang mau dicetak!","Nota",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nota1: Tanpa Rincian Obat", "Nota2: Dengan Rincian Obat", "Kwitansi", "Nota & Kwitansi","Kwitansi Piutang"},"Nota");
+                          biaya = (String)JOptionPane.showInputDialog(null,"Silahkan pilih nota yang mau dicetak!","Nota",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nota1: Tanpa Rincian Obat", "Nota2: Dengan Rincian Obat","Nota3: Khusus BPJS", "Kwitansi", "Nota & Kwitansi","Kwitansi Piutang"},"Nota");
                           switch (biaya) {
                                 case "Nota1: Tanpa Rincian Obat":
                                       j=1;
@@ -2373,14 +2376,17 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 case "Nota2: Dengan Rincian Obat":
                                       j=2;
                                       break;
-                                case "Kwitansi":
+                                case "Nota3: Khusus BPJS":
                                       j=3;
                                       break;
-                                case "Nota & Kwitansi":
+                                case "Kwitansi":
                                       j=4;
                                       break;
-                                case "Kwitansi Piutang":
+                                case "Nota & Kwitansi":
                                       j=5;
+                                      break;
+                                case "Kwitansi Piutang":
+                                      j=6;
                                       break;
                           }
                     }catch(Exception e){
@@ -2431,15 +2437,37 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 } else {
                                     simpan = true;
                                 }
+                            } else if (j==3) { //khusus BPJS hilangkan centang kronis
+                                if (tabModeRwJlDr.getValueAt(i,8).toString().equalsIgnoreCase("obat")){
+                                    if(!tabModeRwJlDr.getValueAt(i,2).toString().replaceAll("\\s+","").contains("(KRONIS)")){
+                                        simpan = true;
+                                    } else {
+                                        simpan = false;
+                                    }
+                                } else {
+                                    simpan = true;
+                                }
                             } else {
                                 simpan = true;
                             }
                             
                             if (simpan){
+                                //menghitung ulang total obat
+                                if (tabModeRwJlDr.getValueAt(i,8).toString().equalsIgnoreCase("obat")){
+                                    if (tabModeRwJlDr.getValueAt(i,7) != null){
+                                        ttlObatNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                    }
+                                }
+                                if (tabModeRwJlDr.getValueAt(i,8).toString().equalsIgnoreCase("ttlobat")){
+                                    kolomDua = Valid.SetAngka3(ttlObatNota);
+                                } else {
+                                    kolomDua = tabModeRwJlDr.getValueAt(i,2).toString();
+                                }
+
                                 pstemporary=koneksi.prepareStatement(sqlpstemporary);
                                 try {
                                     pstemporary.setString(1,tabModeRwJlDr.getValueAt(i,1).toString().replaceAll("'",""));
-                                    pstemporary.setString(2,tabModeRwJlDr.getValueAt(i,2).toString().replaceAll("'",""));
+                                    pstemporary.setString(2,kolomDua.replaceAll("'",""));
                                     pstemporary.setString(3,tabModeRwJlDr.getValueAt(i,3).toString().replaceAll("'",""));
                                     pstemporary.setString(4,biaya);
                                     try {
@@ -2463,9 +2491,18 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                         pstemporary.close();
                                     } 
                                 }
+                                
+                                //perhitungan baru total biaya berdasarkan centang
+                                if (tabModeRwJlDr.getValueAt(i,7) != null){
+                                    ttlBiayaNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                }
                             }
+                            
                         }                
                     }
+                    //override perhitungan dengan perhitungan baru (tergantung centangan)
+                    TtlSemua.setText(Valid.SetAngka3(ttlBiayaNota));
+                    TagihanPPn.setText(Valid.SetAngka3(ttlBiayaNota + besarppn));
                     
                     if(piutang<=0){                        
                         Sequel.menyimpan("temporary_bayar_ralan","'0','TOTAL TAGIHAN',':','','','','','"+TtlSemua.getText()+"','Tagihan','"+akses.getkode()+"','','','','','','','',''","Tagihan"); 
@@ -2482,9 +2519,9 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                     if(j>0){                       
                         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         kd_pj=Sequel.cariIsi("select kd_pj from reg_periksa where no_rawat=?",TNoRw.getText());
-                        if(j==1 || j==2){
+                        if(j==1 || j==2 || j==3){
                             Valid.panggilUrl("billing/LaporanBilling.php?petugas="+akses.getkode().replaceAll(" ","_")+"&tanggal="+DTPTgl.getSelectedItem().toString().replaceAll(" ","_"));
-                        }else if(j==3){
+                        }else if(j==4){
                             if(piutang>0){
                                 Valid.panggilUrl("billing/LaporanBilling7.php?petugas="+akses.getkode().replaceAll(" ","_")+"&nonota="+Sequel.cariIsi("select count(reg_periksa.no_rawat) from reg_periksa "+
                                         "where reg_periksa.kd_pj='"+kd_pj+"' and reg_periksa.tgl_registrasi like '%"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,7)+"%'")+"/RJ/"+kd_pj+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(5,7)+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,4)); 
@@ -2492,7 +2529,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 Valid.panggilUrl("billing/LaporanBilling5.php?petugas="+akses.getkode().replaceAll(" ","_")+"&nonota="+Sequel.cariIsi("select count(reg_periksa.no_rawat) from reg_periksa "+
                                         "where reg_periksa.kd_pj='"+kd_pj+"' and reg_periksa.tgl_registrasi like '%"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,7)+"%'")+"/RJ/"+kd_pj+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(5,7)+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,4));
                             }
-                        }else if(j==4){
+                        }else if(j==5){
                             Valid.panggilUrl("billing/LaporanBilling.php?petugas="+akses.getkode().replaceAll(" ","_")+"&tanggal="+DTPTgl.getSelectedItem().toString().replaceAll(" ","_"));
                             if(piutang>0){
                                 Valid.panggilUrl("billing/LaporanBilling7.php?petugas="+akses.getkode().replaceAll(" ","_")+"&nonota="+Sequel.cariIsi("select count(reg_periksa.no_rawat) from reg_periksa "+
@@ -2501,7 +2538,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 Valid.panggilUrl("billing/LaporanBilling5.php?petugas="+akses.getkode().replaceAll(" ","_")+"&nonota="+Sequel.cariIsi("select count(reg_periksa.no_rawat) from reg_periksa "+
                                         "where reg_periksa.kd_pj='"+kd_pj+"' and reg_periksa.tgl_registrasi like '%"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,7)+"%'")+"/RJ/"+kd_pj+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(5,7)+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,4));
                             }                                
-                        }else if(j==5){
+                        }else if(j==6){
                             if(piutang>0){
                                 Valid.panggilUrl("billing/LaporanBilling10.php?petugas="+akses.getkode().replaceAll(" ","_")+"&nonota="+Sequel.cariIsi("select count(reg_periksa.no_rawat) from reg_periksa "+
                                         "where reg_periksa.kd_pj='"+kd_pj+"' and reg_periksa.tgl_registrasi like '%"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,7)+"%'")+"/RJ/"+kd_pj+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(5,7)+"/"+Valid.SetTgl(DTPTgl.getSelectedItem()+"").substring(0,4)); 

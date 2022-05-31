@@ -5684,7 +5684,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     ps.setString(16,"%"+TCari.getText().trim()+"%");
                     ps.setString(17,"%"+TCari.getText().trim()+"%");
                 }
-                    
+                System.out.println("ps "+ps);
                 rs=ps.executeQuery();
                 while(rs.next()){
                     penunjang="";
@@ -6159,6 +6159,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 	    headers.add("X-Signature",api.getHmac(utc));
             headers.add("user_key",koneksiDB.USERKEYAPIBPJS());
             URL = link+"/SEP/2.0/delete";
+            System.out.println("URL "+URL);
             requestJson ="{\"request\":{\"t_sep\":{\"noSep\":\""+tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString()+"\",\"user\":\""+user+"\"}}}";  
             System.out.println("JSON : "+requestJson);
             requestEntity = new HttpEntity(requestJson,headers);

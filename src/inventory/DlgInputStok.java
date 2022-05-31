@@ -45,11 +45,11 @@ public class DlgInputStok extends javax.swing.JDialog {
     private validasi Valid=new validasi();
     private riwayatobat Trackobat=new riwayatobat();
     private Connection koneksi=koneksiDB.condb();
-    private PreparedStatement pstampil,psstok;
-    private ResultSet rstampil,rsstok;
+    private PreparedStatement pstampil,psstok, psdatastok;
+    private ResultSet rstampil,rsstok, rsdatastok;
     private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
     private double ttl=0,y=0,ttl2=0,y2=0,stokbarang=0,kurang=0,harga=0;
-    private int jml=0,i=0,index=0;
+    private int jml=0,i=0,index=0, dp1=0,dp2=0,dp3=0,dp4=0,dp5=0,dp6=0,go=0;
     private String[] real,kodebarang,namabarang,kategori,satuan,nobatch,nofaktur;
     private double[] hargabeli,stok,selisih,lebih,nomihilang,nomilebih;
     private WarnaTable2 warna=new WarnaTable2();
@@ -62,6 +62,7 @@ public class DlgInputStok extends javax.swing.JDialog {
     private JsonNode root;
     private JsonNode response;
     private FileReader myObj;
+    private Map<String, Double[]> dataStok = new HashMap<String, Double[]>();
 
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -70,7 +71,8 @@ public class DlgInputStok extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        Object[] row={"Real","Kode Barang","Nama Barang","Kategori","Satuan","Harga","Stok","Selisih","Lebih","Nominal Hilang(Rp)","Nominal Lebih(Rp)","No.Batch","No.Faktur"};
+        Object[] row={"Real","Kode Barang","Nama Barang","Kategori","Satuan","Harga","Stok","Selisih","Lebih","Nominal Hilang(Rp)","Nominal Lebih(Rp)","No.Batch","No.Faktur",
+            "Depo 1","Depo 2","Depo 3","Depo 4","Depo 5","Depo 6", "Gudang Obat"};
         tabMode=new DefaultTableModel(null,row){
             @Override public boolean isCellEditable(int rowIndex, int colIndex){
                 boolean a = false;
@@ -83,7 +85,8 @@ public class DlgInputStok extends javax.swing.JDialog {
                 java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,
                 java.lang.String.class,java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,
                 java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,java.lang.String.class,
-                java.lang.String.class  
+                java.lang.String.class,java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,
+                java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,java.lang.Double.class
              };
              @Override
              public Class getColumnClass(int columnIndex) {
@@ -95,7 +98,7 @@ public class DlgInputStok extends javax.swing.JDialog {
         tbDokter.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbDokter.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 13; i++) {
+        for (i = 0; i < 20; i++) {
             TableColumn column = tbDokter.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(42);
@@ -122,6 +125,10 @@ public class DlgInputStok extends javax.swing.JDialog {
             }else if(i==11){
                 column.setPreferredWidth(70);
             }else if(i==12){
+                column.setPreferredWidth(100);
+            }else if(i==13||i==14||i==15||i==16||i==17||i==18){
+                column.setPreferredWidth(50);
+            }else if(i==19){
                 column.setPreferredWidth(100);
             }
         }
@@ -1104,12 +1111,22 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     pstampil.setString(11,kdgudang.getText());
                     pstampil.setString(12,"%"+TCari.getText().trim()+"%");
                     rstampil=pstampil.executeQuery();
-                    while(rstampil.next()){                            
+                    System.out.println("pstampil " + pstampil);
+                    
+                    getStokData();
+                    while(rstampil.next()){      
+                        dp1 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[0]);
+                        dp2 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[1]);
+                        dp3 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[2]);
+                        dp4 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[3]);
+                        dp5 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[4]);
+                        dp6 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[5]);
+                        go = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[6]);
                         tabMode.addRow(new Object[]{"",rstampil.getString("kode_brng"),
                                        rstampil.getString("nama_brng"),
                                        rstampil.getString("nama"),
                                        rstampil.getString("kode_sat"),
-                                       rstampil.getDouble("dasar"),0,0,0,0,0,"",""});
+                                       rstampil.getDouble("dasar"),0,0,0,0,0,"","",dp1,dp2,dp3,dp4,dp5,dp6,go});
                     }  
                 } catch (Exception e) {
                     System.out.println("Notif : "+e);
@@ -1150,12 +1167,22 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 pstampil.setString(11,kdgudang.getText());
                 pstampil.setString(12,"%"+TCari.getText().trim()+"%");
                 rstampil=pstampil.executeQuery();
-                while(rstampil.next()){                            
+                System.out.println("pstampil sudah opname " + pstampil);
+                
+                getStokData();
+                while(rstampil.next()){  
+                    dp1 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[0]);
+                    dp2 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[1]);
+                    dp3 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[2]);
+                    dp4 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[3]);
+                    dp5 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[4]);
+                    dp6 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[5]);
+                    go = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[6]);
                     tabMode.addRow(new Object[]{"",rstampil.getString("kode_brng"),
                                    rstampil.getString("nama_brng"),
                                    rstampil.getString("nama"),
                                    rstampil.getString("kode_sat"),
-                                   rstampil.getDouble("dasar"),0,0,0,0,0,"",""});
+                                   rstampil.getDouble("dasar"),0,0,0,0,0,"","",dp1,dp2,dp3,dp4,dp5,dp6,go});
                 }  
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
@@ -1367,9 +1394,18 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 " where databarang.status='1' "+order);
             try {
                 rstampil=pstampil.executeQuery();
-                while(rstampil.next()){                            
+//                System.out.println("ps tampil " +pstampil);
+                getStokData();
+                while(rstampil.next()){          
+                    dp1 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[0]);
+                    dp2 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[1]);
+                    dp3 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[2]);
+                    dp4 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[3]);
+                    dp5 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[4]);
+                    dp6 = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[5]);
+                    go = (int) Math.round(dataStok.get(rstampil.getString("kode_brng"))[6]);
                     tabMode.addRow(new Object[]{
-                        "",rstampil.getString("kode_brng"),rstampil.getString("nama_brng"),rstampil.getString("nama"),rstampil.getString("kode_sat"),rstampil.getDouble("dasar"),0,0,0,0,0,"",""
+                        "",rstampil.getString("kode_brng"),rstampil.getString("nama_brng"),rstampil.getString("nama"),rstampil.getString("kode_sat"),rstampil.getDouble("dasar"),0,0,0,0,0,"","",dp1,dp2,dp3,dp4,dp5,dp6,go
                     });
                     iyem=iyem+"{\"KodeBarang\":\""+rstampil.getString("kode_brng")+"\",\"NamaBarang\":\""+rstampil.getString("nama_brng").replaceAll("\"","")+"\",\"Kategori\":\""+rstampil.getString("nama")+"\",\"Satuan\":\""+rstampil.getString("kode_sat")+"\",\"Harga\":\""+rstampil.getString("dasar")+"\"},";
                 }  
@@ -1395,6 +1431,9 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
     private void tampil2() {
         try{  
+            
+            getStokData();
+            
             jml=0;
             for(i=0;i<tbDokter.getRowCount();i++){
                 if(!tbDokter.getValueAt(i,0).toString().equals("")){
@@ -1437,10 +1476,18 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
             Valid.tabelKosong(tabMode);
             for(i=0;i<jml;i++){
+//                System.out.println("tampil2");
+                dp1 = (int) Math.round(dataStok.get(kodebarang[i])[0]);
+                dp2 = (int) Math.round(dataStok.get(kodebarang[i])[1]);
+                dp3 = (int) Math.round(dataStok.get(kodebarang[i])[2]);
+                dp4 = (int) Math.round(dataStok.get(kodebarang[i])[3]);
+                dp5 = (int) Math.round(dataStok.get(kodebarang[i])[4]);
+                dp6 = (int) Math.round(dataStok.get(kodebarang[i])[5]);
+                go = (int) Math.round(dataStok.get(kodebarang[i])[6]);
                 tabMode.addRow(new Object[]{
                     real[i],kodebarang[i],namabarang[i],kategori[i],satuan[i],
                     hargabeli[i],stok[i],selisih[i],lebih[i],nomihilang[i],nomilebih[i],
-                    nobatch[i],nofaktur[i]
+                    nobatch[i],nofaktur[i],dp1,dp2,dp3,dp4,dp5,dp6,go
                 });
             }
             
@@ -1448,10 +1495,19 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             root = mapper.readTree(myObj);
             response = root.path("stokopname");
             if(response.isArray()){
+//                System.out.println("file ");
                 for(JsonNode list:response){
                     if(list.path("KodeBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("NamaBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("Kategori").asText().toLowerCase().contains(TCari.getText().toLowerCase())){
+                        dp1 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[0]);
+                        dp2 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[1]);
+                        dp3 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[2]);
+                        dp4 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[3]);
+                        dp5 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[4]);
+                        dp6 = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[5]);
+                        go = (int) Math.round(dataStok.get(list.path("KodeBarang").asText())[6]);
+                        
                         tabMode.addRow(new Object[]{
-                            "",list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Kategori").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,"",""
+                            "",list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Kategori").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,"","",dp1,dp2,dp3,dp4,dp5,dp6,go
                         });
                     }
                 }
@@ -1595,6 +1651,45 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 nmgudang.setText(Sequel.cariIsi("select nm_bangsal from bangsal where kd_bangsal=?",DEPOAKTIFOBAT));
                 BtnGudang.setEnabled(false);
             }
+        }
+    }
+    
+    public void getStokData(){
+        try{
+            psdatastok=koneksi.prepareStatement(
+            "SELECT d.kode_brng, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP1' THEN g.stok ELSE 0 END) AS dp1, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP2' THEN g.stok ELSE 0 END) AS dp2, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP3' THEN g.stok ELSE 0 END) AS dp3, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP4' THEN g.stok ELSE 0 END) AS dp4, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP5' THEN g.stok ELSE 0 END) AS dp5, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'DP6' THEN g.stok ELSE 0 END) AS dp6, " +
+            "         MAX(CASE WHEN g.kd_bangsal = 'GO' THEN g.stok ELSE 0 END) AS go " +
+            "FROM databarang d " +
+            "LEFT JOIN gudangbarang g ON d.kode_brng = g.kode_brng " +
+            "WHERE d.status = '1' " +
+            "GROUP BY d.kode_brng " +
+            "ORDER BY d.kode_brng");
+            try{
+                rsdatastok=psdatastok.executeQuery();
+                while(rsdatastok.next()){
+                    dataStok.put(rsdatastok.getString("kode_brng"), new Double[] {
+                        rsdatastok.getDouble("dp1"), rsdatastok.getDouble("dp2"), rsdatastok.getDouble("dp3"), rsdatastok.getDouble("dp4"),
+                        rsdatastok.getDouble("dp5"), rsdatastok.getDouble("dp6"), rsdatastok.getDouble("go")
+                    });
+                }
+            }catch (Exception e) {
+                System.out.println("Notifikasi data stok query : "+e);
+            } finally{
+                if(rsstok!=null){
+                    rsstok.close();
+                }
+                if(psstok!=null){
+                    psstok.close();
+                }
+            }
+        }catch(Exception e){
+            System.out.println("Notifikasi data stok : "+e);
         }
     }
 

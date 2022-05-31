@@ -1304,8 +1304,10 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                         if(tbObat.getValueAt(i,7).toString().equalsIgnoreCase("kronis")){
                                             //System.out.println("Obat kronis dipecah");
                                             //jumlah obat kronis dipecah
-                                            double jumlah_nonkronis = 7 * jumlah_obat/30;
-                                            double jumlah_kronis = jumlah_obat - jumlah_nonkronis;
+                                            int jumlah_nonkronis = (int) Math.ceil(7 * jumlah_obat/30);
+                                            int jumlah_kronis =  (int) Math.ceil(jumlah_obat - jumlah_nonkronis);
+//                                            double jumlah_nonkronis = 7 * jumlah_obat/30;
+//                                            double jumlah_kronis = jumlah_obat - jumlah_nonkronis;
                                             String detik_kronis = cmbDtk.getSelectedItem().toString();
                                             String detik_nonkronis = cmbDtk.getSelectedItem().toString();
                                             String menit_nonkronis = cmbMnt.getSelectedItem().toString();
@@ -1502,8 +1504,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                         
                                         if(tbObat.getValueAt(i,7).toString().equalsIgnoreCase("kronis")){
                                             //jumlah obat kronis dipecah
-                                            double jumlah_nonkronis = 7 * jumlah_obat/30;
-                                            double jumlah_kronis = jumlah_obat - jumlah_nonkronis;
+                                             
+                                            int jumlah_nonkronis = (int) Math.ceil(7 * jumlah_obat/30);
+                                            int jumlah_kronis = (int) Math.ceil(jumlah_obat - jumlah_nonkronis);
+//                                            double jumlah_nonkronis = 7 * jumlah_obat/30;
+//                                            double jumlah_kronis = jumlah_obat - jumlah_nonkronis;
                                             String detik_kronis = cmbDtk.getSelectedItem().toString();
                                             String detik_nonkronis = cmbDtk.getSelectedItem().toString();
                                             String menit_nonkronis = cmbMnt.getSelectedItem().toString();
