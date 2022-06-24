@@ -994,8 +994,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                                 psinputrawatdrpr.setString(1,TNoRw.getText());
                                                 psinputrawatdrpr.setString(2,tbKamar.getValueAt(i,1).toString());
                                                 psinputrawatdrpr.setString(3,kddokter.getText());
-                                                psinputrawatdrpr.setString(4,KdPtg2.getText());
-                                                psinputrawatdrpr.setString(5,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                                psinputrawatdrpr.setString(4,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                                psinputrawatdrpr.setString(5,KdPtg2.getText());
                                                 psinputrawatdrpr.setString(6,cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem());
                                                 psinputrawatdrpr.setString(7,tbKamar.getValueAt(i,5).toString());
                                                 psinputrawatdrpr.setString(8,tbKamar.getValueAt(i,6).toString());

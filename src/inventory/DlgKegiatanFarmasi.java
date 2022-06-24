@@ -572,9 +572,11 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 i=1;jmlitempengadaan=0;jmlitemtersedia=0;   
                 
                 if(aktifkanbatch.equals("yes")){
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' group by gudangbarang.kode_brng) as data";
                 }else{
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_golongan=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' group by gudangbarang.kode_brng) as data";
                 }
                 
                 while(rs.next()){
@@ -658,10 +660,15 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 rs=ps.executeQuery();
                 i=1;jmlitempengadaan=0;jmlitemtersedia=0;  
                 
+//                if(aktifkanbatch.equals("yes")){
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                }else{
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                }
                 if(aktifkanbatch.equals("yes")){
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' group by gudangbarang.kode_brng) as data";
                 }else{
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kdjns=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' group by gudangbarang.kode_brng) as data";
                 }
                 while(rs.next()){
                     itempengadaan=0;itemtersedia=0;
@@ -745,10 +752,15 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 i=1;jmlitempengadaan=0;jmlitemtersedia=0;  
                 
                 if(aktifkanbatch.equals("yes")){
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' group by gudangbarang.kode_brng) as data";
                 }else{
-                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' group by gudangbarang.kode_brng) as data";
                 }
+//                if(aktifkanbatch.equals("yes")){
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                }else{
+//                    qrystok="select count(*) as jumlah from(select gudangbarang.kode_brng from gudangbarang inner join databarang on gudangbarang.kode_brng=databarang.kode_brng where databarang.kode_kategori=? and gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 group by gudangbarang.kode_brng) as data";
+//                }
                 
                 while(rs.next()){
                     itempengadaan=0;itemtersedia=0;

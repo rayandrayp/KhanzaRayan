@@ -1085,13 +1085,22 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     ps=koneksi.prepareStatement("select data_batch.kode_brng, databarang.nama_brng,databarang.kode_sat,data_batch."+hppfarmasi+" as dasar,data_batch.no_batch,data_batch.no_faktur,  "+
                         " gudangbarang.stok from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
                         " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
-                        " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? order by databarang.nama_brng");
+                        " where gudangbarang.kd_bangsal=? order by databarang.nama_brng");
+//                    ps=koneksi.prepareStatement("select data_batch.kode_brng, databarang.nama_brng,databarang.kode_sat,data_batch."+hppfarmasi+" as dasar,data_batch.no_batch,data_batch.no_faktur,  "+
+//                        " gudangbarang.stok from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
+//                        " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
+//                        " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? order by databarang.nama_brng");
                 }else{
                     ps=koneksi.prepareStatement("select data_batch.kode_brng, databarang.nama_brng,databarang.kode_sat,data_batch."+hppfarmasi+" as dasar,data_batch.no_batch,data_batch.no_faktur, "+
                         " gudangbarang.stok from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
                         " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
-                        " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
-                        " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
+                        " where gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+                        " gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
+//                    ps=koneksi.prepareStatement("select data_batch.kode_brng, databarang.nama_brng,databarang.kode_sat,data_batch."+hppfarmasi+" as dasar,data_batch.no_batch,data_batch.no_faktur, "+
+//                        " gudangbarang.stok from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
+//                        " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
+//                        " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+//                        " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
                 }
 
                 try {
@@ -1121,13 +1130,23 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(TCari.getText().trim().equals("")){
                     ps=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,databarang.kode_sat,databarang."+hppfarmasi+" as dasar,gudangbarang.stok "+
                         " from databarang inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
-                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? order by databarang.nama_brng");
+                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? order by databarang.nama_brng");
                 }else{
                     ps=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,databarang.kode_sat,databarang."+hppfarmasi+" as dasar,gudangbarang.stok "+
                         " from databarang inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
-                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
-                        " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
+                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+                        " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
                 }
+//                if(TCari.getText().trim().equals("")){
+//                    ps=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,databarang.kode_sat,databarang."+hppfarmasi+" as dasar,gudangbarang.stok "+
+//                        " from databarang inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
+//                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? order by databarang.nama_brng");
+//                }else{
+//                    ps=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,databarang.kode_sat,databarang."+hppfarmasi+" as dasar,gudangbarang.stok "+
+//                        " from databarang inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
+//                        " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+//                        " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? order by databarang.nama_brng");
+//                }
 
                 try {
                     if(TCari.getText().trim().equals("")){
@@ -1195,9 +1214,15 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         psstok=koneksi.prepareStatement(
                                 "select ifnull(gudangbarang.stok,'0'),data_batch."+hppfarmasi+" as dasar,gudangbarang.no_batch,gudangbarang.no_faktur "+
                                 "from gudangbarang inner join data_batch on gudangbarang.kode_brng=data_batch.kode_brng "+
-                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+                                "where gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
                                 "gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>''"+
                                 "order by data_batch.tgl_kadaluarsa desc limit 1");
+//                        psstok=koneksi.prepareStatement(
+//                                "select ifnull(gudangbarang.stok,'0'),data_batch."+hppfarmasi+" as dasar,gudangbarang.no_batch,gudangbarang.no_faktur "+
+//                                "from gudangbarang inner join data_batch on gudangbarang.kode_brng=data_batch.kode_brng "+
+//                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+//                                "gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>''"+
+//                                "order by data_batch.tgl_kadaluarsa desc limit 1");
                         try {
                             psstok.setString(1,kddari.getText());
                             psstok.setString(2,tabMode.getValueAt(i,3).toString());
@@ -1221,8 +1246,12 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     }else{
                         psstok=koneksi.prepareStatement(
                                 "select ifnull(gudangbarang.stok,'0') from gudangbarang "+
-                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+                                "where gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
                                 "gudangbarang.no_batch='' and gudangbarang.no_faktur=''");
+//                        psstok=koneksi.prepareStatement(
+//                                "select ifnull(gudangbarang.stok,'0') from gudangbarang "+
+//                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+//                                "gudangbarang.no_batch='' and gudangbarang.no_faktur=''");
                         try {
                             psstok.setString(1,kddari.getText());
                             psstok.setString(2,tabMode.getValueAt(i,3).toString());

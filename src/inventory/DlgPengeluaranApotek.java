@@ -1068,9 +1068,17 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     " from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
                     " inner join jenis on databarang.kdjns=jenis.kdjns "+
                     " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
-                    " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
-                    " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
-                    " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
+                    " where gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+                    "  gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
+                    "  gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
+//                ps=koneksi.prepareStatement(
+//                    "select data_batch.kode_brng, databarang.nama_brng,jenis.nama,databarang.kode_sat,data_batch."+hppfarmasi+" as dasar,gudangbarang.stok,data_batch.no_batch,data_batch.no_faktur "+
+//                    " from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "+
+//                    " inner join jenis on databarang.kdjns=jenis.kdjns "+
+//                    " inner join gudangbarang on data_batch.kode_brng=gudangbarang.kode_brng and data_batch.no_batch=gudangbarang.no_batch and data_batch.no_faktur=gudangbarang.no_faktur "+
+//                    " where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+//                    " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
+//                    " gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
                 try {
                     ps.setString(1,kdgudang.getText());
                     ps.setString(2,"%"+TCari.getText().trim()+"%");
@@ -1101,9 +1109,16 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     "select databarang.kode_brng, databarang.nama_brng,jenis.nama,databarang.kode_sat, databarang."+hppfarmasi+" as dasar,gudangbarang.stok  "+
                     " from databarang inner join jenis on databarang.kdjns=jenis.kdjns "+
                     " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
-                    " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
-                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
-                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
+                    " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
+                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and databarang.status='1' and gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
+//                ps=koneksi.prepareStatement(
+//                    "select databarang.kode_brng, databarang.nama_brng,jenis.nama,databarang.kode_sat, databarang."+hppfarmasi+" as dasar,gudangbarang.stok  "+
+//                    " from databarang inner join jenis on databarang.kdjns=jenis.kdjns "+
+//                    " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
+//                    " where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.kode_brng like ? or "+
+//                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and databarang.nama_brng like ? or "+
+//                    " gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and databarang.status='1' and gudangbarang.kd_bangsal=? and jenis.nama like ? order by databarang.nama_brng");
                 try {
                     ps.setString(1,kdgudang.getText());
                     ps.setString(2,"%"+TCari.getText().trim()+"%");
@@ -1327,9 +1342,15 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         psstok=koneksi.prepareStatement(
                                 "select ifnull(gudangbarang.stok,'0'),data_batch."+hppfarmasi+" as dasar,gudangbarang.no_batch,gudangbarang.no_faktur "+
                                 "from gudangbarang inner join data_batch on gudangbarang.kode_brng=data_batch.kode_brng "+
-                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+                                "where gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
                                 "gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' "+
                                 "order by data_batch.tgl_kadaluarsa desc limit 1");
+//                        psstok=koneksi.prepareStatement(
+//                                "select ifnull(gudangbarang.stok,'0'),data_batch."+hppfarmasi+" as dasar,gudangbarang.no_batch,gudangbarang.no_faktur "+
+//                                "from gudangbarang inner join data_batch on gudangbarang.kode_brng=data_batch.kode_brng "+
+//                                "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and gudangbarang.kode_brng=? and "+
+//                                "gudangbarang.no_batch<>'' and gudangbarang.no_faktur<>'' "+
+//                                "order by data_batch.tgl_kadaluarsa desc limit 1");
                         try {
                             psstok.setString(1,kdgudang.getText());
                             psstok.setString(2,tbDokter.getValueAt(i,1).toString());

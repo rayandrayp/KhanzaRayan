@@ -1530,7 +1530,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,sum(gudangbarang.stok) as stok "+
@@ -1542,7 +1542,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok "+
@@ -1583,7 +1583,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -1598,7 +1598,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -1963,7 +1963,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok,databarang.kapasitas "+
@@ -2021,7 +2021,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -2205,7 +2205,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,sum(gudangbarang.stok) as stok,resep_dokter.jml, resep_dokter.aturan_pakai "+
@@ -2218,7 +2218,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok,resep_dokter.jml, resep_dokter.aturan_pakai "+
@@ -2278,7 +2278,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -2294,7 +2294,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -2560,7 +2560,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         }else{
                             qrystokkosong="";
                             if(STOKKOSONGRESEP.equals("no")){
-                                qrystokkosong=" and gudangbarang.stok>0 ";
+                                //qrystokkosong=" and gudangbarang.stok>0 ";
                             }
                             ps2=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                                 " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok,databarang.kapasitas,resep_dokter_racikan_detail.p1,"+
@@ -2640,7 +2640,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         }else{
                             qrystokkosong="";
                             if(STOKKOSONGRESEP.equals("no")){
-                                qrystokkosong=" and gudangbarang.stok>0 ";
+                                //qrystokkosong=" and gudangbarang.stok>0 ";
                             }
                             ps2=koneksi.prepareStatement(
                                 "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -2927,7 +2927,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,sum(gudangbarang.stok) as stok,resep_dokter.jml, resep_dokter.aturan_pakai "+
@@ -2940,7 +2940,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                         " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok,resep_dokter.jml, resep_dokter.aturan_pakai "+
@@ -3001,7 +3001,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -3017,7 +3017,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        qrystokkosong=" and gudangbarang.stok>0 ";
+                        //qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     psresep=koneksi.prepareStatement(
                         "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+
@@ -3284,7 +3284,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         }else{
                             qrystokkosong="";
                             if(STOKKOSONGRESEP.equals("no")){
-                                qrystokkosong=" and gudangbarang.stok>0 ";
+                                //qrystokkosong=" and gudangbarang.stok>0 ";
                             }
                             ps2=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
                                 " databarang.letak_barang,industrifarmasi.nama_industri,databarang.h_beli,gudangbarang.stok,databarang.kapasitas,resep_dokter_racikan_detail.p1,"+
@@ -3364,7 +3364,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         }else{
                             qrystokkosong="";
                             if(STOKKOSONGRESEP.equals("no")){
-                                qrystokkosong=" and gudangbarang.stok>0 ";
+                                //qrystokkosong=" and gudangbarang.stok>0 ";
                             }
                             ps2=koneksi.prepareStatement(
                                 "select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,"+

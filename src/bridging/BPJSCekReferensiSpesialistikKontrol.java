@@ -117,6 +117,7 @@ public final class BPJSCekReferensiSpesialistikKontrol extends javax.swing.JDial
             System.out.println("E : "+e);
         }
               
+        Poli.requestFocus();
     }
     
     

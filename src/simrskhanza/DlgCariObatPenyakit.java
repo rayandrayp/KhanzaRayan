@@ -752,7 +752,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                            "inner join data_batch on data_batch.kode_brng=databarang.kode_brng "+
                            "inner join jenis on databarang.kdjns=jenis.kdjns "+
                            "inner join gudangbarang on gudangbarang.kode_brng=data_batch.kode_brng and gudangbarang.no_batch=data_batch.no_batch and gudangbarang.no_faktur=data_batch.no_faktur "+
-                           "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+                           "where gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+//                           "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
                 }else{
                     ps=koneksi.prepareStatement(
                            "select obat_penyakit.kd_penyakit,penyakit.nm_penyakit,penyakit.ciri_ciri,penyakit.keterangan, "+
@@ -764,7 +765,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                            "inner join data_batch on data_batch.kode_brng=databarang.kode_brng "+
                            "inner join jenis on databarang.kdjns=jenis.kdjns "+
                            "inner join gudangbarang on gudangbarang.kode_brng=data_batch.kode_brng and gudangbarang.no_batch=data_batch.no_batch and gudangbarang.no_faktur=data_batch.no_faktur "+
-                           "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+                           "where gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+//                           "where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
                 }
                     
                 try {
@@ -833,7 +835,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                            "inner join databarang on obat_penyakit.kode_brng=databarang.kode_brng "+
                            "inner join jenis on databarang.kdjns=jenis.kdjns "+
                            "inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
-                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+//                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
                 }else{
                     ps=koneksi.prepareStatement(
                            "select obat_penyakit.kd_penyakit,penyakit.nm_penyakit,penyakit.ciri_ciri,penyakit.keterangan, "+
@@ -844,7 +847,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                            "inner join databarang on obat_penyakit.kode_brng=databarang.kode_brng "+
                            "inner join jenis on databarang.kdjns=jenis.kdjns "+
                            "inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng "+
-                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
+//                           "where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and penyakit.nm_penyakit like ? order by databarang.nama_brng LIMIT "+awal+",500");
                 }
                     
                 try {

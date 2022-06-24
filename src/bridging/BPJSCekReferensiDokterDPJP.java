@@ -123,7 +123,8 @@ public final class BPJSCekReferensiDokterDPJP extends javax.swing.JDialog {
                 if(spesialis.getTable().getSelectedRow()!= -1){                   
                     KdSep.setText(spesialis.getTable().getValueAt(spesialis.getTable().getSelectedRow(),1).toString());
                     NmSep.setText(spesialis.getTable().getValueAt(spesialis.getTable().getSelectedRow(),2).toString());
-                    KdSep.requestFocus();
+//                    KdSep.requestFocus();
+                    Dokter.requestFocus();
                 }                  
             }
             @Override

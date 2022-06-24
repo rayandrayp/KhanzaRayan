@@ -33,10 +33,13 @@ import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
 import javax.swing.JOptionPane;
@@ -783,6 +786,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 if(historiPelayanan.getTable().getSelectedRow()!= -1){         
                     if((historiPelayanan.getTable().getSelectedColumn()==6)||(historiPelayanan.getTable().getSelectedColumn()==7)){
                         NoRujukan.setText(historiPelayanan.getTable().getValueAt(historiPelayanan.getTable().getSelectedRow(),historiPelayanan.getTable().getSelectedColumn()).toString());
+                    }
+                    SimpleDateFormat formatDate=new SimpleDateFormat("yyyy-MM-dd"); 
+                    try {
+                        TanggalRujuk.setDate(formatDate.parse(historiPelayanan.getTable().getValueAt(historiPelayanan.getTable().getSelectedRow(),12).toString()));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(BPJSDataSEP.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }  
                 NoRujukan.requestFocus();
@@ -4235,6 +4244,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 param.put("noreg",Sequel.cariIsi("select no_reg from reg_periksa where no_rawat=?",TNoRw.getText()));
                 param.put("logo",Sequel.cariGambar("select bpjs from gambar")); 
                 param.put("parameter",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString());
+//                System.out.println("katarak "+tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),32).toString());
+                if (tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),32).toString().equalsIgnoreCase("1.ya")){
+                    param.put("katarak","*PASIEN OPERASI KATARAK");
+                } else {
+                    param.put("katarak","");
+                }
                 if(JenisPelayanan.getSelectedIndex()==0){
                     Valid.MyReport("rptBridgingSEP5.jasper","report","::[ Cetak SEP ]::",param);
                 }else{
@@ -4292,11 +4307,24 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 param.put("noreg",Sequel.cariIsi("select no_reg from reg_periksa where no_rawat=?",TNoRw.getText()));
                 param.put("logo",Sequel.cariGambar("select bpjs from gambar")); 
                 param.put("parameter",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString());
-                if(JenisPelayanan.getSelectedIndex()==0){
-                    Valid.MyReport("rptBridgingSEP7.jasper","report","::[ Cetak SEP ]::",param);
-                }else{
-                    Valid.MyReport("rptBridgingSEP8.jasper","report","::[ Cetak SEP ]::",param);
-                }                
+                if (tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),32).toString().equalsIgnoreCase("1.ya")){
+                    param.put("katarak","*PASIEN OPERASI KATARAK");
+                } else {
+                    param.put("katarak","");
+                }
+                if(tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),11).toString().equalsIgnoreCase("1. ranap")) {
+                    if(JenisPelayanan.getSelectedIndex()==0){
+                        Valid.MyReport("rptBridgingSEP7RI.jasper","report","::[ Cetak SEP ]::",param);
+                    }else{
+                        Valid.MyReport("rptBridgingSEP8RI.jasper","report","::[ Cetak SEP ]::",param);
+                    }
+                } else {
+                    if(JenisPelayanan.getSelectedIndex()==0){
+                        Valid.MyReport("rptBridgingSEP7.jasper","report","::[ Cetak SEP ]::",param);
+                    }else{
+                        Valid.MyReport("rptBridgingSEP8.jasper","report","::[ Cetak SEP ]::",param);
+                    }   
+                }
                 this.setCursor(Cursor.getDefaultCursor());
             }else{
                 JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data SEP yang mau dicetak...!!!!");

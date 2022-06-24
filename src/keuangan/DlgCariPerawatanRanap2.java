@@ -1410,8 +1410,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             psinputrawatdrpr.setString(1,TNoRw.getText());
                                             psinputrawatdrpr.setString(2,tbKamar.getValueAt(i,4).toString());
                                             psinputrawatdrpr.setString(3,kddokter.getText());
-                                            psinputrawatdrpr.setString(4,KdPtg2.getText());
-                                            psinputrawatdrpr.setString(5,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(4,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(5,KdPtg2.getText());
                                             psinputrawatdrpr.setString(6,"07:00:00");
                                             psinputrawatdrpr.setString(7,tbKamar.getValueAt(i,8).toString());
                                             psinputrawatdrpr.setString(8,tbKamar.getValueAt(i,9).toString());
@@ -1481,8 +1481,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             psinputrawatdrpr.setString(1,TNoRw.getText());
                                             psinputrawatdrpr.setString(2,tbKamar.getValueAt(i,4).toString());
                                             psinputrawatdrpr.setString(3,kddokter.getText());
-                                            psinputrawatdrpr.setString(4,KdPtg2.getText());
-                                            psinputrawatdrpr.setString(5,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(4,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(5,KdPtg2.getText());
                                             psinputrawatdrpr.setString(6,"12:00:00");
                                             psinputrawatdrpr.setString(7,tbKamar.getValueAt(i,8).toString());
                                             psinputrawatdrpr.setString(8,tbKamar.getValueAt(i,9).toString());
@@ -1552,8 +1552,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             psinputrawatdrpr.setString(1,TNoRw.getText());
                                             psinputrawatdrpr.setString(2,tbKamar.getValueAt(i,4).toString());
                                             psinputrawatdrpr.setString(3,kddokter.getText());
-                                            psinputrawatdrpr.setString(4,KdPtg2.getText());
-                                            psinputrawatdrpr.setString(5,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(4,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(5,KdPtg2.getText());
                                             psinputrawatdrpr.setString(6,"16:00:00");
                                             psinputrawatdrpr.setString(7,tbKamar.getValueAt(i,8).toString());
                                             psinputrawatdrpr.setString(8,tbKamar.getValueAt(i,9).toString());
@@ -1623,8 +1623,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             psinputrawatdrpr.setString(1,TNoRw.getText());
                                             psinputrawatdrpr.setString(2,tbKamar.getValueAt(i,4).toString());
                                             psinputrawatdrpr.setString(3,kddokter.getText());
-                                            psinputrawatdrpr.setString(4,KdPtg2.getText());
-                                            psinputrawatdrpr.setString(5,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(4,Valid.SetTgl(DTPTgl.getSelectedItem()+""));
+                                            psinputrawatdrpr.setString(5,KdPtg2.getText());
                                             psinputrawatdrpr.setString(6,"20:00:00");
                                             psinputrawatdrpr.setString(7,tbKamar.getValueAt(i,8).toString());
                                             psinputrawatdrpr.setString(8,tbKamar.getValueAt(i,9).toString());

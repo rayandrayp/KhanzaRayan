@@ -3698,7 +3698,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
                             Sequel.AutoComitFalse();
                             sukses=true;
                             if(Sequel.menyimpantf("rawat_inap_drpr","?,?,?,?,?,?,?,?,?,?,?,?,?","Data",13,new String[]{
-                                TNoRw.getText(),TKdPrw2.getText(),KdDok2.getText(),kdptg2.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
+                                TNoRw.getText(),TKdPrw2.getText(),KdDok2.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),kdptg2.getText(),
                                 cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),
                                 BagianRS.getText(),Bhp.getText(),JmDokter.getText(),JmPerawat.getText(),KSO.getText(),Menejemen.getText(),TTnd.getText()
                             })==true){

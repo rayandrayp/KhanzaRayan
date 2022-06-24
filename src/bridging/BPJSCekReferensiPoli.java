@@ -114,7 +114,8 @@ public final class BPJSCekReferensiPoli extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("E : "+e);
         }
-              
+            
+        Poli.requestFocus();
     }
     
     

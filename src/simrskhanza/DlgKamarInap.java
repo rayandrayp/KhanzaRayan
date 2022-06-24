@@ -4726,7 +4726,40 @@ public class DlgKamarInap extends javax.swing.JDialog {
         NoLPManual.setBounds(113, 92, 171, 23);
 
         WindowUpdatePulang.getContentPane().add(internalFrame10, java.awt.BorderLayout.CENTER);
+        
+        MnCaseMix = new javax.swing.JMenuItem();
+        
+        MnCaseMix.setBackground(new java.awt.Color(255, 255, 254));
+        MnCaseMix.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnCaseMix.setForeground(new java.awt.Color(50, 50, 50));
+        MnCaseMix.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnCaseMix.setText("Lembar Case Mix INA-CBGS");
+        MnCaseMix.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnCaseMix.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnCaseMix.setName("MnCaseMix"); // NOI18N
+        MnCaseMix.setPreferredSize(new java.awt.Dimension(170, 26));
+        MnCaseMix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCaseMixActionPerformed(evt);
+            }
+        });
+        MnLaporan.add(MnCaseMix);
+        
     }
+    
+    private void MnCaseMixActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        if(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
+            tbKamIn.requestFocus();
+        }else{
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Map<String, Object> param = new HashMap<>();
+            param.put("norawat",TNoRwCari.getText());
+            Valid.MyReport("rptCaseMixRI.jasper","report","::[ Cetak Case Mix RI ]::",param);      
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    
     private void norawatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_norawatKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat=? ",TNoRM,norawat.getText());
@@ -5796,8 +5829,8 @@ private void MnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
       }else{
           if(tbKamIn.getSelectedRow()>-1){
                 if(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString().equals("")){
-                             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
-                             tbKamIn.requestFocus();
+                    JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
+                    tbKamIn.requestFocus();
                 }else{    
                     try {
                         pscaripiutang=koneksi.prepareStatement("select tgl_piutang from piutang_pasien where no_rkm_medis=? and status='Belum Lunas' order by tgl_piutang asc limit 1");
@@ -11631,7 +11664,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private widget.TextBox NoSuratKematian;
     private widget.Tanggal TanggalKematian;
     private widget.TextBox NoLPManual;
-    
+    private javax.swing.JMenuItem MnCaseMix;
     
     private void tampil() {
         if(R1.isSelected()==true){

@@ -113,6 +113,8 @@ public final class BPJSCekReferensiPenyakit extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("E : "+e);
         }
+        
+        diagnosa.requestFocus();
     }
     
     
