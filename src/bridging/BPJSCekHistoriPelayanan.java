@@ -345,6 +345,12 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void tampil(String nomorrujukan) {
+        Valid.tabelKosong(tabMode);
+        //bagian data rujukan
+        getRujukanRS(nomorrujukan);
+        getRujukanPCare(nomorrujukan);
+        
+        //bagian data history rujukan
         try {
             String tglKunjungan = this.getTglKunjungan(nomorrujukan);
             headers = new HttpHeaders();
@@ -359,7 +365,7 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
 	    root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.GET, requestEntity, String.class).getBody());
             nameNode = root.path("metaData");
             if(nameNode.path("code").asText().equals("200")){
-                Valid.tabelKosong(tabMode);
+//                Valid.tabelKosong(tabMode);
                 response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc)).path("histori");
                 //response = root.path("response").path("histori");
                 if(response.isArray()){
@@ -375,7 +381,8 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
                     }
                 }        
             }else {
-                JOptionPane.showMessageDialog(null,nameNode.path("message").asText());                
+                System.out.println(nameNode.path("message").asText());
+//                JOptionPane.showMessageDialog(null,nameNode.path("message").asText());                
             }   
         } catch (Exception ex) {
             System.out.println("Notifikasi Peserta : "+ex);
@@ -414,7 +421,8 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
                 tglKunjungan = response2.path("tglKunjungan").asText();
                 System.out.println("tglKunjungan " +tglKunjungan);
             }else{
-                JOptionPane.showMessageDialog(null,nameNode2.path("message").asText());                
+                System.out.println("Tgl Kunjungan : "+nameNode2.path("message").asText());
+//                JOptionPane.showMessageDialog(null,nameNode2.path("message").asText());                
             }   
         } catch (Exception ex) {
             System.out.println("Notifikasi Peserta : "+ex);
@@ -423,5 +431,70 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
             }
         }
         return tglKunjungan;
+    }
+    
+    public void getRujukanRS(String nomorkartu){
+        try {
+            URL = link+"/Rujukan/RS/Peserta/"+nomorkartu;
+            headers= new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIBPJS());
+	    utc=String.valueOf(api.GetUTCdatetimeAsString());
+	    headers.add("X-Timestamp",utc);
+	    headers.add("X-Signature",api.getHmac(utc));
+            headers.add("user_key",koneksiDB.USERKEYAPIBPJS());
+	    requestEntity = new HttpEntity(headers);
+	    root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.GET, requestEntity, String.class).getBody());
+            nameNode = root.path("metaData");
+            if(nameNode.path("code").asText().equals("200")){
+                response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc)).path("rujukan");
+                tabMode.addRow(new Object[]{
+                    "1.",response.path("diagnosa").path("kode").asText()+" - "+response.path("diagnosa").path("nama").asText(),response.path("pelayanan").path("nama").asText(),
+                    response.path("peserta").path("hakKelas").path("keterangan").asText(),response.path("peserta").path("nama").asText(),response.path("peserta").path("noKartu").asText(),
+                    "-",response.path("noKunjungan").asText(),response.path("poliRujukan").path("nama").asText(),"-","-","-", response.path("tglKunjungan").asText()
+                });
+            }else {
+                System.out.println("Rujukan RS : "+nameNode.path("message").asText());
+//                JOptionPane.showMessageDialog(null,"Rujukan RS : "+nameNode.path("message").asText());                        
+            }   
+        } catch (Exception ex) {
+            System.out.println("Notifikasi Peserta : "+ex);
+            if(ex.toString().contains("UnknownHostException")){
+                JOptionPane.showMessageDialog(rootPane,"Koneksi ke server BPJS terputus...!");
+            }
+        }
+    }
+    
+    public void getRujukanPCare(String nomorkartu){
+        try {
+            URL = link+"/Rujukan/Peserta/"+nomorkartu;
+            headers= new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIBPJS());
+	    utc=String.valueOf(api.GetUTCdatetimeAsString());
+	    headers.add("X-Timestamp",utc);
+	    headers.add("X-Signature",api.getHmac(utc));
+            headers.add("user_key",koneksiDB.USERKEYAPIBPJS());
+	    requestEntity = new HttpEntity(headers);
+	    root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.GET, requestEntity, String.class).getBody());
+            nameNode = root.path("metaData");
+            System.out.println("URL : "+URL);
+            if(nameNode.path("code").asText().equals("200")){
+                response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc)).path("rujukan");
+                tabMode.addRow(new Object[]{
+                    "1.",response.path("diagnosa").path("kode").asText()+" - "+response.path("diagnosa").path("nama").asText(),response.path("pelayanan").path("nama").asText(),
+                    response.path("peserta").path("hakKelas").path("keterangan").asText(),response.path("peserta").path("nama").asText(),response.path("peserta").path("noKartu").asText(),
+                    "-",response.path("noKunjungan").asText(),response.path("poliRujukan").path("nama").asText(),"-","-","-", response.path("tglKunjungan").asText()
+                });
+            }else {
+                System.out.println("Rujukan PCare : "+nameNode.path("message").asText());
+//                JOptionPane.showMessageDialog(null,"Rujukan PCare : "+nameNode.path("message").asText());                
+            }   
+        } catch (Exception ex) {
+            System.out.println("Notifikasi Peserta : "+ex);
+            if(ex.toString().contains("UnknownHostException")){
+                JOptionPane.showMessageDialog(rootPane,"Koneksi ke server BPJS terputus...!");
+            }
+        }
     }
 }

@@ -5569,6 +5569,7 @@ public final class DlgReg extends javax.swing.JDialog {
         //pasien.penjab.removeWindowListener(null);
         //pasien.penjab.getTable().removeKeyListener(null);
         pasien.emptTeks();
+        System.out.println("is cek");
         pasien.isCek();
         pasien.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
         pasien.setLocationRelativeTo(internalFrame1);
@@ -5648,6 +5649,10 @@ public final class DlgReg extends javax.swing.JDialog {
         
         for(i=0;i<tbPetugas.getRowCount();i++){ 
             if(tbPetugas.getValueAt(i,0).toString().equals("true")){
+                if(akses.getSoftDeletes()){
+                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19) "
+                        + "SELECT 'reg_periksa',NOW(),'"+akses.getkode()+"',no_reg,no_rawat,tgl_registrasi,jam_reg,kd_dokter,no_rkm_medis,kd_poli,p_jawab,almt_pj,hubunganpj,biaya_reg,stts,stts_daftar,status_lanjut,kd_pj,umurdaftar,sttsumur,status_bayar,status_poli FROM reg_periksa WHERE no_rawat = '"+tbPetugas.getValueAt(i,2).toString()+"'");
+                }
                 Sequel.meghapus("reg_periksa","no_rawat",tbPetugas.getValueAt(i,2).toString());
                 if(akses.getkode().equals("Admin Utama")){
                     Sequel.meghapus("nota_inap","no_rawat",tbPetugas.getValueAt(i,2).toString());
@@ -6473,6 +6478,10 @@ public final class DlgReg extends javax.swing.JDialog {
                                         tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString(),norawatdipilih
                                     }
                                 );
+                                if(akses.getSoftDeletes()){
+                                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19) "
+                                        + "SELECT 'reg_periksa',NOW(),'"+akses.getkode()+"',no_reg,no_rawat,tgl_registrasi,jam_reg,kd_dokter,no_rkm_medis,kd_poli,p_jawab,almt_pj,hubunganpj,biaya_reg,stts,stts_daftar,status_lanjut,kd_pj,umurdaftar,sttsumur,status_bayar,status_poli FROM reg_periksa WHERE no_rawat = '"+norawatdipilih+"'");
+                                }
                                 Sequel.queryu2("delete from reg_periksa where no_rawat=?",1,
                                     new String[]{
                                         norawatdipilih
@@ -7916,6 +7925,11 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 if(Sequel.cariRegistrasi(TNoRw.getText())>0){
                     JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi..!!");
                 }else{
+                    if(akses.getSoftDeletes()){
+                        Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19, data_col20, data_col21, data_col22, data_col23, data_col24, data_col25, data_col26, data_col27, data_col28, data_col29, data_col30, data_col31, data_col32, data_col33, data_col34, data_col35, data_col36, data_col37, data_col38, data_col39, data_col40, data_col41, data_col42, data_col43, data_col44, data_col45, data_col46, data_col47, data_col48, data_col49, data_col50, data_col51, data_col52, data_col53, data_col54, data_col55, data_col56, data_col57) "
+                            + "SELECT 'operasi',NOW(),'"+akses.getkode()+"', no_rawat, tgl_operasi, jenis_anasthesi, kategori, operator1, operator2, operator3, asisten_operator1, asisten_operator2, asisten_operator3, instrumen, dokter_anak, perawaat_resusitas, dokter_anestesi, asisten_anestesi, asisten_anestesi2, bidan, bidan2, bidan3, perawat_luar, omloop, omloop2, omloop3, omloop4, omloop5, dokter_pjanak, dokter_umum, kode_paket, biayaoperator1, biayaoperator2, biayaoperator3, biayaasisten_operator1, biayaasisten_operator2, biayaasisten_operator3, biayainstrumen, biayadokter_anak, biayaperawaat_resusitas, biayadokter_anestesi, biayaasisten_anestesi, biayaasisten_anestesi2, biayabidan, biayabidan2, biayabidan3, biayaperawat_luar, biayaalat, biayasewaok, akomodasi, bagian_rs, biaya_omloop, biaya_omloop2, biaya_omloop3, biaya_omloop4, biaya_omloop5, biayasarpras, biaya_dokter_pjanak, biaya_dokter_umum, status FROM operasi WHERE "
+                            + "no_rawat = '"+TNoRw.getText()+"' ");
+                    }
                     Sequel.queryu("delete from operasi where no_rawat='"+TNoRw.getText()+"'");
                     Sequel.queryu("delete from beri_obat_operasi where no_rawat='"+TNoRw.getText()+"'");
                     Sequel.queryu("delete from laporan_operasi where no_rawat='"+TNoRw.getText()+"'");
@@ -11162,7 +11176,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         Valid.tabelKosong(tabMode);   
         try {
             String filter = "";
-            if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&TCari.equals("")){
+            if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")){ //&&TCari.equals("")
 //                ps=koneksi.prepareStatement("select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
 //                    "reg_periksa.kd_dokter,dokter.nm_dokter,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,poliklinik.nm_poli,"+
 //                    "reg_periksa.p_jawab,reg_periksa.almt_pj,reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.stts_daftar,penjab.png_jawab,pasien.no_tlp,reg_periksa.stts,reg_periksa.status_poli, "+
@@ -11181,7 +11195,8 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
 //                    " dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or reg_periksa.stts_daftar like ? or pasien.nm_pasien like ? or "+
 //                    " poliklinik.nm_poli like ? or reg_periksa.p_jawab like ? or reg_periksa.almt_pj like ? or reg_periksa.hubunganpj like ? or penjab.png_jawab like ?) order by "+order); 
                 
-//                filter = "and poliklinik.nm_poli like ? and  dokter.nm_dokter like ? and tgl_registrasi between ? and ? and  " +
+                filter = "and poliklinik.nm_poli like ? and  dokter.nm_dokter like ? ";
+//                        + "and tgl_registrasi between ? and ? and  " +
 //                        "(reg_periksa.no_reg like ? or reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or reg_periksa.kd_dokter like ? or " +
 //                        " dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or reg_periksa.stts_daftar like ? or pasien.nm_pasien like ? or " +
 //                        " poliklinik.nm_poli like ? or reg_periksa.p_jawab like ? or reg_periksa.almt_pj like ? or reg_periksa.hubunganpj like ? or penjab.png_jawab like ?)";
@@ -11222,7 +11237,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         "	ON reg_periksa.kd_poli = poliklinik.kd_poli " +
                         "	INNER JOIN penjab " +
                         "	ON reg_periksa.kd_pj = penjab.kd_pj " +
-                        "	WHERE poliklinik.kd_poli<>'IGDK' and reg_periksa.tgl_registrasi BETWEEN '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' " +
+                        "	WHERE poliklinik.kd_poli<>'IGDK' and reg_periksa.tgl_registrasi BETWEEN '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' " +
                         "       " + filter +
                         ") AS a " +
                         "LEFT JOIN record_antrian_mobilejkn b ON b.no_rawat = a.no_rawat " +
@@ -11230,7 +11245,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         "(" +
                         "	SELECT  no_rkm_medis " +
                         "	FROM booking_registrasi " +
-                        "	WHERE tanggal_periksa BETWEEN '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"'  " +
+                        "	WHERE tanggal_periksa BETWEEN '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"'  " +
                         ") AS c " +
                         "ON c.no_rkm_medis = a.no_rkm_medis " +
                         "LEFT JOIN referensi_mobilejkn_bpjs d " +
@@ -11238,12 +11253,12 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         "ORDER BY jam_reg DESC";
             ps=koneksi.prepareStatement(query);
             try{  
-                if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&TCari.equals("")){
+                if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")){ //&&TCari.equals("")
 //                    ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
 //                    ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
                 }else{
-//                    ps.setString(1,"%"+CrPoli.getText()+"%");
-//                    ps.setString(2,"%"+CrDokter.getText()+"%");
+                    ps.setString(1,"%"+CrPoli.getText()+"%");
+                    ps.setString(2,"%"+CrDokter.getText()+"%");
 //                    ps.setString(3,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
 //                    ps.setString(4,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
 //                    ps.setString(5,"%"+TCari.getText().trim()+"%");
@@ -11260,7 +11275,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
 //                    ps.setString(16,"%"+TCari.getText().trim()+"%");
 //                    ps.setString(17,"%"+TCari.getText().trim()+"%");
                 }
-                
+                System.out.println(ps);
                 rs=ps.executeQuery();
                 while(rs.next()){
                     String jnsDaftar = "";
@@ -11274,14 +11289,35 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                     } else {
                         jnsDaftar = "SIMRS Desktop";
                     }
+                    //|| rs.getString("nm_poli").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("kd_dokter").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("nm_dokter").toLowerCase().contains(TCari.getText().toLowerCase()) 
+//                    System.out.println(rs.getString("no_reg"));
+//                    System.out.println(rs.getString("no_rawat"));
+//                    System.out.println(rs.getString("tgl_registrasi"));
+//                    System.out.println(rs.getString("jam_reg"));
+//                    System.out.println(rs.getString("no_rkm_medis"));
+//                    System.out.println(rs.getString("nm_pasien"));
+//                    System.out.println(rs.getString("jk"));
+//                    System.out.println(rs.getString("umur"));
+//                    System.out.println(rs.getString("png_jawab"));
+//                    System.out.println(rs.getString("p_jawab"));
+//                    System.out.println(rs.getString("almt_pj"));
+//                    System.out.println(rs.getString("hubunganpj"));
+//                    System.out.println(rs.getString("stts_daftar"));
+//                    System.out.println(rs.getString("no_tlp"));
+//                    System.out.println(rs.getString("stts"));
+//                    System.out.println(rs.getString("status_poli"));
+//                    System.out.println(rs.getString("kd_poli"));
+//                    System.out.println(rs.getString("kd_pj"));
+//                    System.out.println(rs.getString("status_bayar"));
+//                    System.out.println(rs.getString("statuscheckin"));
                     
+                    // || rs.getString("umur").toLowerCase().contains(TCari.getText().toLowerCase()) 
                     if(
                         rs.getString("no_reg").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("no_rawat").toLowerCase().contains(TCari.getText().toLowerCase()) 
                         || rs.getString("tgl_registrasi").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("jam_reg").toLowerCase().contains(TCari.getText().toLowerCase()) 
-                        || rs.getString("kd_dokter").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("nm_dokter").toLowerCase().contains(TCari.getText().toLowerCase()) 
                         || rs.getString("no_rkm_medis").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("nm_pasien").toLowerCase().contains(TCari.getText().toLowerCase()) 
-                        || rs.getString("jk").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("umur").toLowerCase().contains(TCari.getText().toLowerCase()) 
-                        || rs.getString("nm_poli").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("png_jawab").toLowerCase().contains(TCari.getText().toLowerCase()) 
+                        || rs.getString("jk").toLowerCase().contains(TCari.getText().toLowerCase())
+                        || rs.getString("png_jawab").toLowerCase().contains(TCari.getText().toLowerCase()) 
                         || rs.getString("p_jawab").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("almt_pj").toLowerCase().contains(TCari.getText().toLowerCase()) 
                         || rs.getString("hubunganpj").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("stts_daftar").toLowerCase().contains(TCari.getText().toLowerCase()) 
                         || rs.getString("no_tlp").toLowerCase().contains(TCari.getText().toLowerCase()) || rs.getString("stts").toLowerCase().contains(TCari.getText().toLowerCase()) 

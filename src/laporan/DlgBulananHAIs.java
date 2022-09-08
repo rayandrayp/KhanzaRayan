@@ -32,8 +32,9 @@ public class DlgBulananHAIs extends javax.swing.JDialog {
     private DlgCariCaraBayar penjab=new DlgCariCaraBayar(null,false);
     private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
     private int i=0,deku=0,urine=0,sputum=0,darah=0,antibiotik=0,pasien=0,jmlpasien=0,ETT=0,CVL=0,IVL=0,UC=0,VAP=0,IAD=0,PLEB=0,
-                ISK=0,ILO=0,ANTIBIOTIK=0,jmlHAP,jmlTinea,jmlScabies,jmlETT,jmlCVL,jmlIVL,jmlUC,jmlVAP,jmlIAD,jmlPLEB,jmlISK,
-                HAP,Tinea,Scabies,jmlILO,jmldeku,jmlsputum,jmldarah,jmlurine,jmlANTIBIOTIK;
+                ISK=0,ILO=0,ILS=0,ILD=0,ANTIBIOTIK=0,jmlHAP,jmlTinea,jmlScabies,jmlETT,jmlCVL,jmlIVL,jmlUC,jmlVAP,jmlIAD,jmlPLEB,jmlISK,
+                HAP,Tinea,Scabies,jmlILO,jmlILS,jmlILD,jmldeku,jmlsputum,jmldarah,jmlurine,jmlANTIBIOTIK;
+    private String htmlJenisOperasi = "";
     private StringBuilder htmlContent;
     
     /** Creates new form DlgProgramStudi
@@ -506,131 +507,270 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             htmlContent = new StringBuilder();
+//            htmlContent.append(                             
+//                "<tr class='isi'>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>No.</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='6%' rowspan='2'>Tanggal</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Jml.Pasien</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='22%' colspan='4'>Hari Pemasangan</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='40%' colspan='8'>Infeksi</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' rowspan='2'>Deku</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='17%' colspan='3'>Hasil Kultur</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Antibiotik</td>"+
+//                "</tr>"+
+//                "<tr class='isi'>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ETT</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>CVL</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IVL</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>UC</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>VAP</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IAD</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Pleb</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ISK</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ILO</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>HAP</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Tinea</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Scabies</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Sputum</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Darah</td>"+
+//                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Urine</td>"+
+//                "</tr>"
+//            );
             htmlContent.append(                             
                 "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>No.</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='6%' rowspan='2'>Tanggal</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Jml.Pasien</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='22%' colspan='4'>Hari Pemasangan</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='40%' colspan='8'>Infeksi</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' rowspan='2'>Deku</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='17%' colspan='3'>Hasil Kultur</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Antibiotik</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' rowspan='2'>No.</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>TGL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' rowspan='2'>S</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' rowspan='2'>U</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' rowspan='2'>JK</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Dx Medis</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='21%' colspan='7'>Tindakan</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='24%' colspan='8'>Infeksi Rumah Sakit</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' rowspan='2'>Tirah Baring</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' rowspan='2'>Deku</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' rowspan='2'>Hasil Kultur</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' rowspan='2'>AB</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='12%' colspan='5'>Macam Antibiotik</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='12%' colspan='4'>Jenis Kuman</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' rowspan='2'>Hasil</td>"+
                 "</tr>"+
                 "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ETT</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>CVL</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IVL</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>UC</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IVL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>CVL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ETT/V</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>OB</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>OBT</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>OK</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>VAP</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IAD</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Pleb</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ISK</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ILO</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>HAP</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Tinea</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Scabies</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Sputum</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Darah</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Urine</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ISK</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Pleb</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IAD</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ILS</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ILD</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IDO</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>TAB</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>1</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>2</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>3</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>>3</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>DARAH</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>SWAB</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>SPUTUM</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>URINE</td>"+
                 "</tr>"
-            );     
+            );
+//            ps=koneksi.prepareStatement(
+//                    "select data_HAIs.tanggal from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? group by tanggal order by tanggal");
             ps=koneksi.prepareStatement(
-                    "select data_HAIs.tanggal from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? group by tanggal order by tanggal");
+                    "SELECT * \n" +
+                    "FROM data_HAIs dh\n" +
+                    "LEFT JOIN diagnosa_pasien dp ON dp.no_rawat = dh.no_rawat\n" +
+                    "LEFT JOIN penyakit pe ON pe.kd_penyakit = dp.kd_penyakit\n" +
+                    "LEFT JOIN pemeriksaan_ranap pr ON pr.no_rawat = dh.no_rawat\n" +
+                    "LEFT JOIN kamar k ON k.kd_kamar = dh.kd_kamar\n" +
+                    "LEFT JOIN bangsal b ON b.kd_bangsal = k.kd_bangsal\n" +
+                    "LEFT JOIN reg_periksa r ON r.no_rawat = dh.no_rawat\n" +
+                    "LEFT JOIN pasien pa ON pa.no_rkm_medis = r.no_rkm_medis\n" +
+                    "LEFT JOIN penjab p ON p.kd_pj = r.kd_pj\n" +
+                    "WHERE dh.tanggal BETWEEN ? AND ? \n" +
+                    "AND b.nm_bangsal LIKE ? AND p.png_jawab LIKE ? \n" +
+                    "ORDER BY dh.tanggal");
+                        
             try {
                 i=1;
                 jmlETT=0;jmlCVL=0;jmlIVL=0;jmlUC=0;jmlVAP=0;jmlIAD=0;jmlPLEB=0;
-                jmlpasien=0;jmlISK=0;jmlILO=0;jmldeku=0;jmlsputum=0;jmldarah=0;
+                jmlpasien=0;jmlISK=0;jmlILO=0;jmlILS=0;jmlILD=0;jmldeku=0;jmlsputum=0;jmldarah=0;
                 jmlurine=0;jmlHAP=0;jmlTinea=0;jmlScabies=0;jmlANTIBIOTIK=0;                        
                 ps.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(Tgl2.getSelectedItem()+""));
                 ps.setString(3,"%"+NmKamar.getText().trim()+"%");
                 ps.setString(4,"%"+NmPenjab.getText().trim()+"%");
+//                System.out.println(ps);
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    pasien=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlpasien=jmlpasien+pasien;
-                    ETT=Sequel.cariInteger("select sum(data_HAIs.ETT) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlETT=jmlETT+ETT;
-                    CVL=Sequel.cariInteger("select sum(data_HAIs.CVL) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlCVL=jmlCVL+CVL;
-                    IVL=Sequel.cariInteger("select sum(data_HAIs.IVL) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlIVL=jmlIVL+IVL;
-                    UC=Sequel.cariInteger("select sum(data_HAIs.UC) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    pasien=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlpasien=jmlpasien+pasien;
+//                    ETT=Sequel.cariInteger("select sum(data_HAIs.ETT) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlETT=jmlETT+ETT;
+//                    CVL=Sequel.cariInteger("select sum(data_HAIs.CVL) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlCVL=jmlCVL+CVL;
+//                    IVL=Sequel.cariInteger("select sum(data_HAIs.IVL) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlIVL=jmlIVL+IVL;
+//                    UC=Sequel.cariInteger("select sum(data_HAIs.UC) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlUC=jmlUC+UC;
+//                    VAP=Sequel.cariInteger("select sum(data_HAIs.VAP) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlVAP=jmlVAP+VAP;
+//                    IAD=Sequel.cariInteger("select sum(data_HAIs.IAD) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlIAD=jmlIAD+IAD;
+//                    PLEB=Sequel.cariInteger("select sum(data_HAIs.PLEB) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlPLEB=jmlPLEB+PLEB;
+//                    ISK=Sequel.cariInteger("select sum(data_HAIs.ISK) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlISK=jmlISK+ISK;
+//                    ILO=Sequel.cariInteger("select sum(data_HAIs.ILO) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlILO=jmlILO+ILO;
+//                    HAP=Sequel.cariInteger("select sum(data_HAIs.HAP) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlHAP=jmlHAP+HAP;
+//                    Tinea=Sequel.cariInteger("select sum(data_HAIs.Tinea) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlTinea=jmlTinea+Tinea;
+//                    Scabies=Sequel.cariInteger("select sum(data_HAIs.Scabies) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlScabies=jmlScabies+Scabies;
+//                    deku=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.DEKU='IYA' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmldeku=jmldeku+deku;
+//                    sputum=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.SPUTUM<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlsputum=jmlsputum+sputum;
+//                    darah=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.DARAH<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmldarah=jmldarah+darah;
+//                    urine=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.URINE<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlurine=jmlurine+urine;
+//                    ANTIBIOTIK=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.ANTIBIOTIK<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+//                    jmlANTIBIOTIK=jmlANTIBIOTIK+ANTIBIOTIK;\
+                    UC=rs.getInt("UC");
+                    IVL=rs.getInt("IVL");
+                    CVL=rs.getInt("CVL");
+                    ETT=rs.getInt("ETT");
+                    VAP=rs.getInt("VAP");
+                    HAP=rs.getInt("HAP");
+                    ISK=rs.getInt("ISK");
+                    PLEB=rs.getInt("PLEB");
+                    IAD=rs.getInt("IAD");
+                    ILO=rs.getInt("ILO");
+                    ILS=rs.getInt("ILS");
+                    ILD=rs.getInt("ILD");
+                    Tinea=rs.getInt("Tinea");
+                    Scabies=rs.getInt("Scabies");
+                    
                     jmlUC=jmlUC+UC;
-                    VAP=Sequel.cariInteger("select sum(data_HAIs.VAP) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+                    jmlIVL=jmlIVL+IVL;
+                    jmlCVL=jmlCVL+CVL;
+                    jmlETT=jmlETT+ETT;
                     jmlVAP=jmlVAP+VAP;
-                    IAD=Sequel.cariInteger("select sum(data_HAIs.IAD) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlIAD=jmlIAD+IAD;
-                    PLEB=Sequel.cariInteger("select sum(data_HAIs.PLEB) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlPLEB=jmlPLEB+PLEB;
-                    ISK=Sequel.cariInteger("select sum(data_HAIs.ISK) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlISK=jmlISK+ISK;
-                    ILO=Sequel.cariInteger("select sum(data_HAIs.ILO) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlILO=jmlILO+ILO;
-                    HAP=Sequel.cariInteger("select sum(data_HAIs.HAP) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
                     jmlHAP=jmlHAP+HAP;
-                    Tinea=Sequel.cariInteger("select sum(data_HAIs.Tinea) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlTinea=jmlTinea+Tinea;
-                    Scabies=Sequel.cariInteger("select sum(data_HAIs.Scabies) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
+                    jmlISK=jmlISK+ISK;
+                    jmlPLEB=jmlPLEB+PLEB;
+                    jmlIAD=jmlIAD+IAD;
+                    jmlILO=jmlILO+ILO;
+                    jmlILS=jmlILS+ILS;
+                    jmlILD=jmlILD+ILD;
                     jmlScabies=jmlScabies+Scabies;
-                    deku=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.DEKU='IYA' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmldeku=jmldeku+deku;
-                    sputum=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.SPUTUM<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlsputum=jmlsputum+sputum;
-                    darah=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.DARAH<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmldarah=jmldarah+darah;
-                    urine=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.URINE<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlurine=jmlurine+urine;
-                    ANTIBIOTIK=Sequel.cariInteger("select count(data_HAIs.no_rawat) from data_HAIs inner join reg_periksa inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat and reg_periksa.kd_pj=penjab.kd_pj where data_HAIs.ANTIBIOTIK<>'' and tanggal=? and bangsal.nm_bangsal like ? and penjab.png_jawab like ?",rs.getString("tanggal"),"%"+NmKamar.getText().trim()+"%","%"+NmPenjab.getText().trim()+"%");
-                    jmlANTIBIOTIK=jmlANTIBIOTIK+ANTIBIOTIK;
+                    jmlTinea=jmlTinea+Tinea;
+                    jmlpasien=jmlpasien+pasien;
+                    
+                    if(rs.getString("jenis_operasi")=="OB"){
+                        htmlJenisOperasi = "<td valign='middle' align='center'>"+"X"+"</td>"+ //ob
+                            "<td valign='middle' align='center'>"+""+"</td>"+ //obt
+                            "<td valign='middle' align='center'>"+""+"</td>"; //ok
+                    } else if (rs.getString("jenis_operasi")=="OBT") {
+                        htmlJenisOperasi = "<td valign='middle' align='center'>"+""+"</td>"+ //ob
+                            "<td valign='middle' align='center'>"+"X"+"</td>"+ //obt
+                            "<td valign='middle' align='center'>"+""+"</td>"; //ok
+                    } else if (rs.getString("jenis_operasi")=="OK"){
+                        htmlJenisOperasi = "<td valign='middle' align='center'>"+""+"</td>"+ //ob
+                            "<td valign='middle' align='center'>"+""+"</td>"+ //obt
+                            "<td valign='middle' align='center'>"+"X"+"</td>"; //ok
+                    } else {
+                        htmlJenisOperasi = "<td valign='middle' align='center'>"+"-"+"</td>"+ //ob
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //obt
+                            "<td valign='middle' align='center'>"+"-"+"</td>"; //ok
+                    }
+                    
                     htmlContent.append(                             
                         "<tr class='isi'>"+
                             "<td valign='middle' align='center'>"+i+"</td>"+
                             "<td valign='middle' align='center'>"+rs.getString("tanggal")+"</td>"+
-                            "<td valign='middle' align='center'>"+pasien+"</td>"+
-                            "<td valign='middle' align='center'>"+ETT+"</td>"+
-                            "<td valign='middle' align='center'>"+CVL+"</td>"+
-                            "<td valign='middle' align='center'>"+IVL+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("suhu_tubuh")+"</td>"+ //suhu
+                            "<td valign='middle' align='center'>"+rs.getString("umurdaftar")+"</td>"+ //usia
+                            "<td valign='middle' align='center'>"+rs.getString("jk")+"</td>"+ //jenis kelamin
+                            "<td valign='middle' align='center'>"+rs.getString("nm_penyakit")+"</td>"+ //diagnosa medis
                             "<td valign='middle' align='center'>"+UC+"</td>"+
+                            "<td valign='middle' align='center'>"+IVL+"</td>"+
+                            "<td valign='middle' align='center'>"+CVL+"</td>"+
+                            "<td valign='middle' align='center'>"+ETT+"</td>"+
+                            htmlJenisOperasi +
                             "<td valign='middle' align='center'>"+VAP+"</td>"+
-                            "<td valign='middle' align='center'>"+IAD+"</td>"+
-                            "<td valign='middle' align='center'>"+PLEB+"</td>"+
-                            "<td valign='middle' align='center'>"+ISK+"</td>"+
-                            "<td valign='middle' align='center'>"+ILO+"</td>"+
                             "<td valign='middle' align='center'>"+HAP+"</td>"+
-                            "<td valign='middle' align='center'>"+Tinea+"</td>"+
-                            "<td valign='middle' align='center'>"+Scabies+"</td>"+
-                            "<td valign='middle' align='center'>"+deku+"</td>"+
-                            "<td valign='middle' align='center'>"+sputum+"</td>"+
-                            "<td valign='middle' align='center'>"+darah+"</td>"+
-                            "<td valign='middle' align='center'>"+urine+"</td>"+
-                            "<td valign='middle' align='center'>"+ANTIBIOTIK+"</td>"+
+                            "<td valign='middle' align='center'>"+ISK+"</td>"+
+                            "<td valign='middle' align='center'>"+PLEB+"</td>"+
+                            "<td valign='middle' align='center'>"+IAD+"</td>"+
+                            "<td valign='middle' align='center'>"+ILS+"</td>"+ //ils
+                            "<td valign='middle' align='center'>"+ILD+"</td>"+ //ild
+                            "<td valign='middle' align='center'>"+ILO+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("tirah_baring")+"</td>"+ //tirah baring
+                            "<td valign='middle' align='center'>"+rs.getString("DEKU")+"</td>"+
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ // kultur
+                            "<td valign='middle' align='center'>"+rs.getString("ANTIBIOTIK")+"</td>"+ //antibiotik
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //tab
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //1
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //2
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //3
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //>3
+                            "<td valign='middle' align='center'>"+rs.getString("DARAH")+"</td>"+
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //swab
+                            "<td valign='middle' align='center'>"+rs.getString("SPUTUM")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("URINE")+"</td>"+
+                            "<td valign='middle' align='center'>"+"-"+"</td>"+ //hasil
+//                            "<td valign='middle' align='center'>"+Tinea+"</td>"+
+//                            "<td valign='middle' align='center'>"+Scabies+"</td>"+
                         "</tr>"
                     ); 
                     i++;
                 }
                 htmlContent.append(                             
                     "<tr class='isi'>"+
-                        "<td valign='middle' align='right' colspan='2'>Total :</td>"+
-                        "<td valign='middle' align='center'>"+jmlpasien+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlETT+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlCVL+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlIVL+"</td>"+
+                        "<td valign='middle' align='right' colspan='5'>Total :</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
                         "<td valign='middle' align='center'>"+jmlUC+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlIVL+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlCVL+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlETT+"</td>"+
+                        "<td valign='middle' align='center'>"+"0"+"</td>"+
+                        "<td valign='middle' align='center'>"+"0"+"</td>"+
+                        "<td valign='middle' align='center'>"+"0"+"</td>"+
                         "<td valign='middle' align='center'>"+jmlVAP+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlIAD+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlPLEB+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlISK+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlILO+"</td>"+
                         "<td valign='middle' align='center'>"+jmlHAP+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlTinea+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlScabies+"</td>"+
-                        "<td valign='middle' align='center'>"+jmldeku+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlsputum+"</td>"+
-                        "<td valign='middle' align='center'>"+jmldarah+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlurine+"</td>"+
-                        "<td valign='middle' align='center'>"+jmlANTIBIOTIK+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlISK+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlPLEB+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlIAD+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlILS+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlILD+"</td>"+
+                        "<td valign='middle' align='center'>"+jmlILO+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+                        "<td valign='middle' align='center'>"+"-"+"</td>"+
+//                        "<td valign='middle' align='center'>"+jmlTinea+"</td>"+
+//                        "<td valign='middle' align='center'>"+jmlScabies+"</td>"+
                     "</tr>"
                 ); 
             } catch (Exception e) {

@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.net.URI;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -61,6 +62,25 @@ import org.springframework.web.client.RestTemplate;
 import simrskhanza.DlgKamarInap;
 import rekammedis.RMRiwayatPerawatan;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  *
@@ -100,6 +120,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     public BPJSDataSEP(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initCustomComponent();
         this.setLocation(8,1);
         
         WindowUpdatePulang.setSize(525,135);
@@ -1458,7 +1479,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 70, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022 16:28:50" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022 13:53:15" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -1504,7 +1525,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         internalFrame5.add(jLabel48);
         jLabel48.setBounds(291, 62, 120, 23);
 
-        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalKematian.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalKematian.setDisplayFormat("dd-MM-yyyy");
         TanggalKematian.setEnabled(false);
         TanggalKematian.setName("TanggalKematian"); // NOI18N
@@ -1572,7 +1593,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel30.setBounds(0, 25, 102, 23);
 
         TanggalRujukKeluar.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalRujukKeluar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalRujukKeluar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalRujukKeluar.setDisplayFormat("dd-MM-yyyy");
         TanggalRujukKeluar.setName("TanggalRujukKeluar"); // NOI18N
         TanggalRujukKeluar.setOpaque(false);
@@ -1755,7 +1776,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel50.setBounds(638, 55, 80, 23);
 
         TanggalKunjungRujukan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKunjungRujukan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalKunjungRujukan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalKunjungRujukan.setDisplayFormat("dd-MM-yyyy");
         TanggalKunjungRujukan.setName("TanggalKunjungRujukan"); // NOI18N
         TanggalKunjungRujukan.setOpaque(false);
@@ -2017,7 +2038,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel20.setBounds(187, 102, 65, 23);
 
         TanggalSEP.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalSEP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalSEP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalSEP.setDisplayFormat("dd-MM-yyyy");
         TanggalSEP.setName("TanggalSEP"); // NOI18N
         TanggalSEP.setOpaque(false);
@@ -2037,7 +2058,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel22.setBounds(0, 102, 90, 23);
 
         TanggalRujuk.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalRujuk.setDisplayFormat("dd-MM-yyyy");
         TanggalRujuk.setName("TanggalRujuk"); // NOI18N
         TanggalRujuk.setOpaque(false);
@@ -2398,7 +2419,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         jLabel38.setBounds(594, 132, 40, 23);
 
         TanggalKKL.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKKL.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        TanggalKKL.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         TanggalKKL.setDisplayFormat("dd-MM-yyyy");
         TanggalKKL.setEnabled(false);
         TanggalKKL.setName("TanggalKKL"); // NOI18N
@@ -2756,7 +2777,8 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         FormInput.add(jLabel45);
         jLabel45.setBounds(357, 402, 110, 23);
 
-        AsesmenPoli.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "1. Poli spesialis tidak tersedia pada hari sebelumnya", "2. Jam Poli telah berakhir pada hari sebelumnya", "3. Spesialis yang dimaksud tidak praktek pada hari sebelumnya", "4. Atas Instruksi RS", "5. Tujuan Kontrol" }));
+        AsesmenPoli.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "2. Jam Poli telah berakhir pada hari sebelumnya","5. Tujuan Kontrol" }));
+        // "1. Poli spesialis tidak tersedia pada hari sebelumnya", "3. Spesialis yang dimaksud tidak praktek pada hari sebelumnya", "4. Atas Instruksi RS",
         AsesmenPoli.setName("AsesmenPoli"); // NOI18N
         AsesmenPoli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -2846,7 +2868,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2860,7 +2882,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2951,7 +2973,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         panelGlass10.add(jLabel51);
 
         DTPCariInternal.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCariInternal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        DTPCariInternal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         DTPCariInternal.setDisplayFormat("dd-MM-yyyy");
         DTPCariInternal.setName("DTPCariInternal"); // NOI18N
         DTPCariInternal.setOpaque(false);
@@ -2965,7 +2987,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         panelGlass10.add(jLabel52);
 
         DTPCariInternal2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCariInternal2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-01-2022" }));
+        DTPCariInternal2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-06-2022" }));
         DTPCariInternal2.setDisplayFormat("dd-MM-yyyy");
         DTPCariInternal2.setName("DTPCariInternal2"); // NOI18N
         DTPCariInternal2.setOpaque(false);
@@ -3157,6 +3179,30 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void initCustomComponent(){
+        exportSEPExcel = new javax.swing.JMenuItem();
+        
+        exportSEPExcel.setBackground(new java.awt.Color(255, 255, 254));
+        exportSEPExcel.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        exportSEPExcel.setForeground(new java.awt.Color(50, 50, 50));
+        exportSEPExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        exportSEPExcel.setText("Export Data Excel");
+        exportSEPExcel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        exportSEPExcel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        exportSEPExcel.setName("exportSEPExcel"); // NOI18N
+        exportSEPExcel.setPreferredSize(new java.awt.Dimension(300, 25));
+        exportSEPExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    exportSEPExcelActionPerformed(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(BPJSDataSEP.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        Popup.add(exportSEPExcel);
+    }
+    
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
         if (TNoRw.getText().trim().equals("")||TPasien.getText().trim().equals("")) {
             Valid.textKosong(TNoRw, "Pasien");
@@ -4229,6 +4275,102 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                
     }//GEN-LAST:event_ppSEP1BtnPrintActionPerformed
 
+    private void exportSEPExcelActionPerformed(java.awt.event.ActionEvent evt) throws IOException { 
+        File theDir = new File("C:\\DataSEP\\");
+        if (!theDir.exists()){
+            theDir.mkdirs();
+        }
+        String excelFileName = "C:\\DataSEP\\datasep-"+Valid.SetTgl(DTPCari1.getSelectedItem()+"").replace("-", "")+".xls";//name of excel file
+        String sheetName = "Sheet1";//name of sheet
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet(sheetName) ;
+        
+        //Add first row
+        HSSFRow row = sheet.createRow(0);
+        HSSFCell cell00 = row.createCell(0);
+        cell00.setCellValue("Tgl.");
+        HSSFCell cell01 = row.createCell(1);
+        cell01.setCellValue("No. SEP");
+        HSSFCell cell02 = row.createCell(2);
+        cell02.setCellValue("No. RM");
+        HSSFCell cell03 = row.createCell(3);
+        cell03.setCellValue("Nama");
+        HSSFCell cell04 = row.createCell(4);
+        cell04.setCellValue("L/P");
+        HSSFCell cell05 = row.createCell(5);
+        cell05.setCellValue("Umur");
+        HSSFCell cell06 = row.createCell(6);
+        cell06.setCellValue("Tgl. Terbit SEP");
+        HSSFCell cell07 = row.createCell(7);
+        cell07.setCellValue("Tgl. Kembali SEP");
+        HSSFCell cell08 = row.createCell(8);
+        cell08.setCellValue("Angka Lambat");
+        HSSFCell cell09 = row.createCell(9);
+        cell09.setCellValue("Keterangan");
+        
+        int rowNum = 0;
+        try{
+            ps=koneksi.prepareStatement(
+                    "SELECT A.*, " +
+                    "      @rownum := @rownum + 1 as row_number " +
+                    "FROM ( " +
+                    "	SELECT b.no_sep, b.nomr, b.nama_pasien, p.jk, TIMESTAMPDIFF(YEAR, b.tanggal_lahir, CURDATE()) as tahun, b.tglsep " +
+                    "	FROM bridging_sep b " +
+                    "	INNER JOIN pasien p ON p.no_rkm_medis = b.nomr " +
+                    "	WHERE b.tglsep BETWEEN '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' " +
+                    ") A " +
+                    "cross join (select @rownum := 0) r");
+            try {
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    rowNum = Integer.valueOf(rs.getString("row_number"));
+                    HSSFRow row1 = sheet.createRow(rowNum);
+                    HSSFCell cell10 = row1.createCell(0);
+                    cell10.setCellValue(Valid.SetTgl(DTPCari1.getSelectedItem()+""));
+                    HSSFCell cell11 = row1.createCell(1);
+                    cell11.setCellValue(rs.getString("no_sep"));
+                    HSSFCell cell12 = row1.createCell(2);
+                    cell12.setCellValue(rs.getString("nomr"));
+                    HSSFCell cell13 = row1.createCell(3);
+                    cell13.setCellValue(rs.getString("nama_pasien"));
+                    HSSFCell cell14 = row1.createCell(4);
+                    cell14.setCellValue(rs.getString("jk"));
+                    HSSFCell cell15 = row1.createCell(5);
+                    cell15.setCellValue(rs.getString("tahun")+" Th");
+                    HSSFCell cell16 = row1.createCell(6);
+                    cell16.setCellValue(rs.getString("tglsep"));
+                    HSSFCell cell17 = row1.createCell(7);
+                    cell17.setCellValue("");
+                    HSSFCell cell18 = row1.createCell(8);
+                    cell18.setCellValue("");
+                    HSSFCell cell19 = row1.createCell(9);
+                    cell19.setCellValue("");
+                    rowNum =+ 1;
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }   
+                if(ps!=null){
+                    ps.close();
+                }   
+            }                
+        }catch(Exception e){
+            System.out.println("Notifikasi : "+e);
+        }
+        
+        FileOutputStream fileOut = new FileOutputStream(excelFileName);
+
+        //write this workbook to an Outputstream.
+        wb.write(fileOut);
+        fileOut.flush();
+        fileOut.close();
+        System.out.println("Data SEP berhasil diexport di "+excelFileName);
+        JOptionPane.showMessageDialog(null,"Data SEP berhasil diexport di "+excelFileName);
+    }
+    
     private void ppSEP2BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppSEP2BtnPrintActionPerformed
         if(TabRawat.getSelectedIndex()==1){
             if(tbDataSEP.getSelectedRow()!= -1){
@@ -4734,6 +4876,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 param.put("prb",Sequel.cariIsi("select prb from bpjs_prb where no_sep=?",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString()));
                 param.put("noreg",Sequel.cariIsi("select no_reg from reg_periksa where no_rawat=?",TNoRw.getText()));
                 param.put("logo",Sequel.cariGambar("select bpjs from gambar")); 
+                if (tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),32).toString().equalsIgnoreCase("1.ya")){
+                    param.put("katarak","*PASIEN OPERASI KATARAK");
+                } else {
+                    param.put("katarak","");
+                }
                 param.put("parameter",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString());
                 if(JenisPelayanan.getSelectedIndex()==0){
                     Valid.MyReportPDF("rptBridgingSEP5.jasper","report","::[ Cetak SEP ]::",param);
@@ -4791,6 +4938,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 param.put("dokter",Sequel.cariIsi("select nm_dokter from dokter where kd_dokter=?",kddokter));
                 param.put("noreg",Sequel.cariIsi("select no_reg from reg_periksa where no_rawat=?",TNoRw.getText()));
                 param.put("logo",Sequel.cariGambar("select bpjs from gambar")); 
+                if (tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),32).toString().equalsIgnoreCase("1.ya")){
+                    param.put("katarak","*PASIEN OPERASI KATARAK");
+                } else {
+                    param.put("katarak","");
+                }
                 param.put("parameter",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString());
                 if(JenisPelayanan.getSelectedIndex()==0){
                     Valid.MyReportPDF("rptBridgingSEP7.jasper","report","::[ Cetak SEP ]::",param);
@@ -5674,6 +5826,8 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     private widget.Table tbDataSEPInternal;
     // End of variables declaration//GEN-END:variables
 
+    private javax.swing.JMenuItem exportSEPExcel;
+    
     public void tampil() {        
         Valid.tabelKosong(tabMode);
         try{
@@ -5712,7 +5866,6 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     ps.setString(16,"%"+TCari.getText().trim()+"%");
                     ps.setString(17,"%"+TCari.getText().trim()+"%");
                 }
-                System.out.println("ps "+ps);
                 rs=ps.executeQuery();
                 while(rs.next()){
                     penunjang="";

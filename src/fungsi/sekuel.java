@@ -575,6 +575,24 @@ public final class sekuel {
         }
     }
     
+    public void simpanDelete(String content){
+        try {
+            //content berisi kolom apa saja dan value
+            ps=connect.prepareStatement(content);
+//            System.out.println(ps);
+            try{
+                ps.executeUpdate();
+            }catch(Exception e){
+                System.out.println("Notifikasi : "+e);         
+            }finally{
+                if(ps != null){
+                    ps.close();
+                }                
+            }
+        } catch (Exception e) {
+            System.out.println("Notifikasi : "+e);  
+        }
+    }    
 
     public void meghapus(String table,String field,String nilai_field) {
         try {

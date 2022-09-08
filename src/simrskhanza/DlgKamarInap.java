@@ -6115,9 +6115,14 @@ private void MnHapusTagihanOperasiActionPerformed(java.awt.event.ActionEvent evt
                                   JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                   TCari.requestFocus();
                               }else{
-                                  Sequel.queryu("delete from operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
-                                  Sequel.queryu("delete from beri_obat_operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
-                                  Sequel.queryu("delete from laporan_operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
+                                if(akses.getSoftDeletes()){
+                                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19, data_col20, data_col21, data_col22, data_col23, data_col24, data_col25, data_col26, data_col27, data_col28, data_col29, data_col30, data_col31, data_col32, data_col33, data_col34, data_col35, data_col36, data_col37, data_col38, data_col39, data_col40, data_col41, data_col42, data_col43, data_col44, data_col45, data_col46, data_col47, data_col48, data_col49, data_col50, data_col51, data_col52, data_col53, data_col54, data_col55, data_col56, data_col57) "
+                                        + "SELECT 'operasi',NOW(),'"+akses.getkode()+"', no_rawat, tgl_operasi, jenis_anasthesi, kategori, operator1, operator2, operator3, asisten_operator1, asisten_operator2, asisten_operator3, instrumen, dokter_anak, perawaat_resusitas, dokter_anestesi, asisten_anestesi, asisten_anestesi2, bidan, bidan2, bidan3, perawat_luar, omloop, omloop2, omloop3, omloop4, omloop5, dokter_pjanak, dokter_umum, kode_paket, biayaoperator1, biayaoperator2, biayaoperator3, biayaasisten_operator1, biayaasisten_operator2, biayaasisten_operator3, biayainstrumen, biayadokter_anak, biayaperawaat_resusitas, biayadokter_anestesi, biayaasisten_anestesi, biayaasisten_anestesi2, biayabidan, biayabidan2, biayabidan3, biayaperawat_luar, biayaalat, biayasewaok, akomodasi, bagian_rs, biaya_omloop, biaya_omloop2, biaya_omloop3, biaya_omloop4, biaya_omloop5, biayasarpras, biaya_dokter_pjanak, biaya_dokter_umum, status FROM operasi WHERE "
+                                        + "no_rawat = '"+rs2.getString("no_rawat2")+"' ");
+                                }
+                                Sequel.queryu("delete from operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
+                                Sequel.queryu("delete from beri_obat_operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
+                                Sequel.queryu("delete from laporan_operasi where no_rawat='"+rs2.getString("no_rawat2")+"'");
                               }                            
                           }else{
                                 JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
@@ -6138,11 +6143,16 @@ private void MnHapusTagihanOperasiActionPerformed(java.awt.event.ActionEvent evt
                   }
              }else{
                 if(Sequel.cariRegistrasi(norawat.getText().trim())>0){
-                      JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi.\nSilahkan hubungi bagian kasir/keuangan ..!!");
-                      TCari.requestFocus();
+                    JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi.\nSilahkan hubungi bagian kasir/keuangan ..!!");
+                    TCari.requestFocus();
                 }else{
-                      Sequel.queryu("delete from operasi where no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0) +"'");
-                      Sequel.queryu("delete from beri_obat_operasi where no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0)+"'");
+                    if(akses.getSoftDeletes()){
+                        Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19, data_col20, data_col21, data_col22, data_col23, data_col24, data_col25, data_col26, data_col27, data_col28, data_col29, data_col30, data_col31, data_col32, data_col33, data_col34, data_col35, data_col36, data_col37, data_col38, data_col39, data_col40, data_col41, data_col42, data_col43, data_col44, data_col45, data_col46, data_col47, data_col48, data_col49, data_col50, data_col51, data_col52, data_col53, data_col54, data_col55, data_col56, data_col57) "
+                            + "SELECT 'operasi',NOW(),'"+akses.getkode()+"', no_rawat, tgl_operasi, jenis_anasthesi, kategori, operator1, operator2, operator3, asisten_operator1, asisten_operator2, asisten_operator3, instrumen, dokter_anak, perawaat_resusitas, dokter_anestesi, asisten_anestesi, asisten_anestesi2, bidan, bidan2, bidan3, perawat_luar, omloop, omloop2, omloop3, omloop4, omloop5, dokter_pjanak, dokter_umum, kode_paket, biayaoperator1, biayaoperator2, biayaoperator3, biayaasisten_operator1, biayaasisten_operator2, biayaasisten_operator3, biayainstrumen, biayadokter_anak, biayaperawaat_resusitas, biayadokter_anestesi, biayaasisten_anestesi, biayaasisten_anestesi2, biayabidan, biayabidan2, biayabidan3, biayaperawat_luar, biayaalat, biayasewaok, akomodasi, bagian_rs, biaya_omloop, biaya_omloop2, biaya_omloop3, biaya_omloop4, biaya_omloop5, biayasarpras, biaya_dokter_pjanak, biaya_dokter_umum, status FROM operasi WHERE "
+                            + "no_rawat = '"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0)+"' ");
+                    }
+                    Sequel.queryu("delete from operasi where no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0) +"'");
+                    Sequel.queryu("delete from beri_obat_operasi where no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0)+"'");
                 }
 
              }     
@@ -6373,6 +6383,14 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                                 cmbJampindah.getSelectedItem()+":"+cmbMntpindah.getSelectedItem()+":"+cmbDtkpindah.getSelectedItem()+"','0000-00-00','00:00:00','"+
                                 TJmlHaripindah.getText()+"','"+ttlbiayapindah.getText()+"','-'","No.Rawat");
                         Sequel.mengedit("kamar","kd_kamar='"+kdkamarpindah.getText()+"'","status='ISI'");  
+                        if(akses.getSoftDeletes()){
+                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                + "SELECT 'kamar_inap',NOW(),'"+akses.getkode()+"',no_rawat,kd_kamar, trf_kamar, diagnosa_awal, diagnosa_akhir, tgl_masuk, jam_masuk, tgl_keluar, jam_keluar, lama, ttl_biaya, stts_pulang FROM kamar_inap WHERE "
+                                + " no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString()+ "' "
+                                + " and kd_kamar='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),19).toString()+ "' "
+                                + " and tgl_masuk='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),11).toString()+ "' "
+                                + " and jam_masuk='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),12).toString()+"' ");
+                        }
                         Sequel.queryu("delete from kamar_inap where no_rawat='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString()+
                                 "' and kd_kamar='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),19).toString()+
                                 "' and tgl_masuk='"+tbKamIn.getValueAt(tbKamIn.getSelectedRow(),11).toString()+
@@ -6534,6 +6552,10 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     }else{
                         i = JOptionPane.showConfirmDialog(rootPane,"Yakin data mau dihapus..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
                         if (i == JOptionPane.YES_OPTION) {
+                            if(akses.getSoftDeletes()){
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                    + "SELECT 'kamar_inap',NOW(),'"+akses.getkode()+"',no_rawat,kd_kamar, trf_kamar, diagnosa_awal, diagnosa_akhir, tgl_masuk, jam_masuk, tgl_keluar, jam_keluar, lama, ttl_biaya, stts_pulang FROM kamar_inap WHERE no_rawat='"+norawat.getText()+"' and kd_kamar='"+kdkamar.getText()+"' and tgl_masuk='"+TIn.getText()+"' and jam_masuk='"+JamMasuk.getText()+"'");
+                            }
                             Sequel.queryu("delete from kamar_inap where no_rawat='"+norawat.getText()+"' and kd_kamar='"+kdkamar.getText()+"' and tgl_masuk='"+TIn.getText()+"' and jam_masuk='"+JamMasuk.getText()+"'");
                             Sequel.mengedit("kamar","kd_kamar='"+kdkamar.getText()+"'","status='KOSONG'");                
                             if(Sequel.cariInteger("select count(no_rawat) from kamar_inap where no_rawat=?",norawat.getText())==0){

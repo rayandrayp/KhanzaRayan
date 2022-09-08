@@ -440,7 +440,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         } catch (Exception e) {
                             retur=0;
                         } 
-
+                        if(akses.getSoftDeletes()){
+                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16) " +
+                                "SELECT 'detail_pemberian_obat',NOW(),'"+akses.getkode()+"',tgl_perawatan,jam,no_rawat,kode_brng,h_beli,biaya_obat,jml,embalase,tuslah,total,status,kd_bangsal,no_batch,no_faktur,pecahkronis,jumlahawal FROM detail_pemberian_obat WHERE " +
+                                " status='Ranap' and no_rawat='"+TNoRw.getText()+"' "+
+                                "and kode_brng='"+tbObat.getValueAt(i,1).toString()+"' "+
+                                "and tgl_perawatan='"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"' "+
+                                "and no_batch='"+tbObat.getValueAt(i,13).toString()+"' "+
+                                "and no_faktur='"+tbObat.getValueAt(i,14).toString()+"' ");
+                        }
                         pshapusobat=koneksi.prepareStatement(
                             "delete from detail_pemberian_obat where detail_pemberian_obat.status='Ranap' and detail_pemberian_obat.no_rawat=? and "+
                             "detail_pemberian_obat.tgl_perawatan=? and detail_pemberian_obat.kode_brng=? and detail_pemberian_obat.no_batch=? and "+

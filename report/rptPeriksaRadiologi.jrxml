@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="594" pageHeight="842" columnWidth="521" leftMargin="56" rightMargin="17" topMargin="20" bottomMargin="20" uuid="c16a518d-de30-42e8-956f-d983ab268621">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="265"/>
@@ -408,7 +408,7 @@
 				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="2" width="516" height="15" uuid="785c3198-0841-452c-abd5-422b7b3efe68"/>
+				<reportElement stretchType="RelativeToBandHeight" x="3" y="2" width="516" height="15" uuid="785c3198-0841-452c-abd5-422b7b3efe68"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
@@ -475,7 +475,7 @@
 				</jr:QRCode>
 			</componentElement>
 			<staticText>
-				<reportElement mode="Transparent" x="4" y="5" width="206" height="15" forecolor="#000000" backcolor="#F0F0DC" uuid="431539d4-89a1-4eaf-8e51-9bd30c3d21cc"/>
+				<reportElement mode="Transparent" x="5" y="17" width="206" height="15" forecolor="#000000" backcolor="#F0F0DC" uuid="431539d4-89a1-4eaf-8e51-9bd30c3d21cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -483,7 +483,7 @@
 				<text><![CDATA[Penanggung Jawab]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="3" y="20" width="208" height="69" isRemoveLineWhenBlank="true" uuid="dfc31d24-58e1-4249-8e2e-52d2212799ba">
+				<reportElement x="3" y="34" width="209" height="56" isRemoveLineWhenBlank="true" uuid="dfc31d24-58e1-4249-8e2e-52d2212799ba">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
@@ -491,7 +491,7 @@
 				</jr:QRCode>
 			</componentElement>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="89" width="208" height="15" uuid="43bdfd4c-bb74-43ae-87e2-11ce770a05d8"/>
+				<reportElement x="1" y="89" width="211" height="15" uuid="a5a9d1c6-99e6-47fd-bf4a-b3e9487b87e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>

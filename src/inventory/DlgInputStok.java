@@ -1658,13 +1658,13 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         try{
             psdatastok=koneksi.prepareStatement(
             "SELECT d.kode_brng, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP1' THEN g.stok ELSE 0 END) AS dp1, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP2' THEN g.stok ELSE 0 END) AS dp2, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP3' THEN g.stok ELSE 0 END) AS dp3, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP4' THEN g.stok ELSE 0 END) AS dp4, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP5' THEN g.stok ELSE 0 END) AS dp5, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'DP6' THEN g.stok ELSE 0 END) AS dp6, " +
-            "         MAX(CASE WHEN g.kd_bangsal = 'GO' THEN g.stok ELSE 0 END) AS go " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP1' THEN g.stok ELSE 0 END) AS dp1, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP2' THEN g.stok ELSE 0 END) AS dp2, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP3' THEN g.stok ELSE 0 END) AS dp3, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP4' THEN g.stok ELSE 0 END) AS dp4, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP5' THEN g.stok ELSE 0 END) AS dp5, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'DP6' THEN g.stok ELSE 0 END) AS dp6, " +
+            "         SUM(CASE WHEN g.kd_bangsal = 'GO' THEN g.stok ELSE 0 END) AS go " +
             "FROM databarang d " +
             "LEFT JOIN gudangbarang g ON d.kode_brng = g.kode_brng " +
             "WHERE d.status = '1' " +

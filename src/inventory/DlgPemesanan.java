@@ -43,6 +43,7 @@ public class DlgPemesanan extends javax.swing.JDialog {
     private DlgCariDataKonversi datakonversi=new DlgCariDataKonversi(null,false);
     private double hargakonversi=0,meterai=0,ttl=0,y=0,w=0,ttldisk=0,
             sbttl=0,ppn=0,jmlkonversi=0,hargappn=0,hargadiskon=0;
+    private double h_beli = 0, h_ralan = 0, h_kelas1 = 0, h_kelas2 = 0, h_kelas3 = 0, h_utama = 0, h_vip = 0, h_vvip = 0, h_beliluar = 0, h_jualbebas = 0, h_karyawan = 0;
     private int jml=0,i=0,row=0,index=0;
     private String[] kodebarang,namabarang,satuan,satuanbeli,kadaluwarsa,nobatch;
     private boolean[] ganti;
@@ -1003,7 +1004,25 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                         
                                     simpanbatch();
                                     //update harga
-                                    Sequel.mengedit("databarang","kode_brng='"+tbDokter.getValueAt(i,2).toString()+"'","h_beli='"+tbDokter.getValueAt(i,7).toString()+"'");
+                                    if(tbDokter.getValueAt(i,1).toString().toLowerCase() == tbDokter.getValueAt(i,4).toString().toLowerCase()){
+                                        h_beli = Double.valueOf(tbDokter.getValueAt(i,7).toString()); 
+                                    } else {
+                                        h_beli = Double.valueOf(tbDokter.getValueAt(i,7).toString())/Double.valueOf(tbDokter.getValueAt(i,25).toString()); 
+                                    }
+                                    h_ralan = Sequel.cariIsiAngka("SELECT (ralan/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_kelas1 = Sequel.cariIsiAngka("SELECT (kelas1/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_kelas2 = Sequel.cariIsiAngka("SELECT (kelas2/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_kelas3 = Sequel.cariIsiAngka("SELECT (kelas3/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_utama = Sequel.cariIsiAngka("SELECT (utama/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_vip = Sequel.cariIsiAngka("SELECT (vip/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_vvip = Sequel.cariIsiAngka("SELECT (vvip/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_beliluar = Sequel.cariIsiAngka("SELECT (beliluar/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_jualbebas = Sequel.cariIsiAngka("SELECT (jualbebas/100) + 1 FROM setpenjualanumum") * h_beli;
+                                    h_karyawan = Sequel.cariIsiAngka("SELECT (karyawan/100) + 1 FROM setpenjualanumum") * h_beli;
+//                                    System.out.println("h_beli='"+h_beli+"',kelas1='"+h_kelas1+"',kelas2='"+h_kelas2+"',kelas3='"+h_kelas3+"',utama='"+h_utama+"',vip='"+h_vip+"'"
+//                                            + ",vvip='"+h_vvip+"',beliluar='"+h_beliluar+"',jualbebas='"+h_jualbebas+"',karyawan='"+h_karyawan+"'");
+                                    Sequel.mengedit("databarang","kode_brng='"+tbDokter.getValueAt(i,2).toString()+"'","h_beli='"+h_beli+"',ralan='"+h_ralan+"',kelas1='"+h_kelas1+"',kelas2='"+h_kelas2+"',"
+                                        + "kelas3='"+h_kelas3+"',utama='"+h_utama+"',vip='"+h_vip+"',vvip='"+h_vvip+"',beliluar='"+h_beliluar+"',jualbebas='"+h_jualbebas+"',karyawan='"+h_karyawan+"',expire='"+Valid.SetTgl(tbDokter.getValueAt(i,6).toString())+"'");
                                 }else{
                                     sukses=false;
                                 }                                        
@@ -1496,6 +1515,7 @@ private void btnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 " where databarang.status='1' order by databarang.nama_brng");
             try {
                 rs=ps.executeQuery();
+                System.out.println(ps);
                 if(aktifkanbatch.equals("yes")){
                     while(rs.next()){
                         tabMode.addRow(new Object[]{

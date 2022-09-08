@@ -1441,34 +1441,34 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data terlebih dahulu...!!!!"); 
             }else{
                 try {
-                    String url = "textEditor.php?no_rawat="+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+
-                                "&tgl="+tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString()+
-                                "&jam="+tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString();
-                    Valid.panggilUrl(url);
-//                    ps5=koneksi.prepareStatement(
-//                        "select hasil from hasil_radiologi where hasil_radiologi.no_rawat=? and hasil_radiologi.tgl_periksa=? and hasil_radiologi.jam=?");  
-//                    try {
-//                        ps5.setString(1,tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
-//                        ps5.setString(2,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
-//                        ps5.setString(3,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
-//                        rs5=ps5.executeQuery();
-//                        while(rs5.next()){      
-//                            HasilPeriksa.setText(rs5.getString(1));
-//                        } 
-//                    } catch (Exception e) {
-//                        System.out.println("simrskhanza.DlgCariPeriksaRadiologi.MnLihatHasilActionPerformed() ps5 : "+e);
-//                    } finally{
-//                        if(rs5!=null){
-//                            rs5.close();
-//                        }
-//                        if(ps5!=null){
-//                            ps5.close();
-//                        }
-//                    }
-//                              
-//                    WindowHasil.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-//                    WindowHasil.setLocationRelativeTo(internalFrame1);
-//                    WindowHasil.setVisible(true);
+//                    String url = "textEditor.php?no_rawat="+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+
+//                                "&tgl="+tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString()+
+//                                "&jam="+tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString();
+//                    Valid.panggilUrl(url);
+                    ps5=koneksi.prepareStatement(
+                        "select hasil from hasil_radiologi where hasil_radiologi.no_rawat=? and hasil_radiologi.tgl_periksa=? and hasil_radiologi.jam=?");  
+                    try {
+                        ps5.setString(1,tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
+                        ps5.setString(2,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
+                        ps5.setString(3,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
+                        rs5=ps5.executeQuery();
+                        while(rs5.next()){      
+                            HasilPeriksa.setText(rs5.getString(1));
+                        } 
+                    } catch (Exception e) {
+                        System.out.println("simrskhanza.DlgCariPeriksaRadiologi.MnLihatHasilActionPerformed() ps5 : "+e);
+                    } finally{
+                        if(rs5!=null){
+                            rs5.close();
+                        }
+                        if(ps5!=null){
+                            ps5.close();
+                        }
+                    }
+                              
+                    WindowHasil.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                    WindowHasil.setLocationRelativeTo(internalFrame1);
+                    WindowHasil.setVisible(true);
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }

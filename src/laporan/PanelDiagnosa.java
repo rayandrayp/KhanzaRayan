@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -1011,6 +1012,12 @@ public class PanelDiagnosa extends widget.panelisi {
             }else{
                 for(i=0;i<tbDiagnosaPasien.getRowCount();i++){ 
                     if(tbDiagnosaPasien.getValueAt(i,0).toString().equals("true")){
+                        if(akses.getSoftDeletes()){
+                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5) "
+                                + "SELECT 'diagnosa_pasien',NOW(),'"+akses.getkode()+"',no_rawat,kd_penyakit,status,prioritas,status_penyakit FROM diagnosa_pasien WHERE "
+                                + " no_rawat = '"+tbDiagnosaPasien.getValueAt(i,2).toString()+"'"
+                                + " and kd_penyakit = '"+tbDiagnosaPasien.getValueAt(i,5).toString()+"'");
+                        }
                         Sequel.queryu2("delete from diagnosa_pasien where no_rawat=? and kd_penyakit=?",2,new String[]{
                             tbDiagnosaPasien.getValueAt(i,2).toString(),tbDiagnosaPasien.getValueAt(i,5).toString()
                         });

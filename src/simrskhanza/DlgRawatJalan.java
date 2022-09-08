@@ -4221,6 +4221,14 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                 JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                 TCari.requestFocus();
                             }else{
+                                if(akses.getSoftDeletes()){
+                                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                        + "SELECT 'rawat_jl_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_dr " 
+                                        + " WHERE no_rawat = '"+tbRawatDr.getValueAt(i,1).toString()+"'"
+                                        + " and kd_jenis_prw='"+tbRawatDr.getValueAt(i,10)+"' "
+                                        + " and tgl_perawatan='"+tbRawatDr.getValueAt(i,7).toString()+"' "
+                                        + " and jam_rawat='"+tbRawatDr.getValueAt(i,8).toString()+"'");
+                                }
                                 if(Sequel.queryutf("delete from rawat_jl_dr where no_rawat='"+tbRawatDr.getValueAt(i,1).toString()+
                                         "' and kd_jenis_prw='"+tbRawatDr.getValueAt(i,10)+
                                         "' and kd_dokter='"+tbRawatDr.getValueAt(i,5).toString()+
@@ -4292,6 +4300,15 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                 JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                 TCari.requestFocus();
                             }else{
+                                if(akses.getSoftDeletes()){
+                                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                        + "SELECT 'rawat_jl_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakanpr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_pr  " 
+                                        + " WHERE no_rawat = '"+tbRawatPr.getValueAt(i,1).toString()+"'"
+                                        + " and kd_jenis_prw='"+tbRawatPr.getValueAt(i,10)+"' "
+                                        + " and nip='"+tbRawatPr.getValueAt(i,5).toString()+"' "
+                                        + " and tgl_perawatan='"+tbRawatPr.getValueAt(i,7).toString()+"' "
+                                        + " and jam_rawat='"+tbRawatPr.getValueAt(i,8).toString()+"'");
+                                }
                                 if(Sequel.queryutf("delete from rawat_jl_pr where no_rawat='"+tbRawatPr.getValueAt(i,1).toString()+
                                         "' and kd_jenis_prw='"+tbRawatPr.getValueAt(i,10)+
                                         "' and nip='"+tbRawatPr.getValueAt(i,5).toString()+
@@ -4363,6 +4380,16 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                                 JOptionPane.showMessageDialog(rootPane,"Data billing sudah terverifikasi, data tidak boleh dihapus.\nSilahkan hubungi bagian kasir/keuangan ..!!");
                                 TCari.requestFocus();
                             }else{
+                                if(akses.getSoftDeletes()){
+                                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14) "
+                                        + "SELECT 'rawat_jl_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_drpr "
+                                        + " WHERE no_rawat = '"+tbRawatDrPr.getValueAt(i,1).toString()+"'"
+                                        + " and kd_jenis_prw='"+tbRawatDrPr.getValueAt(i,12)+"' "
+                                        + " and kd_dokter='"+tbRawatDrPr.getValueAt(i,5).toString()+"' "
+                                        + " and nip='"+tbRawatDrPr.getValueAt(i,7).toString()+"' "
+                                        + " and tgl_perawatan='"+ tbRawatDrPr.getValueAt(i,9).toString()+"' "
+                                        + " and jam_rawat='"+tbRawatDrPr.getValueAt(i,10).toString()+"'");
+                                }
                                 if(Sequel.queryutf("delete from rawat_jl_drpr where no_rawat='"+tbRawatDrPr.getValueAt(i,1).toString()+
                                         "' and kd_jenis_prw='"+tbRawatDrPr.getValueAt(i,12)+
                                         "' and kd_dokter='"+tbRawatDrPr.getValueAt(i,5).toString()+
@@ -4433,6 +4460,13 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
                 }else{
                     for(i=0;i<tbPemeriksaan.getRowCount();i++){
                         if(tbPemeriksaan.getValueAt(i,0).toString().equals("true")){
+                            if(akses.getSoftDeletes()){
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17, data_col18, data_col19) "
+                                    + "SELECT 'pemeriksaan_ralan',NOW(),'"+akses.getkode()+"', no_rawat, tgl_perawatan, jam_rawat, suhu_tubuh, tensi, nadi, respirasi, tinggi, berat, gcs, kesadaran, keluhan, pemeriksaan, alergi, imun_ke, rtl, penilaian, instruksi, nip FROM pemeriksaan_ralan WHERE "
+                                    + " no_rawat='"+tbPemeriksaan.getValueAt(i,1).toString()+ "' "
+                                    + " and tgl_perawatan='"+tbPemeriksaan.getValueAt(i,4).toString()+"' "
+                                    + " and jam_rawat='"+tbPemeriksaan.getValueAt(i,5).toString()+"'");
+                            }
                             Sequel.queryu("delete from pemeriksaan_ralan where no_rawat='"+tbPemeriksaan.getValueAt(i,1).toString()+
                                     "' and tgl_perawatan='"+tbPemeriksaan.getValueAt(i,4).toString()+
                                     "' and jam_rawat='"+tbPemeriksaan.getValueAt(i,5).toString()+"' ");

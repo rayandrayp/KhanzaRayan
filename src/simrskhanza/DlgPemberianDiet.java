@@ -44,7 +44,8 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
     public DlgPemberianDiet(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        Object[] row={"No.Rawat","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa"};
+        initCustomComponent();
+        Object[] row={"No.Rawat","No. RM","Nama Pasien","Kamar","Tanggal","Waktu","Jam","Diet","Diagnosa","Tanggal Lahir","NIK"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -54,24 +55,29 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < 11; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
             }else if(i==1){
-                column.setPreferredWidth(230);
+                column.setPreferredWidth(55);
             }else if(i==2){
-                column.setPreferredWidth(180);
+                column.setPreferredWidth(230);
             }else if(i==3){
-                column.setPreferredWidth(65);
+                column.setPreferredWidth(180);
             }else if(i==4){
+                column.setPreferredWidth(65);
+            }else if(i==5){
                 column.setPreferredWidth(60);
             }else if(i==6){
-                column.setPreferredWidth(170);
-            }else if(i==5){
                 column.setPreferredWidth(55);
             }else if(i==7){
                 column.setPreferredWidth(170);
+            }else if(i==8){
+                column.setPreferredWidth(170);
+            }else if(i==9 || i==10){
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
@@ -729,6 +735,22 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initCustomComponent(){
+        MnLabelDiet2 = new javax.swing.JMenuItem();
+        MnLabelDiet2.setBackground(new java.awt.Color(255, 255, 254));
+        MnLabelDiet2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnLabelDiet2.setForeground(java.awt.Color.darkGray);
+        MnLabelDiet2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnLabelDiet2.setText("Semua Label Diet Isi 6");
+        MnLabelDiet2.setName("MnLabelDiet2"); // NOI18N
+        MnLabelDiet2.setPreferredSize(new java.awt.Dimension(150, 28));
+        MnLabelDiet2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnLabelDiet2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnLabelDiet2);
+    }
     private void TNoRwKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TNoRwKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             isRawat();
@@ -1016,7 +1038,114 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             this.setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_MnLabelDiet1ActionPerformed
+    
+    private void MnLabelDiet2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
+            BtnBatal.requestFocus();
+        }else if(tabMode.getRowCount()!=0){
 
+            Sequel.queryu("truncate table temporary_diet");
+            int row=Integer.parseInt(LCount.getText());
+            for(int i=0;i<row;i++){
+                int i2 = i+1;
+                int i3 = i2+1;
+                int i4 = i3+1;
+                int i5 = i4+1;
+                int i6 = i5+1;
+                
+                if(tabMode.getValueAt(i2,1) == null || tabMode.getValueAt(i2,1).toString() == ""){
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''","Transaksi Penerimaan");
+                } else if(tabMode.getValueAt(i3,1) == null || tabMode.getValueAt(i3,1).toString() == ""){
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','"+
+                        tabMode.getValueAt(i2,2).toString()+"','"+tabMode.getValueAt(i2,1).toString()+"','"+tabMode.getValueAt(i2,3).toString()+"','"+
+                        tabMode.getValueAt(i2,4).toString()+"','"+tabMode.getValueAt(i2,5).toString()+"','"+tabMode.getValueAt(i2,9).toString()+"','"+
+                        tabMode.getValueAt(i2,7).toString()+"','"+tabMode.getValueAt(i2,10).toString()+"','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''","Transaksi Penerimaan");
+                } else if(tabMode.getValueAt(i4,1) == null || tabMode.getValueAt(i4,1).toString() == ""){
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','"+
+                        tabMode.getValueAt(i2,2).toString()+"','"+tabMode.getValueAt(i2,1).toString()+"','"+tabMode.getValueAt(i2,3).toString()+"','"+
+                        tabMode.getValueAt(i2,4).toString()+"','"+tabMode.getValueAt(i2,5).toString()+"','"+tabMode.getValueAt(i2,9).toString()+"','"+
+                        tabMode.getValueAt(i2,7).toString()+"','"+tabMode.getValueAt(i2,10).toString()+"','"+
+                        tabMode.getValueAt(i3,2).toString()+"','"+tabMode.getValueAt(i3,1).toString()+"','"+tabMode.getValueAt(i3,3).toString()+"','"+
+                        tabMode.getValueAt(i3,4).toString()+"','"+tabMode.getValueAt(i3,5).toString()+"','"+tabMode.getValueAt(i3,9).toString()+"','"+
+                        tabMode.getValueAt(i3,7).toString()+"','"+tabMode.getValueAt(i3,10).toString()+"','','','','','','','','','','','','','','','','','','','','','','','',''","Transaksi Penerimaan");
+                } else if(tabMode.getValueAt(i5,1) == null || tabMode.getValueAt(i5,1).toString() == ""){
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','"+
+                        tabMode.getValueAt(i2,2).toString()+"','"+tabMode.getValueAt(i2,1).toString()+"','"+tabMode.getValueAt(i2,3).toString()+"','"+
+                        tabMode.getValueAt(i2,4).toString()+"','"+tabMode.getValueAt(i2,5).toString()+"','"+tabMode.getValueAt(i2,9).toString()+"','"+
+                        tabMode.getValueAt(i2,7).toString()+"','"+tabMode.getValueAt(i2,10).toString()+"','"+
+                        tabMode.getValueAt(i3,2).toString()+"','"+tabMode.getValueAt(i3,1).toString()+"','"+tabMode.getValueAt(i3,3).toString()+"','"+
+                        tabMode.getValueAt(i3,4).toString()+"','"+tabMode.getValueAt(i3,5).toString()+"','"+tabMode.getValueAt(i3,9).toString()+"','"+
+                        tabMode.getValueAt(i3,7).toString()+"','"+tabMode.getValueAt(i3,10).toString()+"','"+
+                        tabMode.getValueAt(i4,2).toString()+"','"+tabMode.getValueAt(i4,1).toString()+"','"+tabMode.getValueAt(i4,3).toString()+"','"+
+                        tabMode.getValueAt(i4,4).toString()+"','"+tabMode.getValueAt(i4,5).toString()+"','"+tabMode.getValueAt(i4,9).toString()+"','"+
+                        tabMode.getValueAt(i4,7).toString()+"','"+tabMode.getValueAt(i4,10).toString()+"','','','','','','','','','','','','','','','',''","Transaksi Penerimaan");
+                } else if(tabMode.getValueAt(i6,1) == null || tabMode.getValueAt(i6,1).toString() == ""){
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','"+
+                        tabMode.getValueAt(i2,2).toString()+"','"+tabMode.getValueAt(i2,1).toString()+"','"+tabMode.getValueAt(i2,3).toString()+"','"+
+                        tabMode.getValueAt(i2,4).toString()+"','"+tabMode.getValueAt(i2,5).toString()+"','"+tabMode.getValueAt(i2,9).toString()+"','"+
+                        tabMode.getValueAt(i2,7).toString()+"','"+tabMode.getValueAt(i2,10).toString()+"','"+
+                        tabMode.getValueAt(i3,2).toString()+"','"+tabMode.getValueAt(i3,1).toString()+"','"+tabMode.getValueAt(i3,3).toString()+"','"+
+                        tabMode.getValueAt(i3,4).toString()+"','"+tabMode.getValueAt(i3,5).toString()+"','"+tabMode.getValueAt(i3,9).toString()+"','"+
+                        tabMode.getValueAt(i3,7).toString()+"','"+tabMode.getValueAt(i3,10).toString()+"','"+
+                        tabMode.getValueAt(i4,2).toString()+"','"+tabMode.getValueAt(i4,1).toString()+"','"+tabMode.getValueAt(i4,3).toString()+"','"+
+                        tabMode.getValueAt(i4,4).toString()+"','"+tabMode.getValueAt(i4,5).toString()+"','"+tabMode.getValueAt(i4,9).toString()+"','"+
+                        tabMode.getValueAt(i4,7).toString()+"','"+tabMode.getValueAt(i4,10).toString()+"','"+
+                        tabMode.getValueAt(i5,2).toString()+"','"+tabMode.getValueAt(i5,1).toString()+"','"+tabMode.getValueAt(i5,3).toString()+"','"+
+                        tabMode.getValueAt(i5,4).toString()+"','"+tabMode.getValueAt(i5,5).toString()+"','"+tabMode.getValueAt(i5,9).toString()+"','"+
+                        tabMode.getValueAt(i5,7).toString()+"','"+tabMode.getValueAt(i5,10).toString()+"','','','','','','','',''","Transaksi Penerimaan");
+                } else {
+                    Sequel.menyimpan("temporary_diet","'0','"+
+                        tabMode.getValueAt(i,2).toString()+"','"+tabMode.getValueAt(i,1).toString()+"','"+tabMode.getValueAt(i,3).toString()+"','"+
+                        tabMode.getValueAt(i,4).toString()+"','"+tabMode.getValueAt(i,5).toString()+"','"+tabMode.getValueAt(i,9).toString()+"','"+
+                        tabMode.getValueAt(i,7).toString()+"','"+tabMode.getValueAt(i,10).toString()+"','"+
+                        tabMode.getValueAt(i2,2).toString()+"','"+tabMode.getValueAt(i2,1).toString()+"','"+tabMode.getValueAt(i2,3).toString()+"','"+
+                        tabMode.getValueAt(i2,4).toString()+"','"+tabMode.getValueAt(i2,5).toString()+"','"+tabMode.getValueAt(i2,9).toString()+"','"+
+                        tabMode.getValueAt(i2,7).toString()+"','"+tabMode.getValueAt(i2,10).toString()+"','"+
+                        tabMode.getValueAt(i3,2).toString()+"','"+tabMode.getValueAt(i3,1).toString()+"','"+tabMode.getValueAt(i3,3).toString()+"','"+
+                        tabMode.getValueAt(i3,4).toString()+"','"+tabMode.getValueAt(i3,5).toString()+"','"+tabMode.getValueAt(i3,9).toString()+"','"+
+                        tabMode.getValueAt(i3,7).toString()+"','"+tabMode.getValueAt(i3,10).toString()+"','"+
+                        tabMode.getValueAt(i4,2).toString()+"','"+tabMode.getValueAt(i4,1).toString()+"','"+tabMode.getValueAt(i4,3).toString()+"','"+
+                        tabMode.getValueAt(i4,4).toString()+"','"+tabMode.getValueAt(i4,5).toString()+"','"+tabMode.getValueAt(i4,9).toString()+"','"+
+                        tabMode.getValueAt(i4,7).toString()+"','"+tabMode.getValueAt(i4,10).toString()+"','"+
+                        tabMode.getValueAt(i5,2).toString()+"','"+tabMode.getValueAt(i5,1).toString()+"','"+tabMode.getValueAt(i5,3).toString()+"','"+
+                        tabMode.getValueAt(i5,4).toString()+"','"+tabMode.getValueAt(i5,5).toString()+"','"+tabMode.getValueAt(i5,9).toString()+"','"+
+                        tabMode.getValueAt(i5,7).toString()+"','"+tabMode.getValueAt(i5,10).toString()+"','"+
+                        tabMode.getValueAt(i6,2).toString()+"','"+tabMode.getValueAt(i6,1).toString()+"','"+tabMode.getValueAt(i6,3).toString()+"','"+
+                        tabMode.getValueAt(i6,4).toString()+"','"+tabMode.getValueAt(i6,5).toString()+"','"+tabMode.getValueAt(i6,9).toString()+"','"+
+                        tabMode.getValueAt(i6,7).toString()+"','"+tabMode.getValueAt(i6,10).toString()+"'"
+                        ,"Transaksi Penerimaan");
+                }
+                i=i6;
+            }
+
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars",akses.getnamars());
+            param.put("logo1",Sequel.cariGambar("select logo from setting"));
+            param.put("logo2",Sequel.cariGambar("select logo from setting"));
+            param.put("logo3",Sequel.cariGambar("select logo from setting"));
+            param.put("logo4",Sequel.cariGambar("select logo from setting"));
+            param.put("logo5",Sequel.cariGambar("select logo from setting"));
+            param.put("logo6",Sequel.cariGambar("select logo from setting"));
+            Valid.MyReport("rptLabelDiet6.jasper","report","::[ Label Diet ]::",param);
+        }
+    }
+    
     private void WaktuDietKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_WaktuDietKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             Sequel.cariIsi("select jam from jam_diet_pasien where waktu=? ",JamDiet,WaktuDiet.getText());
@@ -1125,12 +1254,14 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.panelisi panelGlass9;
     private widget.Table tbObat;
     // End of variables declaration//GEN-END:variables
-
+    
+    private javax.swing.JMenuItem MnLabelDiet2;
+    
     public void tampil() {     
         try{
             Valid.tabelKosong(tabMode);
             ps=koneksi.prepareStatement("select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien, " +
-                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal),detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet " +
+                "concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal),detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,pasien.tgl_lahir, pasien.no_ktp " +
                 "from detail_beri_diet inner join reg_periksa inner join pasien inner join diet inner join kamar inner join bangsal inner join jam_diet_pasien " +
                 "on detail_beri_diet.no_rawat=reg_periksa.no_rawat " +
                 "and detail_beri_diet.kd_kamar=kamar.kd_kamar "+
@@ -1161,8 +1292,8 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 rs=ps.executeQuery();
                 while(rs.next()){
                     tabMode.addRow(new String[]{
-                        rs.getString(1),rs.getString(2)+", "+rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),
-                        Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=? order by tgl_masuk desc",rs.getString(1))
+                        rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),
+                        Sequel.cariIsi("select diagnosa_awal from kamar_inap where no_rawat=? order by tgl_masuk desc",rs.getString(1)),rs.getString(9),rs.getString(10)
                     });
                 }
             } catch (Exception e) {

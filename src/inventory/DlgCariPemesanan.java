@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -1263,6 +1264,10 @@ private void ppHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                          }
 
                          if(sukses==true){
+                            if(akses.getSoftDeletes()) {
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15) "
+                                   + "SELECT 'pemesanan',NOW(),'"+akses.getkode()+"', no_faktur, no_order, kode_suplier, nip, tgl_pesan, tgl_faktur, tgl_tempo, total1, potongan, total2, ppn, materai, tagihan, kd_bangsal, status FROM pemesanan WHERE no_faktur = '"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+"'");
+                            }
                             Sequel.queryu2("delete from pemesanan where no_faktur=?",1,new String[]{tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()});
                             Sequel.Commit();
                          }else{

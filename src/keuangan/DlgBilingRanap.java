@@ -3199,22 +3199,26 @@ private void MnHapusTagihanActionPerformed(java.awt.event.ActionEvent evt) {//GE
              }
                 
              if(sukses==true){
-                 Valid.editTable(tabModeRwJlDr,"reg_periksa","no_rawat",TNoRw,"status_bayar='Belum Bayar'");
-                 if(!norawatbayi.equals("")){
-                    Sequel.mengedit("reg_periksa","no_rawat='"+norawatbayi+"'","status_bayar='Belum Bayar'");
-                 }
-                 Sequel.queryu2("delete from piutang_pasien where no_rawat='"+TNoRw.getText()+"'");
-                 Sequel.queryu2("delete from detail_piutang_pasien where no_rawat='"+TNoRw.getText()+"'");
-                 Sequel.queryu2("delete from nota_inap where no_rawat='"+TNoRw.getText()+"'");            
-                 Sequel.queryu2("delete from detail_nota_inap where no_rawat='"+TNoRw.getText()+"'");     
-                 Sequel.queryu2("delete from tagihan_bpd_jateng where no_rkm_medis='"+TNoRM.getText()+"' and no_rawat='"+TNoRw.getText()+"' and status_lanjut='Ranap' and status_bayar='Pending'");
-                 Valid.hapusTable(tabModeRwJlDr,TNoRw,"billing","no_rawat");
-                 Valid.hapusTable(tabModeRwJlDr,TNoRw,"tagihan_sadewa","no_nota");
-                 Sequel.Commit();
-                 JOptionPane.showMessageDialog(rootPane,"Proses hapus data Nota Salah selesai..!!");
-                 Valid.tabelKosong(tabModeAkunBayar);
-                 Valid.tabelKosong(tabModeAkunPiutang);
-                 isRawat();
+                Valid.editTable(tabModeRwJlDr,"reg_periksa","no_rawat",TNoRw,"status_bayar='Belum Bayar'");
+                if(!norawatbayi.equals("")){
+                   Sequel.mengedit("reg_periksa","no_rawat='"+norawatbayi+"'","status_bayar='Belum Bayar'");
+                }
+                if(akses.getSoftDeletes()){
+                   Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                       + "SELECT 'billing',NOW(),'"+akses.getkode()+"',noindex,no_rawat,tgl_byr,no,nm_perawatan,pemisah,biaya,jumlah,tambahan,totalbiaya,status FROM billing WHERE no_rawat = '"+TNoRw.getText()+"'");
+                }
+                Sequel.queryu2("delete from piutang_pasien where no_rawat='"+TNoRw.getText()+"'");
+                Sequel.queryu2("delete from detail_piutang_pasien where no_rawat='"+TNoRw.getText()+"'");
+                Sequel.queryu2("delete from nota_inap where no_rawat='"+TNoRw.getText()+"'");            
+                Sequel.queryu2("delete from detail_nota_inap where no_rawat='"+TNoRw.getText()+"'");     
+                Sequel.queryu2("delete from tagihan_bpd_jateng where no_rkm_medis='"+TNoRM.getText()+"' and no_rawat='"+TNoRw.getText()+"' and status_lanjut='Ranap' and status_bayar='Pending'");
+                Valid.hapusTable(tabModeRwJlDr,TNoRw,"billing","no_rawat");
+                Valid.hapusTable(tabModeRwJlDr,TNoRw,"tagihan_sadewa","no_nota");
+                Sequel.Commit();
+                JOptionPane.showMessageDialog(rootPane,"Proses hapus data Nota Salah selesai..!!");
+                Valid.tabelKosong(tabModeAkunBayar);
+                Valid.tabelKosong(tabModeAkunPiutang);
+                isRawat();
              }else{
                 JOptionPane.showMessageDialog(null,"Terjadi kesalahan saat pemrosesan data, transaksi dibatalkan.\nPeriksa kembali data sebelum melanjutkan menyimpan..!!");
                 Sequel.RollBack();

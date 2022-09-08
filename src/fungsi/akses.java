@@ -18,9 +18,11 @@ public final class akses {
     private static final Connection koneksi=koneksiDB.condb();
     private static PreparedStatement ps,ps2;
     private static ResultSet rs,rs2;
-    
+   
+    private sekuel Sequel=new sekuel();
     private static String kode="",kdbangsal="",namars="",alamatrs="",kabupatenrs="",propinsirs="",kontakrs="",emailrs="",form="",namauser=""; 
     private static int jml1=0,jml2=0,lebar=0,tinggi=0;
+    private static boolean softdeletes=true;
     private static boolean aktif=false,admin=false,user=false,vakum=false,aplikasi=false,penyakit=false,obat_penyakit=false,dokter=false,jadwal_praktek=false,petugas=false,pasien=false,registrasi=false,
             tindakan_ralan=false,kamar_inap=false,tindakan_ranap=false,operasi=false,rujukan_keluar=false,rujukan_masuk=false,beri_obat=false,
             resep_pulang=false,pasien_meninggal=false,diet_pasien=false,kelahiran_bayi=false,periksa_lab=false,periksa_radiologi=false,
@@ -171,7 +173,7 @@ public final class akses {
             grafik_perbaikan_inventaris_pertanggal=false,grafik_perbaikan_inventaris_perbulan=false,grafik_perbaikan_inventaris_pertahun=false,
             grafik_perbaikan_inventaris_perpelaksana_status=false,penilaian_mcu=false,peminjam_piutang=false,piutang_lainlain=false,cara_bayar=false,
             audit_kepatuhan_apd=false,bpjs_task_id=false,bayar_piutang_lain=false,pembayaran_akun_bayar4=false,stok_akhir_farmasi_pertanggal=false,
-            riwayat_kamar_pasien=false,uji_fungsi_kfr=false;
+            riwayat_kamar_pasien=false,uji_fungsi_kfr=false,data_Yanmed=false;
     
     public static void setData(String user, String pass) {
        try {                
@@ -189,7 +191,9 @@ public final class akses {
                     rs2.last();
 
                     akses.jml1=rs.getRow();
-                    akses.jml2=rs2.getRow();               
+                    akses.jml2=rs2.getRow();
+                    
+                    
                     if(rs.getRow()>=1){
                         akses.kode="Admin Utama";
                         akses.penyakit=true;
@@ -975,6 +979,7 @@ public final class akses {
                         akses.stok_akhir_farmasi_pertanggal=true;
                         akses.riwayat_kamar_pasien=true;
                         akses.uji_fungsi_kfr=true;
+                        akses.data_Yanmed=true;
                     }else if(rs2.getRow()>=1){   
                         rs2.beforeFirst();
                         rs2.next();
@@ -1762,6 +1767,7 @@ public final class akses {
                         akses.stok_akhir_farmasi_pertanggal=rs2.getBoolean("stok_akhir_farmasi_pertanggal");
                         akses.riwayat_kamar_pasien=rs2.getBoolean("riwayat_kamar_pasien");
                         akses.uji_fungsi_kfr=rs2.getBoolean("uji_fungsi_kfr");
+                        akses.data_Yanmed=true;
                     }else if((rs.getRow()==0)&&(rs2.getRow()==0)){
                         akses.kode="";                  
                         akses.penyakit= false;
@@ -2547,6 +2553,7 @@ public final class akses {
                         akses.stok_akhir_farmasi_pertanggal=false;
                         akses.riwayat_kamar_pasien=false;
                         akses.uji_fungsi_kfr=false;
+                        akses.data_Yanmed=false;
                     }
                 } catch (Exception e) {
                     System.out.println("Notifikasi : "+e);
@@ -3387,4 +3394,8 @@ public final class akses {
     public static boolean getstok_akhir_farmasi_pertanggal(){return akses.stok_akhir_farmasi_pertanggal;}
     public static boolean getriwayat_kamar_pasien(){return akses.riwayat_kamar_pasien;}
     public static boolean getuji_fungsi_kfr(){return akses.uji_fungsi_kfr;}
+    public static boolean getSoftDeletes(){return akses.softdeletes;}
+    public static boolean getdata_Yanmed(){return akses.data_Yanmed;}
+    
+    
 }   

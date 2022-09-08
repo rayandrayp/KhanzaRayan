@@ -1068,7 +1068,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
         panelisi3.add(BtnPtg);
         BtnPtg.setBounds(774, 40, 28, 23);
 
-        Jenisjual.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Jual Bebas", "Karyawan", "Beli Luar", "Rawat Jalan", "Kelas 1", "Kelas 2", "Kelas 3", "Utama/BPJS", "VIP", "VVIP" }));
+        Jenisjual.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kontribusi", "Jual Bebas", "Karyawan", "Beli Luar", "Rawat Jalan", "Kelas 1", "Kelas 2", "Kelas 3", "Utama/BPJS", "VIP", "VVIP" }));
         Jenisjual.setName("Jenisjual"); // NOI18N
         Jenisjual.setPreferredSize(new java.awt.Dimension(40, 23));
         Jenisjual.addItemListener(new java.awt.event.ItemListener() {
@@ -2549,6 +2549,13 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         tabMode.addRow(new Object[]{
                             "",rs.getString("kode_brng"),rs.getString("nama_brng"),rs.getString("nama"),rs.getString("kode_sat"),
                             rs.getDouble("vvip"),0,0,0,0,0,0,"",0,rs.getDouble("stok"),rs.getDouble("dasar"),"","",""
+                        });
+                    } 
+                } else if(Jenisjual.getSelectedItem().equals("Kontribusi")){
+                    while(rs.next()){                              
+                        tabMode.addRow(new Object[]{
+                            "",rs.getString("kode_brng"),rs.getString("nama_brng"),rs.getString("nama"),rs.getString("kode_sat"),
+                            rs.getDouble("jualbebas"),0,0,0,0,0,0,"",0,rs.getDouble("stok"),rs.getDouble("dasar"),"","",""
                         });
                     } 
                 }

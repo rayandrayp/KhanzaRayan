@@ -6441,6 +6441,14 @@ public class DlgBilingParsialRalan extends javax.swing.JDialog {
                                 sukses=false;
                             }
                         }else{
+                            if(akses.getSoftDeletes()){
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                    + "SELECT 'rawat_jl_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_dr " 
+                                    + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                    + " and kd_jenis_prw='"+tbTindakanDrBayar.getValueAt(i,1).toString()+"' "
+                                    + " and tgl_perawatan='"+tbTindakanDrBayar.getValueAt(i,11).toString()+"' "
+                                    + " and jam_rawat='"+tbTindakanDrBayar.getValueAt(i,12).toString()+"'");
+                            }
                             if(Sequel.queryu2tf("delete from rawat_jl_dr where tgl_perawatan=? and jam_rawat=? and no_rawat=? and kd_jenis_prw=?",4,new String[]{
                                 tbTindakanDrBayar.getValueAt(i,11).toString(),tbTindakanDrBayar.getValueAt(i,12).toString(),TNoRw.getText(),tbTindakanDrBayar.getValueAt(i,1).toString()
                               })==true){
@@ -6537,6 +6545,14 @@ public class DlgBilingParsialRalan extends javax.swing.JDialog {
                                 sukses=false;
                             }
                         }else{
+                            if(akses.getSoftDeletes()){
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12) "
+                                    + "SELECT 'rawat_jl_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakanpr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_pr  " 
+                                    + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                    + " and kd_jenis_prw='"+tbTindakanPrBayar.getValueAt(i,1).toString()+"' "
+                                    + " and tgl_perawatan='"+tbTindakanPrBayar.getValueAt(i,11).toString()+"' "
+                                    + " and jam_rawat='"+tbTindakanPrBayar.getValueAt(i,12).toString()+"'");
+                            }
                             if(Sequel.queryu2tf("delete from rawat_jl_pr where tgl_perawatan=? and jam_rawat=? and no_rawat=? and kd_jenis_prw=?",4,new String[]{
                                 tbTindakanPrBayar.getValueAt(i,11).toString(),tbTindakanPrBayar.getValueAt(i,12).toString(),TNoRw.getText(),tbTindakanPrBayar.getValueAt(i,1).toString()
                               })==true){
@@ -6633,6 +6649,14 @@ public class DlgBilingParsialRalan extends javax.swing.JDialog {
                                 sukses=false;
                             }
                         }else{
+                            if(akses.getSoftDeletes()){
+                                Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14) "
+                                    + "SELECT 'rawat_jl_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat, stts_bayar FROM rawat_jl_drpr "
+                                    + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                    + " and kd_jenis_prw='"+tbTindakanDrPrBayar.getValueAt(i,1).toString()+"' "
+                                    + " and tgl_perawatan='"+ tbTindakanDrPrBayar.getValueAt(i,11).toString()+"' "
+                                    + " and jam_rawat='"+tbTindakanDrPrBayar.getValueAt(i,12).toString()+"'");
+                            }
                             if(Sequel.queryu2tf("delete from rawat_jl_drpr where tgl_perawatan=? and jam_rawat=? and no_rawat=? and kd_jenis_prw=?",4,new String[]{
                                 tbTindakanDrPrBayar.getValueAt(i,11).toString(),tbTindakanDrPrBayar.getValueAt(i,12).toString(),TNoRw.getText(),tbTindakanDrPrBayar.getValueAt(i,1).toString()
                               })==true){
@@ -7108,6 +7132,10 @@ public class DlgBilingParsialRalan extends javax.swing.JDialog {
                     Sequel.queryu2("delete from tagihan_sadewa where no_nota=? and jumlah_tagihan='0'",1,new String[]{TNoRw.getText()});
                     Sequel.queryu2("delete from detail_nota_jalan where no_rawat=? and besar_bayar='0'",1,new String[]{TNoRw.getText()});
                     if(Sequel.cariIsiAngka("select sum(totalbiaya) from billing where no_rawat=?",TNoRw.getText())==0){
+                        if(akses.getSoftDeletes()){
+                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                               + "SELECT 'billing',NOW(),'"+akses.getkode()+"',noindex,no_rawat,tgl_byr,no,nm_perawatan,pemisah,biaya,jumlah,tambahan,totalbiaya,status FROM billing WHERE no_rawat = '"+TNoRw.getText()+"'");
+                        }                        
                         Sequel.queryu2("delete from billing where no_rawat=?",1,new String[]{TNoRw.getText()});
                         Sequel.queryu2("delete from nota_jalan where no_rawat=?",1,new String[]{TNoRw.getText()});
                     }

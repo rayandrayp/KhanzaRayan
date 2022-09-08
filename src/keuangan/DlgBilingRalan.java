@@ -2368,27 +2368,27 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                     double ttlObatNota = 0.0;
                     String kolomDua = "";
                     try{
-                          biaya = (String)JOptionPane.showInputDialog(null,"Silahkan pilih nota yang mau dicetak!","Nota",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nota1: Tanpa Rincian Obat", "Nota2: Dengan Rincian Obat","Nota3: Khusus BPJS", "Kwitansi", "Nota & Kwitansi","Kwitansi Piutang"},"Nota");
-                          switch (biaya) {
-                                case "Nota1: Tanpa Rincian Obat":
-                                      j=1;
-                                      break;
-                                case "Nota2: Dengan Rincian Obat":
-                                      j=2;
-                                      break;
-                                case "Nota3: Khusus BPJS":
-                                      j=3;
-                                      break;
-                                case "Kwitansi":
-                                      j=4;
-                                      break;
-                                case "Nota & Kwitansi":
-                                      j=5;
-                                      break;
-                                case "Kwitansi Piutang":
-                                      j=6;
-                                      break;
-                          }
+                        biaya = (String)JOptionPane.showInputDialog(null,"Silahkan pilih nota yang mau dicetak!","Nota",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Nota1: Tanpa Rincian Obat", "Nota2: Dengan Rincian Obat","Nota3: Khusus BPJS", "Kwitansi", "Nota & Kwitansi","Kwitansi Piutang"},"Nota");
+                        switch (biaya) {
+                              case "Nota1: Tanpa Rincian Obat":
+                                    j=1;
+                                    break;
+                              case "Nota2: Dengan Rincian Obat":
+                                    j=2;
+                                    break;
+                              case "Nota3: Khusus BPJS":
+                                    j=3;
+                                    break;
+                              case "Kwitansi":
+                                    j=4;
+                                    break;
+                              case "Nota & Kwitansi":
+                                    j=5;
+                                    break;
+                              case "Kwitansi Piutang":
+                                    j=6;
+                                    break;
+                        }
                     }catch(Exception e){
                           j=0;
                     }
@@ -2409,7 +2409,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                         if(tabModeRwJlDr.getValueAt(i,0).toString().equals("true")){
                             biaya="";
                             try {
-                                biaya=Valid.SetAngka(Double.parseDouble(tabModeRwJlDr.getValueAt(i,4).toString())); 
+                                biaya = Valid.SetAngka(Double.parseDouble(tabModeRwJlDr.getValueAt(i,4).toString()));
                             } catch (Exception e) {
                                 biaya="";
                             }                            
@@ -2421,7 +2421,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                             }
                             totals="";
                             try {
-                                totals=Valid.SetAngka(Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString())); 
+                                totals=Valid.SetAngka(Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString()));
                             } catch (Exception e) {
                                 totals="";
                             }
@@ -2453,9 +2453,22 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                             
                             if (simpan){
                                 //menghitung ulang total obat
+//                                System.out.println("1 "+tabModeRwJlDr.getValueAt(i,2).toString()+" "+ Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'"));
+//                                System.out.println("1 "+tabModeRwJlDr.getValueAt(i,2).toString()+" "+ Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'"));
                                 if (tabModeRwJlDr.getValueAt(i,8).toString().equalsIgnoreCase("obat")){
                                     if (tabModeRwJlDr.getValueAt(i,7) != null){
-                                        ttlObatNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                        if (j==3) {
+                                            if(Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"'  AND STATUS = '1'").equalsIgnoreCase("g08")
+                                                || Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"'  AND STATUS = '1'").equalsIgnoreCase("g09")){ //jika inhalasi (g08) atau kemo (g09)
+                                                biaya = "0";
+                                                totals = "0";
+                                                ttlObatNota += 0;
+                                            } else {
+                                                ttlObatNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                            } 
+                                        }else {
+                                            ttlObatNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());  
+                                        }
                                     }
                                 }
                                 if (tabModeRwJlDr.getValueAt(i,8).toString().equalsIgnoreCase("ttlobat")){
@@ -2463,7 +2476,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 } else {
                                     kolomDua = tabModeRwJlDr.getValueAt(i,2).toString();
                                 }
-
+                                
                                 pstemporary=koneksi.prepareStatement(sqlpstemporary);
                                 try {
                                     pstemporary.setString(1,tabModeRwJlDr.getValueAt(i,1).toString().replaceAll("'",""));
@@ -2483,6 +2496,7 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                         pstemporary.setString(8,""); 
                                     }    
                                     pstemporary.setString(9,akses.getkode());
+//                                    System.out.println("pstemporary "+pstemporary);
                                     pstemporary.executeUpdate();                         
                                 } catch (Exception e) {
                                     System.out.println("Notifikasi : "+e);
@@ -2493,8 +2507,19 @@ public class DlgBilingRalan extends javax.swing.JDialog {
                                 }
                                 
                                 //perhitungan baru total biaya berdasarkan centang
+//                                System.out.println("2 "+tabModeRwJlDr.getValueAt(i,2).toString()+" "+ Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'"));
+//                                System.out.println("2 "+tabModeRwJlDr.getValueAt(i,2).toString()+" "+ Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'"));
                                 if (tabModeRwJlDr.getValueAt(i,7) != null){
-                                    ttlBiayaNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                    if (j==3) {
+                                        if(Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'").equalsIgnoreCase("g08")
+                                            || Sequel.cariIsi("SELECT kode_golongan FROM databarang WHERE nama_brng = '"+tabModeRwJlDr.getValueAt(i,2).toString()+"' AND STATUS = '1'").equalsIgnoreCase("g09")){ //jika inhalasi (g08) atau kemo (g09)
+                                            ttlObatNota += 0;
+                                        } else {
+                                            ttlBiayaNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());
+                                        }
+                                    } else {
+                                        ttlBiayaNota += Double.parseDouble(tabModeRwJlDr.getValueAt(i,7).toString());  
+                                    }
                                 }
                             }
                             
@@ -2955,6 +2980,10 @@ private void MnHapusTagihanActionPerformed(java.awt.event.ActionEvent evt) {//GE
              }
              
              if(sukses==true){
+                 if(akses.getSoftDeletes()){
+                    Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                        + "SELECT 'billing',NOW(),'"+akses.getkode()+"',noindex,no_rawat,tgl_byr,no,nm_perawatan,pemisah,biaya,jumlah,tambahan,totalbiaya,status FROM billing WHERE no_rawat = '"+TNoRw.getText()+"'");
+                 }
                  Valid.editTable(tabModeRwJlDr,"reg_periksa","no_rawat",TNoRw,"status_bayar='Belum Bayar'");
                  Sequel.queryu2("delete from piutang_pasien where no_rawat='"+TNoRw.getText()+"'");
                  Sequel.queryu2("delete from detail_piutang_pasien where no_rawat='"+TNoRw.getText()+"'");

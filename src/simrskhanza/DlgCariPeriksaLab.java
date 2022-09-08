@@ -1796,10 +1796,22 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     status=Sequel.cariIsi("select status from periksa_lab where periksa_lab.kategori='PK' and no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0) +
                                   "' and tgl_periksa='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),3) +
                                   "' and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'");
-
+                    
+                    if(akses.getSoftDeletes()){
+                        Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16, data_col17) "
+                            + "SELECT 'periksa_lab',NOW(),'"+akses.getkode()+"', no_rawat, nip, kd_jenis_prw, tgl_periksa, jam, dokter_perujuk, bagian_rs, bhp, tarif_perujuk, tarif_tindakan_dokter, tarif_tindakan_petugas, kso, menejemen, biaya, kd_dokter, status, kategori FROM periksa_lab WHERE "
+                            + " kategori='PK' and no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0) + "' "
+                            + " and tgl_periksa='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),3) + "' "
+                            + " and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'");
+                        Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13, data_col14, data_col15, data_col16) "
+                            + "SELECT 'detail_periksa_lab',NOW(),'"+akses.getkode()+"',no_rawat,kd_jenis_prw,tgl_periksa,jam,id_template,nilai,nilai_rujukan,keterangan,bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen,biaya_item FROM detail_periksa_lab WHERE "
+                            + " no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0) + "' "
+                            + " and tgl_periksa='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),3) + "' "
+                            + " and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'");
+                    }
                     if(Sequel.queryutf("delete from periksa_lab where periksa_lab.kategori='PK' and no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0) +
                                   "' and tgl_periksa='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),3) +
-                                  "' and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'")==true){                    
+                                  "' and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'")==true){
                         if(Sequel.queryutf("delete from detail_periksa_lab where no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0) +
                                   "' and tgl_periksa='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),3) +
                                   "' and jam='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),4) +"'")==false){

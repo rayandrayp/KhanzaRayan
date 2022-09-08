@@ -1835,7 +1835,16 @@ public final class DlgDataInsidenKeselamatan extends javax.swing.JDialog {
         ChkInput.setSelected(true);
         isForm();
     }
-    
+    public void setInsiden(String kdInsiden){
+        KodeInsiden.setText(kdInsiden);
+        Sequel.cariIsi("select nama_insiden from insiden_keselamatan where kode_insiden='"+kdInsiden+"' ",NmInsiden);
+        Sequel.cariIsi("select jenis_insiden from insiden_keselamatan where kode_insiden='"+kdInsiden+"' ",Jenis);
+        Sequel.cariIsi("select dampak from insiden_keselamatan where kode_insiden='"+kdInsiden+"' ",Dampak);
+    }
+    public void setPetugas(String _nip){
+        nip.setText(_nip);
+        Sequel.cariIsi("select nama from petugas where nip='"+_nip+"' ",namapetugas);
+    }
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);

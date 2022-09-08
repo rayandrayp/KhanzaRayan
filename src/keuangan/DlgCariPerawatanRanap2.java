@@ -869,6 +869,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,0).toString().equals("false")&&(pg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_dr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='07:00:00'");
+
+                                        }
                                         pshapustindakan=koneksi.prepareStatement("delete from rawat_inap_dr where rawat_inap_dr.no_rawat=? "+
                                             "and rawat_inap_dr.tgl_perawatan=? and rawat_inap_dr.kd_jenis_prw=? and rawat_inap_dr.jam_rawat=?");
                                         try {
@@ -936,6 +945,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,1).toString().equals("false")&&(sg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_dr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='12:00:00'");
+
+                                        }
                                         pshapustindakan=koneksi.prepareStatement("delete from rawat_inap_dr where rawat_inap_dr.no_rawat=? "+
                                                 "and rawat_inap_dr.tgl_perawatan=? and rawat_inap_dr.kd_jenis_prw=? and rawat_inap_dr.jam_rawat=?");
                                         try {
@@ -1003,6 +1021,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,2).toString().equals("false")&&(sr==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_dr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='16:00:00'");
+
+                                        }
                                         pshapustindakan=koneksi.prepareStatement("delete from rawat_inap_dr where rawat_inap_dr.no_rawat=? "+
                                                 "and rawat_inap_dr.tgl_perawatan=? and rawat_inap_dr.kd_jenis_prw=? and rawat_inap_dr.jam_rawat=?");
                                         try {
@@ -1070,6 +1097,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,3).toString().equals("false")&&(mlm==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_dr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_dr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='20:00:00'");
+
+                                        }
                                         pshapustindakan=koneksi.prepareStatement("delete from rawat_inap_dr where rawat_inap_dr.no_rawat=? "+
                                                 "and rawat_inap_dr.tgl_perawatan=? and rawat_inap_dr.kd_jenis_prw=? and rawat_inap_dr.jam_rawat=?");
                                         try {
@@ -1152,6 +1188,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,0).toString().equals("false")&&(pg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_pr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='07:00:00'");
+
+                                        }
                                         pshapustindakan2=koneksi.prepareStatement("delete from rawat_inap_pr where rawat_inap_pr.no_rawat=? "+
                                                 "and rawat_inap_pr.tgl_perawatan=? and rawat_inap_pr.kd_jenis_prw=? and rawat_inap_pr.jam_rawat=?");
                                         try {
@@ -1219,6 +1264,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,1).toString().equals("false")&&(sg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_pr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='12:00:00'");
+
+                                        }
                                         pshapustindakan2=koneksi.prepareStatement("delete from rawat_inap_pr where rawat_inap_pr.no_rawat=? "+
                                                 "and rawat_inap_pr.tgl_perawatan=? and rawat_inap_pr.kd_jenis_prw=? and rawat_inap_pr.jam_rawat=?");
                                         try {
@@ -1286,6 +1340,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,2).toString().equals("false")&&(sr==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_pr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='16:00:00'");
+
+                                        }
                                         pshapustindakan2=koneksi.prepareStatement("delete from rawat_inap_pr where rawat_inap_pr.no_rawat=? "+
                                                 "and rawat_inap_pr.tgl_perawatan=? and rawat_inap_pr.kd_jenis_prw=? and rawat_inap_pr.jam_rawat=?");
                                         try {
@@ -1353,6 +1416,15 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,3).toString().equals("false")&&(mlm==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11) "
+                                                + "SELECT 'rawat_inap_pr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, nip, tgl_perawatan, jam_rawat, material, bhp, tarif_tindakandr, kso, menejemen, biaya_rawat FROM rawat_inap_pr " 
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat ='20:00:00'");
+
+                                        }
                                         pshapustindakan2=koneksi.prepareStatement("delete from rawat_inap_pr where rawat_inap_pr.no_rawat=? "+
                                                 "and rawat_inap_pr.tgl_perawatan=? and rawat_inap_pr.kd_jenis_prw=? and rawat_inap_pr.jam_rawat=?");
                                         try {
@@ -1439,6 +1511,14 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,0).toString().equals("false")&&(pg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13) "
+                                                + "SELECT 'rawat_inap_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, nip, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat FROM rawat_inap_drpr "
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat='07:00:00'");
+                                        }
                                         pshapustindakan3=koneksi.prepareStatement("delete from rawat_inap_drpr where rawat_inap_drpr.no_rawat=? "+
                                                 "and rawat_inap_drpr.tgl_perawatan=? and rawat_inap_drpr.kd_jenis_prw=? and rawat_inap_drpr.jam_rawat=?");
                                         try {
@@ -1510,6 +1590,14 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,1).toString().equals("false")&&(sg==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13) "
+                                                + "SELECT 'rawat_inap_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, nip, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat FROM rawat_inap_drpr "
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat='12:00:00'");
+                                        }
                                         pshapustindakan3=koneksi.prepareStatement("delete from rawat_inap_drpr where rawat_inap_drpr.no_rawat=? "+
                                                 "and rawat_inap_drpr.tgl_perawatan=? and rawat_inap_drpr.kd_jenis_prw=? and rawat_inap_drpr.jam_rawat=?");
                                         try {
@@ -1581,6 +1669,14 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,2).toString().equals("false")&&(sr==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13) "
+                                                + "SELECT 'rawat_inap_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, nip, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat FROM rawat_inap_drpr "
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat='16:00:00'");
+                                        }
                                         pshapustindakan3=koneksi.prepareStatement("delete from rawat_inap_drpr where rawat_inap_drpr.no_rawat=? "+
                                                 "and rawat_inap_drpr.tgl_perawatan=? and rawat_inap_drpr.kd_jenis_prw=? and rawat_inap_drpr.jam_rawat=?");
                                         try {
@@ -1652,6 +1748,14 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             ttlbhp=ttlbhp+Double.parseDouble(tbKamar.getValueAt(i,9).toString());
                                         }
                                     }else if(tbKamar.getValueAt(i,3).toString().equals("false")&&(mlm==true)){
+                                        if(akses.getSoftDeletes()){
+                                            Sequel.simpanDelete("INSERT INTO deleted_data (nama_tabel, deleted_at, deleted_by, data_col1, data_col2, data_col3, data_col4, data_col5, data_col6, data_col7, data_col8, data_col9, data_col10, data_col11, data_col12, data_col13) "
+                                                + "SELECT 'rawat_inap_drpr',NOW(),'"+akses.getkode()+"', no_rawat, kd_jenis_prw, kd_dokter, tgl_perawatan, nip, jam_rawat, material, bhp, tarif_tindakandr, tarif_tindakanpr, kso, menejemen, biaya_rawat FROM rawat_inap_drpr "
+                                                + " WHERE no_rawat = '"+TNoRw.getText()+"'"
+                                                + " and kd_jenis_prw='"+tbKamar.getValueAt(i,4).toString()+"' "
+                                                + " and tgl_perawatan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' "
+                                                + " and jam_rawat='20:00:00'");
+                                        }
                                         pshapustindakan3=koneksi.prepareStatement("delete from rawat_inap_drpr where rawat_inap_drpr.no_rawat=? "+
                                                 "and rawat_inap_drpr.tgl_perawatan=? and rawat_inap_drpr.kd_jenis_prw=? and rawat_inap_drpr.jam_rawat=?");
                                         try {
