@@ -1549,7 +1549,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        //qrystokkosong=" and gudangbarang.stok>0 ";
+                        qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     //and gudangbarang.kd_bangsal=? 
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
@@ -1562,7 +1562,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        //qrystokkosong=" and gudangbarang.stok>0 ";
+                        qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     //and gudangbarang.kd_bangsal=? 
                     psresepasuransi=koneksi.prepareStatement("select databarang.kode_brng, databarang.nama_brng,jenis.nama, databarang.kode_sat,(databarang.h_beli+(databarang.h_beli*?)) as harga,"+
@@ -1617,7 +1617,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 if(aktifkanbatch.equals("yes")){
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        //qrystokkosong=" and gudangbarang.stok>0 ";
+                        qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     // and gudangbarang.kd_bangsal=?
                     psresep=koneksi.prepareStatement(
@@ -1633,7 +1633,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 }else{
                     qrystokkosong="";
                     if(STOKKOSONGRESEP.equals("no")){
-                        //qrystokkosong=" and gudangbarang.stok>0 ";
+                        qrystokkosong=" and gudangbarang.stok>0 ";
                     }
                     //and gudangbarang.kd_bangsal=?
                     psresep=koneksi.prepareStatement(

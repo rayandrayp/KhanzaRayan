@@ -103,7 +103,7 @@ public class DlgYanmedSIRSRanap extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan Rawat Inap  SIRS ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan SIRS RL 3.1 Rawat Inap ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -357,10 +357,21 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                     "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' >KAB/KOTA</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' >KODE PROPINSI</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >NO</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='13%' >JENIS KEGIATAN</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' >JUMLAH</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >L</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >P</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='13%' >JENIS PELAYANAN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' >PASIEN AWAL TAHUN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >PASIEN MASUK</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >PASIEN KELUAR HIDUP</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >< 48 JAM</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >>= 48 JAM</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >JUMLAH LAMA DIRAWAT</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >PASIEN AKHIR TAHUN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >JUMLAH HARI PERAWATAN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >VVIP</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >VIP</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >I</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >II</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >III</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >KHUSUS</td>"+
                     "<td valign='middle' bgcolor='#FFFFFF' align='center' width='45%' ></td>"+
                 "</tr>"
             );
@@ -369,24 +380,31 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             
             ps=koneksi.prepareStatement(
                     "SELECT p.kd_poli, p.nm_poli, \n" +
-                    "SUM(CASE WHEN pa.jk = 'L' THEN 1 ELSE 0 END) l, \n" +
-                    "SUM(CASE WHEN pa.jk = 'P' THEN 1 ELSE 0 END) p\n" +
+                    "SUM(CASE WHEN ki.tgl_masuk < '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND ki.tgl_keluar >= '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' THEN 1 ELSE 0 END) awaltahun, \n" +
+                    "SUM(CASE WHEN ki.tgl_masuk BETWEEN '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' THEN 1 ELSE 0 END) pasienmasuk, \n" +
+                    "SUM(CASE WHEN ki.tgl_keluar > '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND ki.stts_pulang NOT IN ('Meninggal','Pindah Kamar') THEN 1 ELSE 0 END) keluarhidup, \n" +
+                    "SUM(CASE WHEN ki.tgl_keluar > '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND TIMESTAMPDIFF(HOUR, concat(ki.tgl_masuk, ' ', ki.jam_masuk), concat(ki.tgl_keluar, ' ', ki.jam_keluar)) < 48 THEN 1 ELSE 0 END) kurang48jam,\n" +
+                    "SUM(CASE WHEN ki.tgl_keluar > '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND TIMESTAMPDIFF(HOUR, concat(ki.tgl_masuk, ' ', ki.jam_masuk), concat(ki.tgl_keluar, ' ', ki.jam_keluar)) >= 48 THEN 1 ELSE 0 END) lebih48jam,\n" +
+                    "SUM(CASE WHEN ki.tgl_keluar > '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND ki.tgl_keluar <> '0000-00-00' THEN 1 ELSE 0 END) lamadirawat,\n" +
+                    "SUM(CASE WHEN ki.tgl_keluar > '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND ki.tgl_keluar <> '0000-00-00' THEN DATEDIFF(ki.tgl_keluar,ki.tgl_masuk) ELSE 0 END) lamahari,\n" +
+                    "SUM(CASE WHEN ka.kelas = 'VVIP' THEN 1 ELSE 0 END) vvip, \n" +
+                    "SUM(CASE WHEN ka.kelas = 'VIP' THEN 1 ELSE 0 END) vip, \n" +
+                    "SUM(CASE WHEN ka.kelas = 'KELAS I' THEN 1 ELSE 0 END) i, \n" +
+                    "SUM(CASE WHEN ka.kelas = 'KELAS II' THEN 1 ELSE 0 END) ii, \n" +
+                    "SUM(CASE WHEN ka.kelas = 'KELAS III' THEN 1 ELSE 0 END) iii, \n" +
+                    "SUM(CASE WHEN ka.kelas NOT IN ('VVIP','VIP','KELAS I','KELAS II','KELAS III') THEN 1 ELSE 0 END) khusus\n" +
                     "FROM reg_periksa r\n" +
                     "INNER JOIN kamar_inap ki ON ki.no_rawat = r.no_rawat\n" +
                     "INNER JOIN poliklinik p ON p.kd_poli = r.kd_poli\n" +
                     "INNER JOIN pasien pa ON pa.no_rkm_medis = r.no_rkm_medis\n" +
-                    "WHERE ki.tgl_masuk BETWEEN ? AND ?\n" +
+                    "INNER JOIN kamar ka ON ka.kd_kamar = ki.kd_kamar\n" +
+                    "WHERE ki.tgl_masuk < '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' \n" +
                     "GROUP BY p.nm_poli");
+            
             try {
                 i=1;                     
-                ps.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));
-                ps.setString(2,Valid.SetTgl(Tgl2.getSelectedItem()+""));
                 rs=ps.executeQuery();
-//                System.out.println("yanmed ranap "+ps); 
                 while(rs.next()){
-                    dataSIRS.add(new Integer[] {(rs.getInt("l")+rs.getInt("p")),rs.getInt("l"), rs.getInt("p")});
-                    data.put(rs.getString("kd_poli"), dataSIRS);
-                    int jumlah = rs.getInt("l") + rs.getInt("p");
                     htmlContent.append(                             
                         "<tr class='isi'>"+
                             "<td valign='middle' align='center'>3573022</td>"+
@@ -397,452 +415,28 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                             "<td valign='middle' align='center'>35prop</td>"+
                             "<td valign='middle' align='center'>"+i+"</td>"+
                             "<td valign='middle' align='center'>"+rs.getString("nm_poli")+"</td>"+
-                            "<td valign='middle' align='center'>"+jumlah+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("l")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("p")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("awaltahun")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("pasienmasuk")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("keluarhidup")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("kurang48jam")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("lebih48jam")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("lamadirawat")+"</td>"+
+                            "<td valign='middle' align='center'>0</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("lamahari")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("vvip")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("vip")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("i")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("ii")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("iii")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("khusus")+"</td>"+
                             "<td valign='middle' align='center'></td>"+
                         "</tr>"
                     ); 
                     i++;
                 }
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>1</td>"+
-//                        "<td valign='middle' align='center'>Penyakit Dalam</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("INT").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("INT").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("INT").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>2</td>"+
-//                        "<td valign='middle' align='center'>Bedah</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BED").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BED").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BED").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>3</td>"+
-//                        "<td valign='middle' align='center'>Kesehatan Anak (Neonatal)</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ANA").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ANA").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ANA").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>4</td>"+
-//                        "<td valign='middle' align='center'>Kesehatan Anak Lainnya</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>5</td>"+
-//                        "<td valign='middle' align='center'>Obstetri & Ginekologi (Ibu Hamil)</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("OBG").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("OBG").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("OBG").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>6</td>"+
-//                        "<td valign='middle' align='center'>Obstetri & Ginekologi Lainnya</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>7</td>"+
-//                        "<td valign='middle' align='center'>Keluarga Berencana</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>8</td>"+
-//                        "<td valign='middle' align='center'>Bedah Saraf</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BSY").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BSY").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("BSY").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>9</td>"+
-//                        "<td valign='middle' align='center'>Saraf</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("SAR").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("SAR").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("SAR").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>10</td>"+
-//                        "<td valign='middle' align='center'>Jiwa</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JIW").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JIW").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JIW").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>11</td>"+
-//                        "<td valign='middle' align='center'>Napza</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>12</td>"+
-//                        "<td valign='middle' align='center'>Psikologi</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>13</td>"+
-//                        "<td valign='middle' align='center'>THT</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("THT").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("THT").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("THT").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>14</td>"+
-//                        "<td valign='middle' align='center'>Mata</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("MAT").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("MAT").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("MAT").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>15</td>"+
-//                        "<td valign='middle' align='center'>Kulit dan Kelamin</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("KLT").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("KLT").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("KLT").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>16</td>"+
-//                        "<td valign='middle' align='center'>Gigi & Mulut</td>"+
-//                        "<td valign='middle' align='center'>"+ (Integer.parseInt(data.get("BDM").get(0).toString()) + Integer.parseInt(data.get("BDM").get(0).toString()) + Integer.parseInt(data.get("GIG").get(0).toString()))+"</td>"+
-//                        "<td valign='middle' align='center'>"+ (Integer.parseInt(data.get("BDM").get(1).toString()) + Integer.parseInt(data.get("BDM").get(1).toString()) + Integer.parseInt(data.get("GIG").get(1).toString()))+"</td>"+
-//                        "<td valign='middle' align='center'>"+ (Integer.parseInt(data.get("BDM").get(2).toString()) + Integer.parseInt(data.get("BDM").get(2).toString()) + Integer.parseInt(data.get("GIG").get(2).toString()))+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>17</td>"+
-//                        "<td valign='middle' align='center'>Geriatri</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GER").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GER").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GER").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>18</td>"+
-//                        "<td valign='middle' align='center'>Kardiologi</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JAN").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JAN").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("JAN").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                );
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>19</td>"+
-//                        "<td valign='middle' align='center'>Radiologi</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                );  
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>20</td>"+
-//                        "<td valign='middle' align='center'>Bedah Orthopedi</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ORT").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ORT").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("ORT").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>21</td>"+
-//                        "<td valign='middle' align='center'>Paru-paru</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("PAR").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("PAR").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("PAR").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>22</td>"+
-//                        "<td valign='middle' align='center'>Kusta</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>23</td>"+
-//                        "<td valign='middle' align='center'>Umum</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>24</td>"+
-//                        "<td valign='middle' align='center'>Rawat Darurat</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("UGD").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("UGD").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("UGD").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>25</td>"+
-//                        "<td valign='middle' align='center'>Rehabilitasi Medik</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("IRM").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("IRM").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("IRM").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>26</td>"+
-//                        "<td valign='middle' align='center'>Akupungtur Medik</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("AKP").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("AKP").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("AKP").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>27</td>"+
-//                        "<td valign='middle' align='center'>Konsultasi Gizi</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GIZ").get(0).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GIZ").get(1).toString()+"</td>"+
-//                        "<td valign='middle' align='center'>"+data.get("GIZ").get(2).toString()+"</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>28</td>"+
-//                        "<td valign='middle' align='center'>Day Care</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
-//                htmlContent.append(                             
-//                    "<tr class='isi'>"+
-//                        "<td valign='middle' align='center'>3573022</td>"+
-//                        "<td valign='middle' align='center'>RS Tk. II Dr. Soepraoen</td>"+
-//                        "<td valign='middle' align='center'>Agustus</td>"+
-//                        "<td valign='middle' align='left'>2022</td>"+
-//                        "<td valign='middle' align='center'>Kota Malang</td>"+
-//                        "<td valign='middle' align='center'>35prop</td>"+
-//                        "<td valign='middle' align='center'>29</td>"+
-//                        "<td valign='middle' align='center'>Lain-lain</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                        "<td valign='middle' align='center'>0</td>"+
-//                    "</tr>"
-//                ); 
                     
             } catch (Exception e) {
-                System.out.println("laporan.YanmedRanap.prosesCari() : "+e);
+                System.out.println("laporan.DlgRL4A.prosesCari() : "+e);
             } finally{
                 if(rs!=null){
                     rs.close();

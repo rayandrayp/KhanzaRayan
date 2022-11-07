@@ -518,9 +518,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
         MnCetakHasilLab.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         MnCetakHasilLab.setForeground(new java.awt.Color(50, 50, 50));
         MnCetakHasilLab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnCetakHasilLab.setText("Model 1");
+        MnCetakHasilLab.setText("Model Standard");
         MnCetakHasilLab.setName("MnCetakHasilLab"); // NOI18N
-        MnCetakHasilLab.setPreferredSize(new java.awt.Dimension(100, 26));
+        MnCetakHasilLab.setPreferredSize(new java.awt.Dimension(140, 26));
         MnCetakHasilLab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnCetakHasilLabActionPerformed(evt);
@@ -532,9 +532,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
         MnCetakHasilLab1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         MnCetakHasilLab1.setForeground(new java.awt.Color(50, 50, 50));
         MnCetakHasilLab1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnCetakHasilLab1.setText("Model 2");
+        MnCetakHasilLab1.setText("Model Deskripsi");
         MnCetakHasilLab1.setName("MnCetakHasilLab1"); // NOI18N
-        MnCetakHasilLab1.setPreferredSize(new java.awt.Dimension(100, 26));
+        MnCetakHasilLab1.setPreferredSize(new java.awt.Dimension(140, 26));
         MnCetakHasilLab1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnCetakHasilLab1ActionPerformed(evt);
@@ -554,7 +554,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab2ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab2);
+        */
 
         MnCetakHasilLab3.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -568,7 +570,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab3ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab3);
+        */
 
         MnCetakHasilLab4.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab4.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -582,7 +586,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab4ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab4);
+        */
 
         MnCetakHasilLab5.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab5.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -596,7 +602,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab5ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab5);
+        */
 
         MnCetakHasilLab6.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab6.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -610,7 +618,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab6ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab6);
+        */
 
         MnCetakHasilLab7.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab7.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -624,7 +634,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab7ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab7);
+        */
 
         MnCetakHasilLab8.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab8.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -638,7 +650,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab8ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab8);
+        */
 
         MnCetakHasilLab9.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab9.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -652,7 +666,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab9ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab9);
+        */
 
         MnCetakHasilLab10.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab10.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -666,7 +682,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab10ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab10);
+        */
 
         MnCetakHasilLab22.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab22.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -680,7 +698,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab22ActionPerformed(evt);
             }
         });
+        /*
         MnCetakLab.add(MnCetakHasilLab22);
+        */
 
         jPopupMenu1.add(MnCetakLab);
 
@@ -734,7 +754,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab13ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab13);
+        */
 
         MnCetakHasilLab14.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab14.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -748,7 +770,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab14ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab14);
+        */
 
         MnCetakHasilLab15.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab15.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -762,7 +786,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab15ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab15);
+        */
 
         MnCetakHasilLab16.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab16.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -776,7 +802,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab16ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab16);
+        */
 
         MnCetakHasilLab17.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab17.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -790,7 +818,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab17ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab17);
+        */
 
         MnCetakHasilLab18.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab18.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -804,7 +834,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab18ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab18);
+        */
 
         MnCetakHasilLab19.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab19.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -818,7 +850,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab19ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab19);
+        */
 
         MnCetakHasilLab20.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab20.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -832,7 +866,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab20ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab20);
+        */
 
         MnCetakHasilLab21.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab21.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -846,7 +882,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab21ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab21);
+        */
 
         MnCetakHasilLab23.setBackground(new java.awt.Color(255, 255, 254));
         MnCetakHasilLab23.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -860,7 +898,9 @@ public class DlgCariPeriksaLab extends javax.swing.JDialog {
                 MnCetakHasilLab23ActionPerformed(evt);
             }
         });
+        /*
         MnPDFLab.add(MnCetakHasilLab23);
+        */
 
         jPopupMenu1.add(MnPDFLab);
 
@@ -1936,14 +1976,18 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                 ps4=koneksi.prepareStatement(
                     "select periksa_lab.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.umur,petugas.nama,DATE_FORMAT(periksa_lab.tgl_periksa,'%d-%m-%Y') as tgl_periksa,periksa_lab.jam,periksa_lab.nip,"+
                     "periksa_lab.dokter_perujuk,periksa_lab.kd_dokter,concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat,dokter.nm_dokter,DATE_FORMAT(pasien.tgl_lahir,'%d-%m-%Y') as lahir "+
-                    " from periksa_lab inner join reg_periksa inner join pasien inner join petugas  inner join dokter inner join kelurahan inner join kecamatan inner join kabupaten "+
+                    ", permintaan_lab.noorder "+        
+                    " from periksa_lab inner join reg_periksa inner join pasien inner join petugas  inner join dokter inner join kelurahan inner join kecamatan inner join kabupaten INNER JOIN permintaan_lab "+
                     "on periksa_lab.no_rawat=reg_periksa.no_rawat and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and periksa_lab.nip=petugas.nip and periksa_lab.kd_dokter=dokter.kd_dokter "+
-                    "and pasien.kd_kel=kelurahan.kd_kel and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab where periksa_lab.kategori='PK' and "+
-                    "periksa_lab.tgl_periksa=? and periksa_lab.jam=? and periksa_lab.no_rawat=? group by concat(periksa_lab.no_rawat,periksa_lab.tgl_periksa,periksa_lab.jam)");
+                    "and pasien.kd_kel=kelurahan.kd_kel and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab  AND periksa_lab.no_rawat = permintaan_lab.no_rawat where periksa_lab.kategori='PK' and "+
+                    "periksa_lab.tgl_periksa=? and periksa_lab.jam=? and periksa_lab.no_rawat=?  AND permintaan_lab.tgl_hasil = ?  AND permintaan_lab.jam_hasil = ? group by concat(periksa_lab.no_rawat,periksa_lab.tgl_periksa,periksa_lab.jam)");
                 try {
                     ps4.setString(1,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
                     ps4.setString(2,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
                     ps4.setString(3,tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
+                    ps4.setString(4,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
+                    ps4.setString(5,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
+                    System.out.println("ps4 "+ps4);
                     rs=ps4.executeQuery();
                     while(rs.next()){
                         kamar=Sequel.cariIsi("select ifnull(kd_kamar,'') from kamar_inap where no_rawat='"+rs.getString("no_rawat")+"' order by tgl_masuk desc limit 1");
@@ -1957,19 +2001,26 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                                     "where reg_periksa.no_rawat='"+rs.getString("no_rawat")+"'");
                         }
                         Map<String, Object> param = new HashMap<>();
-                        param.put("noperiksa",rs.getString("no_rawat"));
+                        param.put("noperiksa",rs.getString("noorder"));
                         param.put("norm",rs.getString("no_rkm_medis"));
                         param.put("namapasien",rs.getString("nm_pasien"));
                         param.put("jkel",rs.getString("jk"));
                         param.put("umur",rs.getString("umur"));
                         param.put("pengirim",Sequel.cariIsi("select nm_dokter from dokter where kd_dokter=?",rs.getString("dokter_perujuk")));
-                        param.put("tanggal",rs.getString("tgl_periksa"));
-                        param.put("penjab",rs.getString("nm_dokter"));
+                        
+//                        param.put("tanggal",rs.getString("tgl_periksa"));
+//                        param.put("jam",rs.getString("jam"));
+                        param.put("penjab",Sequel.cariIsi("SELECT nm_dokter FROM dokter WHERE kd_dokter = (SELECT kd_dokterlab FROM set_pjlab)"));
+                        param.put("dokterpk",rs.getString("nm_dokter"));
                         param.put("petugas",rs.getString("nama"));
-                        param.put("jam",rs.getString("jam"));
                         param.put("alamat",rs.getString("alamat"));
                         param.put("kamar",kamar);
                         param.put("namakamar",namakamar);
+                        
+                        param.put("tanggal",Sequel.cariIsi("SELECT tgl_permintaan FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("jam",Sequel.cariIsi("SELECT jam_permintaan FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("tanggal_hasil",Sequel.cariIsi("SELECT tgl_hasil FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("jam_hasil",Sequel.cariIsi("SELECT jam_hasil FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
                         
                         SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
                         String tgl_sekarang = df.format(new Date());
@@ -2056,12 +2107,14 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                             pspermintaan.setString(1,rs.getString("no_rawat"));
                             pspermintaan.setString(2,Valid.SetTgl(rs.getString("tgl_periksa")));
                             pspermintaan.setString(3,rs.getString("jam"));
+//                            System.out.println("pspermintaan "+pspermintaan);
                             rspermintaan=pspermintaan.executeQuery();
                             if(rspermintaan.next()){
-                                param.put("nopermintaan",rspermintaan.getString("noorder"));   
-                                param.put("tanggalpermintaan",rspermintaan.getString("tgl_permintaan"));  
-                                param.put("jampermintaan",rspermintaan.getString("jam_permintaan"));
-                                Valid.MyReport("rptPeriksaLabPermintaan.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);   
+//                                param.put("nopermintaan",rspermintaan.getString("noorder"));   
+//                                param.put("tanggalpermintaan",rspermintaan.getString("tgl_permintaan"));  
+//                                param.put("jampermintaan",rspermintaan.getString("jam_permintaan"));
+//                                Valid.MyReport("rptPeriksaLabPermintaan.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);
+                                Valid.MyReport("rptPeriksaLab.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);      
                             }else{
                                 Valid.MyReport("rptPeriksaLab.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);   
                             }
@@ -2231,16 +2284,19 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             try {         
                 ps4=koneksi.prepareStatement(
                     "select periksa_lab.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.umur,petugas.nama,DATE_FORMAT(periksa_lab.tgl_periksa,'%d-%m-%Y') as tgl_periksa,periksa_lab.jam,periksa_lab.nip,"+
-                    "periksa_lab.dokter_perujuk,periksa_lab.kd_dokter,concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat,dokter.nm_dokter,DATE_FORMAT(pasien.tgl_lahir,'%d-%m-%Y') as lahir "+
-                    " from periksa_lab inner join reg_periksa inner join pasien inner join petugas  inner join dokter inner join kelurahan inner join kecamatan inner join kabupaten "+
+                    "periksa_lab.dokter_perujuk,periksa_lab.kd_dokter,concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat,dokter.nm_dokter,DATE_FORMAT(pasien.tgl_lahir,'%d-%m-%Y') as lahir, permintaan_lab.noorder   "+
+                    " from periksa_lab inner join reg_periksa inner join pasien inner join petugas  inner join dokter inner join kelurahan inner join kecamatan inner join kabupaten INNER JOIN permintaan_lab "+
                     "on periksa_lab.no_rawat=reg_periksa.no_rawat and reg_periksa.no_rkm_medis=pasien.no_rkm_medis and periksa_lab.nip=petugas.nip and periksa_lab.kd_dokter=dokter.kd_dokter "+
-                    "and pasien.kd_kel=kelurahan.kd_kel and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab where periksa_lab.kategori='PK' and "+
-                    "periksa_lab.tgl_periksa=? and periksa_lab.jam=? and periksa_lab.no_rawat=? group by concat(periksa_lab.no_rawat,periksa_lab.tgl_periksa,periksa_lab.jam)");
+                    "and pasien.kd_kel=kelurahan.kd_kel and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab AND periksa_lab.no_rawat = permintaan_lab.no_rawat where periksa_lab.kategori='PK' and "+
+                    "periksa_lab.tgl_periksa=? and periksa_lab.jam=? and periksa_lab.no_rawat=? AND permintaan_lab.tgl_hasil = ?  AND permintaan_lab.jam_hasil = ?  group by concat(periksa_lab.no_rawat,periksa_lab.tgl_periksa,periksa_lab.jam)");
                 try {
                     ps4.setString(1,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
                     ps4.setString(2,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
                     ps4.setString(3,tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
+                    ps4.setString(4,tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString());
+                    ps4.setString(5,tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString());
                     rs=ps4.executeQuery();
+                    System.out.println("ps4 2 "+ps4);
                     while(rs.next()){
                         
                         kamar=Sequel.cariIsi("select ifnull(kd_kamar,'') from kamar_inap where no_rawat='"+rs.getString("no_rawat")+"' order by tgl_masuk desc limit 1");
@@ -2254,16 +2310,22 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                                     "where reg_periksa.no_rawat='"+rs.getString("no_rawat")+"'");
                         }
                         Map<String, Object> param = new HashMap<>();
-                        param.put("noperiksa",rs.getString("no_rawat"));
+                        param.put("noperiksa",rs.getString("noorder"));
                         param.put("norm",rs.getString("no_rkm_medis"));
                         param.put("namapasien",rs.getString("nm_pasien"));
                         param.put("jkel",rs.getString("jk"));
                         param.put("umur",rs.getString("umur"));
                         param.put("pengirim",Sequel.cariIsi("select nm_dokter from dokter where kd_dokter=?",rs.getString("dokter_perujuk")));
-                        param.put("tanggal",rs.getString("tgl_periksa"));
+//                        param.put("tanggal",rs.getString("tgl_periksa"));
                         param.put("penjab",rs.getString("nm_dokter"));
                         param.put("petugas",rs.getString("nama"));
-                        param.put("jam",rs.getString("jam"));
+                        param.put("dokterpk",rs.getString("nm_dokter"));
+//                        param.put("jam",rs.getString("jam"));
+                        param.put("tanggal",Sequel.cariIsi("SELECT tgl_permintaan FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"' "));
+                        param.put("jam",Sequel.cariIsi("SELECT jam_permintaan FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("tanggal_hasil",Sequel.cariIsi("SELECT tgl_hasil FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("jam_hasil",Sequel.cariIsi("SELECT jam_hasil FROM permintaan_lab WHERE noorder = '"+rs.getString("noorder")+"'"));
+                        param.put("penjab",Sequel.cariIsi("SELECT nm_dokter FROM dokter WHERE kd_dokter = (SELECT kd_dokterlab FROM set_pjlab)"));
                         param.put("alamat",rs.getString("alamat"));
                         param.put("kamar",kamar);
                         param.put("namakamar",namakamar);
@@ -2340,7 +2402,8 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                                 param.put("nopermintaan",rspermintaan.getString("noorder"));   
                                 param.put("tanggalpermintaan",rspermintaan.getString("tgl_permintaan"));  
                                 param.put("jampermintaan",rspermintaan.getString("jam_permintaan"));
-                                Valid.MyReport("rptPeriksaLab2Permintaan.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);  
+//                                Valid.MyReport("rptPeriksaLab2Permintaan.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);  
+                                Valid.MyReport("rptPeriksaLab2.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);  
                             }else{
                                 Valid.MyReport("rptPeriksaLab2.jasper","report","::[ Pemeriksaan Laboratorium ]::",param);  
                             }

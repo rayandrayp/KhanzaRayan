@@ -891,18 +891,20 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             Valid.tabelKosong(tabMode); 
             if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&TCari.getText().equals("")){
                 psbarang=koneksi.prepareStatement(
-                    "select databarang.kode_brng,databarang.nama_brng,kode_sat from databarang "+
+                    "select databarang.kode_brng,databarang.nama_brng,kodesatuan.satuan from databarang "+
                     "inner join jenis on databarang.kdjns=jenis.kdjns "+
                     "inner join kategori_barang on kategori_barang.kode=databarang.kode_kategori "+
                     "inner join golongan_barang on golongan_barang.kode=databarang.kode_golongan "+
-                    "where databarang.status='1' order by nama_brng");
+                    "INNER JOIN kodesatuan ON kodesatuan.kode_sat = databarang.kode_sat "+
+                    "where databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374')  order by nama_brng");
             }else{
                 psbarang=koneksi.prepareStatement(
-                    "select databarang.kode_brng,databarang.nama_brng,kode_sat from databarang "+
+                    "select databarang.kode_brng,databarang.nama_brng,kodesatuan.satuan from databarang "+
                     "inner join jenis on databarang.kdjns=jenis.kdjns "+
                     "inner join kategori_barang on kategori_barang.kode=databarang.kode_kategori "+
                     "inner join golongan_barang on golongan_barang.kode=databarang.kode_golongan "+
-                    "where databarang.status='1' and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and kode_brng like ? or "+
+                    "INNER JOIN kodesatuan ON kodesatuan.kode_sat = databarang.kode_sat "+
+                    "where databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374')  and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and kode_brng like ? or "+
                     "databarang.status='1' and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and nama_brng like ? "+
                     "order by nama_brng");
             }

@@ -33,7 +33,7 @@ public class DlgHarianHAIs2 extends javax.swing.JDialog {
     private ResultSet rs;
     private int i=0,jmlETT,jmlCVL,
             jmlIVL,jmlUC,jmlVAP,jmlIAD,jmlPLEB,jmlISK,jmlILO,jmldeku,jmlsputum,
-            jmlHAP,jmlTinea,jmlScabies,jmldarah,jmlurine,jmlANTIBIOTIK;
+            jmlHAP,jmlTinea,jmlScabies,jmldarah,jmlurine,jmlANTIBIOTIK, jml_hari;
     
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -374,6 +374,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             File g = new File("file2.css");            
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
             bg.write(
+                ".keterangan {font: 12px tahoma;height: 12px;border-top: 1px solid #e2e7dd;background: #ffffff;color: #323232;}" +
                 ".isi td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-bottom: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
                 ".isi2 td{font: 11px tahoma;height:12px;background: #ffffff;color:#323232;}"+                    
                 ".isi3 td{border-right: 1px solid #e2e7dd;font: 11px tahoma;height:12px;border-top: 1px solid #e2e7dd;background: #ffffff;color:#323232;}"+
@@ -537,153 +538,142 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             StringBuilder htmlContent = new StringBuilder();
             htmlContent.append(                             
                 "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>No.</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' rowspan='2'>No.R.M</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='11%' rowspan='2'>Nama Pasien</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>Tanggal</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' colspan='4'>Hari Pemasangan</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='20%' colspan='8'>Infeksi</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' rowspan='2'>Deku</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='24%' colspan='3'>Hasil Kultur</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='8%' rowspan='2'>Antibiotik</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='11%' rowspan='2'>Kamar/Bangsal</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>TGL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>S</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>NAMA/RM</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>U</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='2%' rowspan='2'>JK</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>DX. MEDIS</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' colspan='4'>TINDAKAN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='15%' colspan='4'>INFEKSI RUMAH SAKIT</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' rowspan='2'>TIRAH BARING</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>HASIL KULTUR</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='8%' rowspan='2'>AB</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>KAMAR/BANGSAL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' rowspan='2'>JML HARI</td>"+
                 "</tr>"+
                 "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ETT</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>CVL</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IVL</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>UC</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IVL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>CVL</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ETT/VENTI</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>VAP</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IAD</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Pleb</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ISK</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ILO</td>"+
                     "<td valign='middle' bgcolor='#FFFAF8' align='center'>HAP</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Tinea</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Scabies</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Sputum</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Darah</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>Urine</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ISK</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>IAD</td>"+
                 "</tr>"
             );     
             ps=koneksi.prepareStatement(
-                "select data_HAIs.tanggal,data_HAIs.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,"+
-                "data_HAIs.ETT,data_HAIs.CVL,data_HAIs.IVL,data_HAIs.UC,data_HAIs.VAP,data_HAIs.IAD,"+
-                "data_HAIs.PLEB,data_HAIs.ISK,data_HAIs.ILO,data_HAIs.HAP,data_HAIs.Tinea,data_HAIs.Scabies,"+
-                "data_HAIs.DEKU,data_HAIs.SPUTUM,data_HAIs.DARAH,data_HAIs.URINE,data_HAIs.ANTIBIOTIK,"+
-                "concat(data_HAIs.kd_kamar,', ',bangsal.nm_bangsal) as ruang,data_HAIs.kd_kamar from data_HAIs inner join reg_periksa "+
-                "inner join pasien inner join kamar inner join bangsal inner join penjab on data_HAIs.kd_kamar=kamar.kd_kamar "+
-                "and kamar.kd_bangsal=bangsal.kd_bangsal and data_HAIs.no_rawat=reg_periksa.no_rawat "+
-                "and reg_periksa.kd_pj=penjab.kd_pj and reg_periksa.no_rkm_medis=pasien.no_rkm_medis where "+
-                "data_HAIs.tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? and data_HAIs.no_rawat like ? or "+
-                "data_HAIs.tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? and reg_periksa.no_rkm_medis like ? or "+
-                "data_HAIs.tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? and bangsal.nm_bangsal like ? or "+
-                "data_HAIs.tanggal between ? and ? and bangsal.nm_bangsal like ? and penjab.png_jawab like ? and pasien.nm_pasien like ? order by data_HAIs.tanggal ");
+                "SELECT dh.tanggal, IFNULL(pr.suhu_tubuh,'-') AS suhu, CONCAT('(',ps.no_rkm_medis,') ',ps.nm_pasien) AS namarm, \n" +
+                "TIMESTAMPDIFF(YEAR, ps.tgl_lahir, dh.tanggal) AS usia, ps.jk, \n" +
+                "(CASE WHEN pe.nm_penyakit IS NULL THEN '-' ELSE CONCAT(pe.kd_penyakit, ' - ', pe.nm_penyakit) END) AS dx, \n" +
+                "SUM(dh.UC) AS uc, SUM(dh.IVL) AS ivl, SUM(dh.CVL) AS cvl, SUM(dh.ETT) AS ett, SUM(dh.VAP) AS vap, SUM(dh.HAP) AS hap, SUM(dh.ISK) AS isk, SUM(dh.IAD) AS iad, dh.tirah_baring,\n" +
+                "dh.ANTIBIOTIK, CONCAT(ba.nm_bangsal,' - ',dh.kd_kamar) AS kmr, \n" +
+                "(CASE WHEN dh.SPUTUM <> '' OR dh.DARAH <> '' OR dh.URINE <> '' THEN 1 ELSE 0 END) kultur, COUNT(dh.no_rawat) AS jml_hari " +
+                "FROM data_HAIs dh\n" +
+                "INNER JOIN reg_periksa rp ON rp.no_rawat = dh.no_rawat\n" +
+                "INNER JOIN pasien ps ON ps.no_rkm_medis = rp.no_rkm_medis\n" +
+                "INNER JOIN kamar ka ON ka.kd_kamar = dh.kd_kamar\n" +
+                "INNER JOIN bangsal ba ON ba.kd_bangsal = ka.kd_bangsal\n" +
+                "LEFT JOIN diagnosa_pasien dp ON dp.no_rawat = dh.no_rawat\n" +
+                "LEFT JOIN penyakit pe ON pe.kd_penyakit = dp.kd_penyakit\n" +
+                "LEFT JOIN pemeriksaan_ranap pr ON pr.no_rawat = dh.no_rawat WHERE "+
+                "dh.tanggal between ? and ? and ba.nm_bangsal like ? and dh.no_rawat like ? or "+
+                "dh.tanggal between ? and ? and ba.nm_bangsal like ? and rp.no_rkm_medis like ? or "+
+                "dh.tanggal between ? and ? and ba.nm_bangsal like ? and ba.nm_bangsal like ? or "+
+                "dh.tanggal between ? and ? and ba.nm_bangsal like ? and ps.nm_pasien like ? GROUP BY dh.no_rawat, dh.tanggal order by dh.tanggal ");
             try {
                 i=1;
                 jmlETT=0;jmlCVL=0;jmlIVL=0;jmlUC=0;jmlVAP=0;jmlIAD=0;jmlPLEB=0;
                 jmlISK=0;jmlILO=0;jmldeku=0;jmlsputum=0;jmldarah=0;jmlurine=0;
-                jmlHAP=0;jmlTinea=0;jmlScabies=0;jmlANTIBIOTIK=0;                        
+                jmlHAP=0;jmlTinea=0;jmlScabies=0;jmlANTIBIOTIK=0; jml_hari = 0;               
                 ps.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(Tgl2.getSelectedItem()+""));
                 ps.setString(3,"%"+NmKamar.getText().trim()+"%");
-                ps.setString(4,"%"+NmPenjab.getText().trim()+"%");
-                ps.setString(5,"%"+TCari.getText()+"%");
-                ps.setString(6,Valid.SetTgl(Tgl1.getSelectedItem()+""));
-                ps.setString(7,Valid.SetTgl(Tgl2.getSelectedItem()+""));
-                ps.setString(8,"%"+NmKamar.getText().trim()+"%");
-                ps.setString(9,"%"+NmPenjab.getText().trim()+"%");
-                ps.setString(10,"%"+TCari.getText()+"%");
-                ps.setString(11,Valid.SetTgl(Tgl1.getSelectedItem()+""));
-                ps.setString(12,Valid.SetTgl(Tgl2.getSelectedItem()+""));
-                ps.setString(13,"%"+NmKamar.getText().trim()+"%");
-                ps.setString(14,"%"+NmPenjab.getText().trim()+"%");
-                ps.setString(15,"%"+TCari.getText()+"%");
-                ps.setString(16,Valid.SetTgl(Tgl1.getSelectedItem()+""));
-                ps.setString(17,Valid.SetTgl(Tgl2.getSelectedItem()+""));
-                ps.setString(18,"%"+NmKamar.getText().trim()+"%");
-                ps.setString(19,"%"+NmPenjab.getText().trim()+"%");
-                ps.setString(20,"%"+TCari.getText()+"%");
+                ps.setString(4,"%"+TCari.getText()+"%");
+                ps.setString(5,Valid.SetTgl(Tgl1.getSelectedItem()+""));
+                ps.setString(6,Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                ps.setString(7,"%"+NmKamar.getText().trim()+"%");
+                ps.setString(8,"%"+TCari.getText()+"%");
+                ps.setString(9,Valid.SetTgl(Tgl1.getSelectedItem()+""));
+                ps.setString(10,Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                ps.setString(11,"%"+NmKamar.getText().trim()+"%");
+                ps.setString(12,"%"+TCari.getText()+"%");
+                ps.setString(13,Valid.SetTgl(Tgl1.getSelectedItem()+""));
+                ps.setString(14,Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                ps.setString(15,"%"+NmKamar.getText().trim()+"%");
+                ps.setString(16,"%"+TCari.getText()+"%");
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    if(rs.getString("DEKU").equals("IYA")){
-                        jmldeku=jmldeku+1;
-                    }
-                    if(!rs.getString("URINE").equals("")){
-                        jmlurine=jmlurine+1;
-                    }
-                    if(!rs.getString("SPUTUM").equals("")){
-                        jmlsputum=jmlsputum+1;
-                    }
-                    if(!rs.getString("DARAH").equals("")){
-                        jmldarah=jmldarah+1;
-                    }
-                    if(!rs.getString("ANTIBIOTIK").equals("")){
-                        jmlANTIBIOTIK=jmlANTIBIOTIK+1;
-                    }
-                    
+//                    if(rs.getString("DEKU").equals("IYA")){
+//                        jmldeku=jmldeku+1;
+//                    }
+//                    if(!rs.getString("URINE").equals("")){
+//                        jmlurine=jmlurine+1;
+//                    }
+//                    if(!rs.getString("SPUTUM").equals("")){
+//                        jmlsputum=jmlsputum+1;
+//                    }
+//                    if(!rs.getString("DARAH").equals("")){
+//                        jmldarah=jmldarah+1;
+//                    }
+//                    if(!rs.getString("ANTIBIOTIK").equals("")){
+//                        jmlANTIBIOTIK=jmlANTIBIOTIK+1;
+//                    }
+//                    
                     jmlETT=jmlETT+rs.getInt("ETT");
                     jmlCVL=jmlCVL+rs.getInt("CVL");
                     jmlIVL=jmlIVL+rs.getInt("IVL");
                     jmlUC=jmlUC+rs.getInt("UC");
-                    jmlVAP=jmlVAP+rs.getInt("VAP");
+//                    jmlVAP=jmlVAP+rs.getInt("VAP");
                     jmlIAD=jmlIAD+rs.getInt("IAD");
-                    jmlPLEB=jmlPLEB+rs.getInt("PLEB");
-                    jmlISK=jmlISK+rs.getInt("ISK");
-                    jmlILO=jmlILO+rs.getInt("ILO");
-                    jmlHAP=jmlHAP+rs.getInt("HAP");
-                    jmlTinea=jmlTinea+rs.getInt("Tinea");
-                    jmlScabies=jmlScabies+rs.getInt("Scabies");
+//                    jmlPLEB=jmlPLEB+rs.getInt("PLEB");
+//                    jmlISK=jmlISK+rs.getInt("ISK");
+//                    jmlILO=jmlILO+rs.getInt("ILO");
+//                    jmlHAP=jmlHAP+rs.getInt("HAP");
+//                    jmlTinea=jmlTinea+rs.getInt("Tinea");
+//                    jmlScabies=jmlScabies+rs.getInt("Scabies");
+                    jml_hari = jml_hari + +rs.getInt("jml_hari");
                     htmlContent.append(
                         "<tr class='isi'>"+
-                            "<td valign='middle' align='center'>"+i+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("no_rkm_medis")+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("nm_pasien")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("tanggal")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("ETT")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("CVL")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("IVL")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("tanggal")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("suhu")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("namarm")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("usia")+" th</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("jk")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("dx")+"</td>"+
                             "<td valign='middle' align='center'>"+rs.getString("UC")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("IVL")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("CVL")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("ETT")+"</td>"+
                             "<td valign='middle' align='center'>"+rs.getString("VAP")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("IAD")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("PLEB")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("ISK")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("ILO")+"</td>"+
                             "<td valign='middle' align='center'>"+rs.getString("HAP")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("Tinea")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("Scabies")+"</td>"+
-                            "<td valign='middle' align='center'>"+rs.getString("DEKU")+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("SPUTUM")+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("DARAH")+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("URINE")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("ISK")+"</td>"+
+                            "<td valign='middle' align='center'>"+rs.getString("IAD")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("tirah_baring")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("kultur")+"</td>"+
                             "<td valign='middle' align='left'>"+rs.getString("ANTIBIOTIK")+"</td>"+
-                            "<td valign='middle' align='left'>"+rs.getString("ruang")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("kmr")+"</td>"+
+                            "<td valign='middle' align='left'>"+rs.getString("jml_hari")+"</td>"+
                         "</tr>"
                     );
                     i++;
                 }
                 if(i>1){
+                    double prosentase = 0;
+                    prosentase = (jmlIAD/jml_hari) * 1000;
                     htmlContent.append(
                         "<tr class='isi'>"+
-                            "<td valign='middle' align='right' colspan='4'>Total :</td>"+
-                            "<td valign='middle' align='center'>"+jmlETT+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlCVL+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlIVL+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlUC+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlVAP+"</td>"+
+                            "<td valign='middle' align='right' colspan='18'>Jumlah IAD/Plebitis:</td>"+
                             "<td valign='middle' align='center'>"+jmlIAD+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlPLEB+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlISK+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlILO+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlHAP+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlTinea+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlScabies+"</td>"+
-                            "<td valign='middle' align='center'>"+jmldeku+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlsputum+"</td>"+
-                            "<td valign='middle' align='center'>"+jmldarah+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlurine+"</td>"+
-                            "<td valign='middle' align='center'>"+jmlANTIBIOTIK+"</td>"+
-                            "<td valign='middle' align='center'>&nbsp;</td>"+
+                        "</tr>"+
+                        "<tr class='isi'>"+
+                            "<td valign='middle' align='right' colspan='18'>Jumlah Hari Terpasang :</td>"+
+                            "<td valign='middle' align='center'>"+jml_hari+"</td>"+
+                        "</tr>"+
+                        "<tr class='isi'>"+
+                            "<td valign='middle' align='right' colspan='18'>Prosentase HAIS :</td>"+
+                            "<td valign='middle' align='center'>"+prosentase+"</td>"+
                         "</tr>"
                     );
                 }                    
@@ -700,9 +690,18 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             
             LoadHTML.setText(
                     "<html>"+
-                      "<table width='1500px' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
+                      "<table width='1400px' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
                        htmlContent.toString()+
-                      "</table>"+
+                      "</table>"+ 
+                              "<div class=\"keterangan\" style=\"font: 12px tahoma;\" "+
+                    "    <p>" +
+                    "        KETERANGAN<br /> Dx Medis : Diagnosa Medis &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U : Usia <br /> S : Suhu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                    "        JK : Jenis Kelamin <br /> UC : Urine Kateter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HAP : Hospital Aquired Penumonia\n" +
+                    "        <br /> IVL : Intra Vena Line/ Vena Perifier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VAP : Ventilator Associated Penumonia <br /> ETT : Endotrakheal Tube &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IAD\n" +
+                    "        : Infeksi Aliran Darah / Plebitis" +
+                    "    </p>" +
+                    "    <br /><br />" +
+                    "</div>"+
                     "</html>");
         } catch (Exception e) {
             System.out.println("laporan.DlgRL4A.prosesCari() 5 : "+e);

@@ -70,7 +70,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
     private boolean[] pilih; 
     private double[] jumlah,harga,eb,ts,stok,beli,kapasitas,kandungan;
     private String[] kodebarang,namabarang,kodesatuan,letakbarang,namajenis,aturan,industri,kategori,golongan,no,nobatch,nofaktur,kadaluarsa;
-    private String signa1="1",signa2="1",nokunjungan="",kdObatSK="",requestJson="",URL="",otorisasi,sql="",aktifpcare="no",no_batchcari="", tgl_kadaluarsacari="", no_fakturcari="", aktifkanbatch="no",kodedokter="",namadokter="",noresep="",bangsal="",bangsaldefault=Sequel.cariIsi("select kd_bangsal from set_lokasi limit 1"),tampilkan_ppnobat_ralan="",
+    private String STOKKOSONGRESEP="no",signa1="1",signa2="1",nokunjungan="",kdObatSK="",requestJson="",URL="",otorisasi,sql="",aktifpcare="no",no_batchcari="", tgl_kadaluarsacari="", no_fakturcari="", aktifkanbatch="no",kodedokter="",namadokter="",noresep="",bangsal="",bangsaldefault=Sequel.cariIsi("select kd_bangsal from set_lokasi limit 1"),tampilkan_ppnobat_ralan="",
                    Suspen_Piutang_Obat_Ralan="",Obat_Ralan="",HPP_Obat_Rawat_Jalan="",Persediaan_Obat_Rawat_Jalan="",hppfarmasi="";
     private DlgCariBangsal caribangsal=new DlgCariBangsal(null,false);
     public DlgCariAturanPakai aturanpakai=new DlgCariAturanPakai(null,false);
@@ -457,6 +457,14 @@ public final class DlgCariObat extends javax.swing.JDialog {
         
         tampilkan_ppnobat_ralan=Sequel.cariIsi("select tampilkan_ppnobat_ralan from set_nota"); 
         jam();
+        try {
+            aktifkanbatch = koneksiDB.AKTIFKANBATCHOBAT();
+            STOKKOSONGRESEP = koneksiDB.STOKKOSONGRESEP();
+        } catch (Exception e) {
+            System.out.println("E : "+e);
+            aktifkanbatch = "no";
+            STOKKOSONGRESEP="no";
+        }
     }    
     
 
@@ -2541,7 +2549,10 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                 eb[i],ts[i],stok[i],aturan[i],industri[i],beli[i],kategori[i],golongan[i],nobatch[i],nofaktur[i],kadaluarsa[i]
             });
         }
-        
+        String qrystokkosong="";
+        if(STOKKOSONGRESEP.equals("no")){
+            qrystokkosong=" and gudangbarang.stok>0 ";
+        }
         try {
             if(kenaikan>0){
                 if(aktifkanbatch.equals("yes")){
@@ -2568,10 +2579,10 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             " inner join gudangbarang on gudangbarang.kode_brng=data_batch.kode_brng and gudangbarang.no_batch=data_batch.no_batch and gudangbarang.no_faktur=data_batch.no_faktur ";
                     }
                     psobat=koneksi.prepareStatement(
-                        sql+" where gudangbarang.kd_bangsal=? "+(TCari.getText().trim().equals("")?"":
+                        sql+" where gudangbarang.kd_bangsal=?  "+qrystokkosong+" "+(TCari.getText().trim().equals("")?"":
                         "and (databarang.kode_brng like ? or databarang.nama_brng like ? or kategori_barang.nama like ? or "+
                         "golongan_barang.nama like ? or data_batch.no_batch like ? or data_batch.no_faktur like ? or "+
-                        "jenis.nama like ? or databarang.letak_barang like ?) ")+
+                        "jenis.nama like ? or databarang.letak_barang like ?)  ")+
                         "order by data_batch.tgl_kadaluarsa asc");
 //                    psobat=koneksi.prepareStatement(
 //                        sql+" where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? "+(TCari.getText().trim().equals("")?"":
@@ -2633,9 +2644,9 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng ";
                     }
                     psobat=koneksi.prepareStatement(
-                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=? and databarang.status='1' "+
+                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' "+qrystokkosong+"  and gudangbarang.kd_bangsal=? and databarang.status='1' "+
                         (TCari.getText().trim().equals("")?"":" and (databarang.kode_brng like ? or databarang.nama_brng like ? or kategori_barang.nama like ? or "+
-                        "golongan_barang.nama like ? or jenis.nama like ? or databarang.letak_barang like ?) ")+
+                        "golongan_barang.nama like ? or jenis.nama like ? or databarang.letak_barang like ?)  ")+
                         "order by databarang.nama_brng");
 //                    psobat=koneksi.prepareStatement(
 //                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.status='1' "+
@@ -2699,10 +2710,10 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             " inner join gudangbarang on gudangbarang.kode_brng=data_batch.kode_brng and gudangbarang.no_batch=data_batch.no_batch and gudangbarang.no_faktur=data_batch.no_faktur ";                        
                     }
                     psobat=koneksi.prepareStatement(
-                        sql+" where gudangbarang.kd_bangsal=? "+(TCari.getText().trim().equals("")?"":
+                        sql+" where gudangbarang.kd_bangsal=? "+qrystokkosong+"  "+(TCari.getText().trim().equals("")?"":
                         "and (databarang.kode_brng like ? or databarang.nama_brng like ? or kategori_barang.nama like ? or "+
                         "golongan_barang.nama like ? or data_batch.no_batch like ? or data_batch.no_faktur like ? or "+
-                        "jenis.nama like ? or databarang.letak_barang like ?)")+" order by data_batch.tgl_kadaluarsa asc");
+                        "jenis.nama like ? or databarang.letak_barang like ?)")+"  order by data_batch.tgl_kadaluarsa asc");
 //                    psobat=koneksi.prepareStatement(
 //                        sql+" where gudangbarang.stok>0 and gudangbarang.kd_bangsal=? "+(TCari.getText().trim().equals("")?"":
 //                        "and (databarang.kode_brng like ? or databarang.nama_brng like ? or kategori_barang.nama like ? or "+
@@ -2791,9 +2802,9 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             " inner join gudangbarang on databarang.kode_brng=gudangbarang.kode_brng ";
                     }
                     psobat=koneksi.prepareStatement(
-                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.kd_bangsal=? and databarang.status='1'"+
+                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' "+qrystokkosong+"  and gudangbarang.kd_bangsal=? and databarang.status='1'"+
                         (TCari.getText().trim().equals("")?"":" and (databarang.kode_brng like ? or databarang.nama_brng like ? or kategori_barang.nama like ? or "+
-                        "golongan_barang.nama like ? or jenis.nama like ? or databarang.letak_barang like ?)")+
+                        "golongan_barang.nama like ? or jenis.nama like ? or databarang.letak_barang like ?) ")+
                         " order by databarang.nama_brng");
 //                    psobat=koneksi.prepareStatement(
 //                        sql+" where gudangbarang.no_batch='' and gudangbarang.no_faktur='' and gudangbarang.stok>0 and gudangbarang.kd_bangsal=? and databarang.status='1'"+
@@ -4880,6 +4891,9 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                 break;
             case "J055":
                 kodeDepo = "DP5";
+                break;
+            case "J057":
+                kodeDepo = "DP6";
                 break;
             case "J056":
                 kodeDepo = "GO";

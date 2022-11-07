@@ -5647,13 +5647,32 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             if(Sequel.cariInteger("select count(no_rawat) from kamar_inap where no_rawat=?",TNoRw.getText())>0){
                 JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
             }else {
-                DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
-                periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-                periksalab.setLocationRelativeTo(internalFrame1);
-                periksalab.emptTeks();
-                periksalab.setNoRm(TNoRw.getText(),"Ralan"); 
-                periksalab.isCek();
-                periksalab.setVisible(true);
+//                System.out.println("cek "+Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"' and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'"));
+                if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"' and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'") > 0){
+                    String noPermintaan = Sequel.cariIsi("SELECT noorder FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"' and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'");
+                    String KodeDokter = tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),0).toString();
+                    String DokterPerujuk = tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),1).toString();
+                    
+                    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    DlgPeriksaLaboratorium dlgro=new DlgPeriksaLaboratorium(null,false);
+                    dlgro.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                    dlgro.setLocationRelativeTo(internalFrame1);
+                    dlgro.emptTeks();
+                    dlgro.isCek(); 
+                    dlgro.setOrder(noPermintaan,TNoRw.getText(),"Ralan");
+                    dlgro.setDokterPerujuk(KodeDokter,DokterPerujuk);
+                    dlgro.setVisible(true);
+                    this.setCursor(Cursor.getDefaultCursor());
+                }else{
+                    DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
+                    periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                    periksalab.setLocationRelativeTo(internalFrame1);
+                    periksalab.emptTeks();
+                    periksalab.setNoRm(TNoRw.getText(),"Ralan"); 
+                    periksalab.isCek();
+                    periksalab.setVisible(true);
+                }       
+                
             }            
         }
 }//GEN-LAST:event_MnPeriksaLabActionPerformed

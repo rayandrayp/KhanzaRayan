@@ -468,8 +468,8 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
                     "	 SUM(CASE WHEN k.stts_pulang IN ('Pulang Paksa') THEN 1 ELSE 0 END) pulang_paksa,\n" +
                     "	 SUM(CASE WHEN k.stts_pulang IN ('Sehat', 'Membaik', 'Sembuh') THEN 1 ELSE 0 END) hidup_sembuh,\n" +
                     "	 SUM(CASE WHEN k.stts_pulang IN ('Pulang Paksa', 'Atas Persetujuan Dokter', 'Atas Permintaan Sendiri') THEN 1 ELSE 0 END) belum_sembuh,\n" +
-                    "	 SUM(CASE WHEN k.stts_pulang = 'Meninggal' AND TIMESTAMPDIFF(HOUR, concat(tgl_masuk, ' ', jam_masuk), concat(tgl_keluar, ' ', jam_keluar)) < 48 THEN 1 ELSE 0 END) meninggal_k48,\n" +
-                    "	 SUM(CASE WHEN k.stts_pulang = 'Meninggal' AND TIMESTAMPDIFF(HOUR, concat(tgl_masuk, ' ', jam_masuk), concat(tgl_keluar, ' ', jam_keluar)) >= 48 THEN 1 ELSE 0 END) meninggal_l48\n" +
+                    "	 SUM(CASE WHEN k.stts_pulang = 'Meninggal' AND TIMESTAMPDIFF(HOUR, concat(k.tgl_masuk, ' ', k.jam_masuk), concat(k.tgl_keluar, ' ', k.jam_keluar)) < 48 THEN 1 ELSE 0 END) meninggal_k48,\n" +
+                    "	 SUM(CASE WHEN k.stts_pulang = 'Meninggal' AND TIMESTAMPDIFF(HOUR, concat(k.tgl_masuk, ' ', k.jam_masuk), concat(k.tgl_keluar, ' ', k.jam_keluar)) >= 48 THEN 1 ELSE 0 END) meninggal_l48\n" +
                     "FROM kamar_inap k\n" +
                     "INNER JOIN reg_periksa r ON r.no_rawat = k.no_rawat\n" +
                     "INNER JOIN pasien p ON p.no_rkm_medis = r.no_rkm_medis\n" +

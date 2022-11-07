@@ -436,6 +436,7 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
     public void getRujukanRS(String nomorkartu){
         try {
             URL = link+"/Rujukan/RS/Peserta/"+nomorkartu;
+//            URL = link+"/Rujukan/RS/List/Peserta/"+nomorkartu;
             headers= new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 	    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIBPJS());
@@ -448,6 +449,17 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
             nameNode = root.path("metaData");
             if(nameNode.path("code").asText().equals("200")){
                 response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc)).path("rujukan");
+//                if(response.isArray()){
+//                    i=1;
+//                    for(JsonNode list:response){
+//                        tabMode.addRow(new Object[]{
+//                            i+".",list.path("diagnosa").path("kode").asText()+" - "+list.path("diagnosa").path("nama").asText(),list.path("pelayanan").path("kode").asText().replaceAll("1","Rawat Inap").replaceAll("2","Rawat Jalan"),
+//                            list.path("peserta").path("hakKelas").path("keterangan").asText(),list.path("peserta").path("nama").asText(),list.path("peserta").path("noKartu").asText(),"-",
+//                            list.path("noKunjungan").asText(),list.path("poliRujukan").path("nama").asText(),"-","-","-", list.path("tglKunjungan").asText()
+//                        });    
+//                        i++;
+//                    }
+//                }    
                 tabMode.addRow(new Object[]{
                     "1.",response.path("diagnosa").path("kode").asText()+" - "+response.path("diagnosa").path("nama").asText(),response.path("pelayanan").path("nama").asText(),
                     response.path("peserta").path("hakKelas").path("keterangan").asText(),response.path("peserta").path("nama").asText(),response.path("peserta").path("noKartu").asText(),
@@ -468,6 +480,7 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
     public void getRujukanPCare(String nomorkartu){
         try {
             URL = link+"/Rujukan/Peserta/"+nomorkartu;
+//            URL = link+"/Rujukan/List/Peserta/"+nomorkartu;
             headers= new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 	    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIBPJS());
@@ -481,6 +494,17 @@ public final class BPJSCekHistoriPelayanan extends javax.swing.JDialog {
             System.out.println("URL : "+URL);
             if(nameNode.path("code").asText().equals("200")){
                 response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc)).path("rujukan");
+//                if(response.isArray()){
+//                    i=1;
+//                    for(JsonNode list:response){
+//                        tabMode.addRow(new Object[]{
+//                            i+".",list.path("diagnosa").path("kode").asText()+" - "+list.path("diagnosa").path("nama").asText(),list.path("pelayanan").path("kode").asText().replaceAll("1","Rawat Inap").replaceAll("2","Rawat Jalan"),
+//                            list.path("peserta").path("hakKelas").path("keterangan").asText(),list.path("peserta").path("nama").asText(),list.path("peserta").path("noKartu").asText(),"-",
+//                            list.path("noKunjungan").asText(),list.path("poliRujukan").path("nama").asText(),"-","-","-", list.path("tglKunjungan").asText()
+//                        });    
+//                        i++;
+//                    }
+//                } 
                 tabMode.addRow(new Object[]{
                     "1.",response.path("diagnosa").path("kode").asText()+" - "+response.path("diagnosa").path("nama").asText(),response.path("pelayanan").path("nama").asText(),
                     response.path("peserta").path("hakKelas").path("keterangan").asText(),response.path("peserta").path("nama").asText(),response.path("peserta").path("noKartu").asText(),

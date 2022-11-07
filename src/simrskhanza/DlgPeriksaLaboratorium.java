@@ -17,6 +17,7 @@ import kepegawaian.DlgCariDokter;
 import kepegawaian.DlgCariPetugas;
 import keuangan.DlgJnsPerawatanLab;
 import fungsi.WarnaTable;
+import fungsi.WarnaTable4;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
@@ -32,6 +33,9 @@ import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -128,7 +132,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
             }else if(i==1){
                 column.setPreferredWidth(250);
             }else if(i==2){
-                column.setPreferredWidth(350); //Rayan changed on 01/20/2022 previously 130
+                column.setPreferredWidth(500); //Rayan changed on 01/20/2022 previously 130
             }else if(i==3){
                 column.setPreferredWidth(70);
             }else if(i==4){
@@ -146,7 +150,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
             }
         }
         
-        tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTable());
+        tbPemeriksaan.setDefaultRenderer(Object.class, new WarnaTable4());
         
         Object[] row2={"P","Kode Periksa","Nama Pemeriksaan","Tarif","bagian_rs","bhp","tarif_perujuk","tarif_tindakan_dokter","tarif_tindakan_petugas","K.S.O.","Menejemen","Spuit"};
         tabMode2=new DefaultTableModel(null,row2){
@@ -735,7 +739,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
         PanelInput.add(jLabel11);
         jLabel11.setBounds(0, 102, 92, 23);
 
-        jLabel7.setText("Dokter P.J. :");
+        jLabel7.setText("Dokter P.K. :");
         jLabel7.setName("jLabel7"); // NOI18N
         PanelInput.add(jLabel7);
         jLabel7.setBounds(0, 42, 92, 23);
@@ -787,7 +791,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
         NmPtg.setBounds(546, 42, 249, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-03-2022" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-10-2022" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -815,7 +819,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
         CmbDetik.setBounds(738, 72, 62, 23);
 
         ChkJln.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(195, 215, 195)));
-        ChkJln.setSelected(true);
+        ChkJln.setSelected(false);
         ChkJln.setBorderPainted(true);
         ChkJln.setBorderPaintedFlat(true);
         ChkJln.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -872,7 +876,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
         Scroll1.setViewportView(tbTarif);
 
         PanelInput.add(Scroll1);
-        Scroll1.setBounds(95, 127, 760, 110);
+        Scroll1.setBounds(95, 127, 730, 110);
 
         jLabel15.setText("Tanggal :");
         jLabel15.setName("jLabel15"); // NOI18N
@@ -974,6 +978,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
 
         tbPemeriksaan.setComponentPopupMenu(Popup);
         tbPemeriksaan.setName("tbPemeriksaan"); // NOI18N
+        //tbPemeriksaan.setRowHeight(100);
         Scroll.setViewportView(tbPemeriksaan);
 
         PanelCariUtama.add(Scroll, java.awt.BorderLayout.CENTER);
@@ -1641,140 +1646,145 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             for(i2=0;i2<tbTarif.getRowCount();i2++){ 
                 if(tbTarif.getValueAt(i2,0).toString().equals("true")){
                     tabMode.addRow(new Object[]{false,tbTarif.getValueAt(i2,2).toString(),"","","","","",0,0,0,0,0,0,0,0});
-                    if(Jk.getText().equals("L")&&(rbDewasa.isSelected()==true)){
-                        pstampil=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_ld,biaya_item, "+
-                                "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
-                                "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
-                        try {
-                            pstampil.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil.setString(2,"%"+TCari.getText().trim()+"%");
-                            rstampil=pstampil.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{
-                                    false,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_ld"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil!=null){
-                                pstampil.close();
-                            }
-                        }                        
-                    }else if(Jk.getText().equals("L")&&(rbAnak.isSelected()==true)){
-                        pstampil2=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_la,biaya_item, "+
-                                "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
-                                "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
-                        try {
-                            pstampil2.setString(1,tbTarif.getValueAt(i2,1).toString());                            
-                            pstampil2.setString(2,"%"+TCari.getText().trim()+"%");
-                            rstampil=pstampil2.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_la"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil2!=null){
-                                pstampil2.close();
-                            }
-                        }                         
-                    }else if(Jk.getText().equals("P")&&(rbDewasa.isSelected()==true)){
-                        pstampil3=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_pd,biaya_item, "+
-                                "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
-                                "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
-                        try {
-                            pstampil3.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil3.setString(2,"%"+TCari.getText().trim()+"%");
-                            rstampil=pstampil3.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_pd"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil3!=null){
-                                pstampil3.close();
-                            }
-                        }                         
-                    }else if(Jk.getText().equals("P")&&(rbAnak.isSelected()==true)){
-                        pstampil4=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_pa,biaya_item, "+
-                                "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
-                                "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
-                        try{
-                            pstampil4.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil4.setString(2,"%"+TCari.getText().trim()+"%");
-                            rstampil=pstampil4.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_pa"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil4!=null){
-                                pstampil4.close();
-                            }
-                        }                         
-                    }                              
+                    
+                    if(Sequel.cariInteger("SELECT COUNT(*) FROM template_laboratorium WHERE kd_jenis_prw='"+tbTarif.getValueAt(i2,1).toString()+"'") > 0) {
+                        if(Jk.getText().equals("L")&&(rbDewasa.isSelected()==true)){
+                            pstampil=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_ld,biaya_item, "+
+                                    "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
+                                    "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
+                            try {
+                                pstampil.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil.setString(2,"%"+TCari.getText().trim()+"%");
+                                rstampil=pstampil.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{
+                                        false,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_ld"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil!=null){
+                                    pstampil.close();
+                                }
+                            }                        
+                        }else if(Jk.getText().equals("L")&&(rbAnak.isSelected()==true)){
+                            pstampil2=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_la,biaya_item, "+
+                                    "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
+                                    "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
+                            try {
+                                pstampil2.setString(1,tbTarif.getValueAt(i2,1).toString());                            
+                                pstampil2.setString(2,"%"+TCari.getText().trim()+"%");
+                                rstampil=pstampil2.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_la"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil2!=null){
+                                    pstampil2.close();
+                                }
+                            }                         
+                        }else if(Jk.getText().equals("P")&&(rbDewasa.isSelected()==true)){
+                            pstampil3=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_pd,biaya_item, "+
+                                    "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
+                                    "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
+                            try {
+                                pstampil3.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil3.setString(2,"%"+TCari.getText().trim()+"%");
+                                rstampil=pstampil3.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_pd"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil3!=null){
+                                    pstampil3.close();
+                                }
+                            }                         
+                        }else if(Jk.getText().equals("P")&&(rbAnak.isSelected()==true)){
+                            pstampil4=koneksi.prepareStatement("select id_template, Pemeriksaan, satuan, nilai_rujukan_pa,biaya_item, "+
+                                    "bagian_rs,bhp,bagian_perujuk,bagian_dokter,bagian_laborat,kso,menejemen "+
+                                    "from template_laboratorium where kd_jenis_prw=? and Pemeriksaan like ? order by urut");
+                            try{
+                                pstampil4.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil4.setString(2,"%"+TCari.getText().trim()+"%");
+                                rstampil=pstampil4.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{false,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_pa"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil4!=null){
+                                    pstampil4.close();
+                                }
+                            }                         
+                        } 
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Template "+tbTarif.getValueAt(i2,2).toString()+" tidak ditemukan. ");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -1790,179 +1800,184 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             for(i2=0;i2<tbTarif.getRowCount();i2++){ 
                 if(tbTarif.getValueAt(i2,0).toString().equals("true")){
                     tabMode.addRow(new Object[]{true,tbTarif.getValueAt(i2,2).toString(),"","","","","",0,0,0,0,0,0,0,0});
-                    if(Jk.getText().equals("L")&&(rbDewasa.isSelected()==true)){
-                        pstampil=koneksi.prepareStatement(
-                                "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
-                                "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_ld,"+
-                                "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
-                                "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
-                                "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
-                                "template_laboratorium.kso,template_laboratorium.menejemen "+
-                                "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
-                                "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
-                                "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
-                                "and permintaan_detail_permintaan_lab.noorder=? order by urut");
-                        try {
-                            pstampil.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil.setString(2,"%"+TCari.getText().trim()+"%");
-                            pstampil.setString(3,order);
-                            rstampil=pstampil.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{
-                                    true,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_ld"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil!=null){
-                                pstampil.close();
-                            }
-                        }                        
-                    }else if(Jk.getText().equals("L")&&(rbAnak.isSelected()==true)){
-                        pstampil2=koneksi.prepareStatement(
-                                "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
-                                "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_la,"+
-                                "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
-                                "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
-                                "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
-                                "template_laboratorium.kso,template_laboratorium.menejemen "+
-                                "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
-                                "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
-                                "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
-                                "and permintaan_detail_permintaan_lab.noorder=? order by urut");
-                        try {
-                            pstampil2.setString(1,tbTarif.getValueAt(i2,1).toString());                            
-                            pstampil2.setString(2,"%"+TCari.getText().trim()+"%");
-                            pstampil2.setString(3,order);
-                            rstampil=pstampil2.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{
-                                    true,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_la"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil2!=null){
-                                pstampil2.close();
-                            }
-                        }                         
-                    }else if(Jk.getText().equals("P")&&(rbDewasa.isSelected()==true)){
-                        pstampil3=koneksi.prepareStatement(
-                                "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
-                                "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_pd,"+
-                                "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
-                                "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
-                                "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
-                                "template_laboratorium.kso,template_laboratorium.menejemen "+
-                                "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
-                                "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
-                                "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
-                                "and permintaan_detail_permintaan_lab.noorder=? order by urut");
-                        try {
-                            pstampil3.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil3.setString(2,"%"+TCari.getText().trim()+"%");
-                            pstampil3.setString(3,order);
-                            rstampil=pstampil3.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{
-                                    true,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_pd"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil3!=null){
-                                pstampil3.close();
-                            }
-                        }                         
-                    }else if(Jk.getText().equals("P")&&(rbAnak.isSelected()==true)){
-                        pstampil4=koneksi.prepareStatement(
-                                "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
-                                "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_pa,"+
-                                "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
-                                "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
-                                "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
-                                "template_laboratorium.kso,template_laboratorium.menejemen "+
-                                "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
-                                "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template where "+
-                                "template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? and "+
-                                "permintaan_detail_permintaan_lab.noorder=? order by urut");
-                        try{
-                            pstampil4.setString(1,tbTarif.getValueAt(i2,1).toString());
-                            pstampil4.setString(2,"%"+TCari.getText().trim()+"%");
-                            pstampil4.setString(3,order);
-                            rstampil=pstampil4.executeQuery();
-                            while(rstampil.next()){
-                                tabMode.addRow(new Object[]{
-                                    true,"   "+rstampil.getString("Pemeriksaan"),"",
-                                         rstampil.getString("satuan"),
-                                         rstampil.getString("nilai_rujukan_pa"),"",
-                                         rstampil.getString("id_template"),
-                                         rstampil.getDouble("biaya_item"),
-                                         rstampil.getDouble("bagian_rs"),
-                                         rstampil.getDouble("bhp"),
-                                         rstampil.getDouble("bagian_perujuk"),
-                                         rstampil.getDouble("bagian_dokter"),
-                                         rstampil.getDouble("bagian_laborat"),
-                                         rstampil.getDouble("kso"),
-                                         rstampil.getDouble("menejemen")
-                                });
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Notifikasi : "+e);
-                        } finally{
-                            if(rstampil!=null){
-                                rstampil.close();
-                            }
-                            if(pstampil4!=null){
-                                pstampil4.close();
-                            }
-                        }                         
-                    }                              
+//                    System.out.println(tbTarif.getValueAt(i2,2).toString()+" "+Sequel.cariInteger("SELECT COUNT(*) FROM template_laboratorium WHERE kd_jenis_prw='"+tbTarif.getValueAt(i2,1).toString()+"'"));
+                    if(Sequel.cariInteger("SELECT COUNT(*) FROM template_laboratorium WHERE kd_jenis_prw='"+tbTarif.getValueAt(i2,1).toString()+"'") > 0) {
+                        if(Jk.getText().equals("L")&&(rbDewasa.isSelected()==true)){
+                            pstampil=koneksi.prepareStatement(
+                                    "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
+                                    "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_ld,"+
+                                    "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
+                                    "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
+                                    "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
+                                    "template_laboratorium.kso,template_laboratorium.menejemen "+
+                                    "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
+                                    "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
+                                    "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
+                                    "and permintaan_detail_permintaan_lab.noorder=? order by urut");
+                            try {
+                                pstampil.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil.setString(2,"%"+TCari.getText().trim()+"%");
+                                pstampil.setString(3,order);
+                                rstampil=pstampil.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{
+                                        true,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_ld"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil!=null){
+                                    pstampil.close();
+                                }
+                            }                        
+                        }else if(Jk.getText().equals("L")&&(rbAnak.isSelected()==true)){
+                            pstampil2=koneksi.prepareStatement(
+                                    "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
+                                    "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_la,"+
+                                    "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
+                                    "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
+                                    "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
+                                    "template_laboratorium.kso,template_laboratorium.menejemen "+
+                                    "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
+                                    "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
+                                    "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
+                                    "and permintaan_detail_permintaan_lab.noorder=? order by urut");
+                            try {
+                                pstampil2.setString(1,tbTarif.getValueAt(i2,1).toString());                            
+                                pstampil2.setString(2,"%"+TCari.getText().trim()+"%");
+                                pstampil2.setString(3,order);
+                                rstampil=pstampil2.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{
+                                        true,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_la"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil2!=null){
+                                    pstampil2.close();
+                                }
+                            }                         
+                        }else if(Jk.getText().equals("P")&&(rbDewasa.isSelected()==true)){
+                            pstampil3=koneksi.prepareStatement(
+                                    "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
+                                    "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_pd,"+
+                                    "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
+                                    "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
+                                    "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
+                                    "template_laboratorium.kso,template_laboratorium.menejemen "+
+                                    "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
+                                    "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template "+
+                                    "where template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? "+
+                                    "and permintaan_detail_permintaan_lab.noorder=? order by urut");
+                            try {
+                                pstampil3.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil3.setString(2,"%"+TCari.getText().trim()+"%");
+                                pstampil3.setString(3,order);
+                                rstampil=pstampil3.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{
+                                        true,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_pd"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil3!=null){
+                                    pstampil3.close();
+                                }
+                            }                         
+                        }else if(Jk.getText().equals("P")&&(rbAnak.isSelected()==true)){
+                            pstampil4=koneksi.prepareStatement(
+                                    "select template_laboratorium.id_template, template_laboratorium.Pemeriksaan, "+
+                                    "template_laboratorium.satuan, template_laboratorium.nilai_rujukan_pa,"+
+                                    "template_laboratorium.biaya_item,template_laboratorium.bagian_rs,"+
+                                    "template_laboratorium.bhp,template_laboratorium.bagian_perujuk,"+
+                                    "template_laboratorium.bagian_dokter,template_laboratorium.bagian_laborat,"+
+                                    "template_laboratorium.kso,template_laboratorium.menejemen "+
+                                    "from template_laboratorium inner join permintaan_detail_permintaan_lab on "+
+                                    "permintaan_detail_permintaan_lab.id_template=template_laboratorium.id_template where "+
+                                    "template_laboratorium.kd_jenis_prw=? and template_laboratorium.Pemeriksaan like ? and "+
+                                    "permintaan_detail_permintaan_lab.noorder=? order by urut");
+                            try{
+                                pstampil4.setString(1,tbTarif.getValueAt(i2,1).toString());
+                                pstampil4.setString(2,"%"+TCari.getText().trim()+"%");
+                                pstampil4.setString(3,order);
+                                rstampil=pstampil4.executeQuery();
+                                while(rstampil.next()){
+                                    tabMode.addRow(new Object[]{
+                                        true,"   "+rstampil.getString("Pemeriksaan"),"",
+                                             rstampil.getString("satuan"),
+                                             rstampil.getString("nilai_rujukan_pa"),"",
+                                             rstampil.getString("id_template"),
+                                             rstampil.getDouble("biaya_item"),
+                                             rstampil.getDouble("bagian_rs"),
+                                             rstampil.getDouble("bhp"),
+                                             rstampil.getDouble("bagian_perujuk"),
+                                             rstampil.getDouble("bagian_dokter"),
+                                             rstampil.getDouble("bagian_laborat"),
+                                             rstampil.getDouble("kso"),
+                                             rstampil.getDouble("menejemen")
+                                    });
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Notifikasi : "+e);
+                            } finally{
+                                if(rstampil!=null){
+                                    rstampil.close();
+                                }
+                                if(pstampil4!=null){
+                                    pstampil4.close();
+                                }
+                            }                         
+                        }
+                    }else {
+                        JOptionPane.showMessageDialog(null,"Template "+tbTarif.getValueAt(i2,2).toString()+" tidak ditemukan. ");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -2838,24 +2853,57 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if(jml>0){
             int tanya=JOptionPane.showConfirmDialog(rootPane,"Ada hasil lab yang belum diisi, yakin mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (tanya == JOptionPane.YES_OPTION) {
-                simpanlab();
+                String m = JOptionPane.showInputDialog("Apakah ada catatan khusus?");
+                System.out.println(m);
+                System.out.println("joptionpane "+ JOptionPane.OK_CANCEL_OPTION);
+//                simpanlab();
             }
         }else{
             int reply = JOptionPane.showConfirmDialog(rootPane,"Eeiiiiiits, udah bener belum data yang mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                simpanlab();
+                String m = JOptionPane.showInputDialog("Apakah ada catatan khusus?");
+                System.out.println(m);
+                System.out.println("joptionpane2 "+ JOptionPane.OK_CANCEL_OPTION);
+//                simpanlab();
             }
         }     
     }
 
-    private void simpanlab() {
+    private void simpanlab() {        
         ChkJln.setSelected(false);
         try {                    
             ttljmdokter=0;ttljmpetugas=0;ttlkso=0;ttlpendapatan=0;ttlbhp=0;ttljasasarana=0;ttljmperujuk=0;ttlmenejemen=0;
             Sequel.AutoComitFalse();
             sukses=true;
+            
+            // save ke permintaan lab
+//            LocalDate dateObj = LocalDate.now();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            String date = dateObj.format(formatter);
+//            String noPermintaan = "";
+//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+//            LocalTime localTime = LocalTime.now();
+//            if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"' and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'") > 0) {
+//                noPermintaan = Sequel.cariIsi("SELECT noorder FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"' and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'");
+//                noorder = noPermintaan;
+////                Sequel.mengedit("permintaan_lab", "noorder = '"+noPermintaan+"'", " tgl_hasil = '"+Valid.SetTgl(date.toString()+"")+"', jam_hasil= '"+localTime.toString()+"'");
+//            } else {
+//                noPermintaan = Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(noorder,4),signed)),0) from permintaan_lab where tgl_permintaan='"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"' ","PL"+Valid.SetTgl(Tanggal.getSelectedItem()+"").replaceAll("-",""),4);
+//                Sequel.menyimpantf2("permintaan_lab","?,?,?,?,?,?,?,?,?,?,?,?","No.Permintaan",12,new String[]{
+//                    noPermintaan,TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),
+//                    CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(), 
+//                    "0000-00-00","00:00:00",
+//                    date.toString(),localTime.toString(),KodePerujuk.getText(),status.replaceAll("R","r"),"",""});
+//            }
+                        
             for(i=0;i<tbTarif.getRowCount();i++){ 
                 if(tbTarif.getValueAt(i,0).toString().equals("true")){
+                    // save ke permintaan lab 
+//                    if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"'  and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'") == 0){
+//                        Sequel.menyimpan2("permintaan_pemeriksaan_lab","?,?,?","pemeriksaan lab",3,new String[]{
+//                            noPermintaan,tbTarif.getValueAt(i,1).toString(),"Belum"
+//                        });       
+//                    }           
                     if(Sequel.menyimpantf2("periksa_lab","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'PK'","Kode Pemeriksaan",16,new String[]{
                             TNoRw.getText(),KdPtg.getText(),tbTarif.getValueAt(i,1).toString(),Valid.SetTgl(Tanggal.getSelectedItem()+""),
                             CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),KodePerujuk.getText(),
@@ -2884,10 +2932,10 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                 ttljmperujuk=ttljmperujuk+Double.parseDouble(tbTarif.getValueAt(i,6).toString());
                                 ttlmenejemen=ttlmenejemen+Double.parseDouble(tbTarif.getValueAt(i,10).toString());
                             }
-                                
+
                     }else{
                         sukses=false;
-                    }  
+                    }
                     
                     //begin simpan jumlah spuit dan reagen
                     if(sukses==true){
@@ -2916,7 +2964,13 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
             if(sukses==true){
                 for(i=0;i<tbPemeriksaan.getRowCount();i++){ 
-                    if((!tbPemeriksaan.getValueAt(i,6).toString().equals(""))&&tbPemeriksaan.getValueAt(i,0).toString().equals("true")){                                
+                    if((!tbPemeriksaan.getValueAt(i,6).toString().equals(""))&&tbPemeriksaan.getValueAt(i,0).toString().equals("true")){ 
+//                        //save ke permintaan lab
+//                        if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+TNoRw.getText()+"'  and tgl_hasil = '0000-00-00' and jam_hasil = '00:00:00'") == 0){                                
+//                            Sequel.menyimpan2("permintaan_detail_permintaan_lab","?,?,?,?","detail pemeriksaan lab",4,new String[]{
+//                                noPermintaan,Sequel.cariIsi("select kd_jenis_prw from template_laboratorium where id_template=?",tbPemeriksaan.getValueAt(i,6).toString()),tbPemeriksaan.getValueAt(i,6).toString(),"Belum"
+//                            });
+//                        }
                         pscariperawatan=koneksi.prepareStatement("select kd_jenis_prw from template_laboratorium where id_template=?");
                         try {
                             pscariperawatan.setString(1,tbPemeriksaan.getValueAt(i,6).toString());
@@ -2949,7 +3003,7 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                             ttljmperujuk=ttljmperujuk+Double.parseDouble(tbPemeriksaan.getValueAt(i,10).toString());
                                             ttlmenejemen=ttlmenejemen+Double.parseDouble(tbPemeriksaan.getValueAt(i,14).toString()); 
                                         }
-                                            
+
                                 }else{
                                     sukses=false;
                                 }
@@ -2974,6 +3028,10 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     Sequel.mengedit("permintaan_lab","noorder=?","tgl_hasil=?,jam_hasil=?",3,new String[]{
                         Valid.SetTgl(Tanggal.getSelectedItem()+""),CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),noorder
                     });
+                    //update tanggal selesai menjadi saat simpan
+//                    Sequel.mengedit("permintaan_lab","noorder=?","tgl_hasil=?,jam_hasil=?",3,new String[]{
+//                        date.toString(),localTime.toString(),noorder
+//                    });
                 }
                 
                 if(status.equals("Ranap")){

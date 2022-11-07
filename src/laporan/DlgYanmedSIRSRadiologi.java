@@ -101,7 +101,7 @@ public class DlgYanmedSIRSRadiologi extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan Rawat Inap  SIRS ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan SIRS RL 3.7 Radiologi ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -366,10 +366,10 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             ps=koneksi.prepareStatement(
                     "SELECT jp.nm_perawatan, COUNT(jp.nm_perawatan) AS jml\n" +
                     "FROM reg_periksa r\n" +
-                    "INNER JOIN periksa_lab pl ON pl.no_rawat = r.no_rawat\n" +
-                    "INNER JOIN jns_perawatan_lab jp ON jp.kd_jenis_prw = pl.kd_jenis_prw\n" +
+                    "INNER JOIN periksa_radiologi pr ON pr.no_rawat = r.no_rawat\n" +
+                    "INNER JOIN jns_perawatan_radiologi jp ON jp.kd_jenis_prw = pr.kd_jenis_prw\n" +
                     "WHERE r.tgl_registrasi BETWEEN ? AND ? \n" +
-                    "GROUP BY pl.kd_jenis_prw");
+                    "GROUP BY pr.kd_jenis_prw");
             try {
                 i=1;                     
                 ps.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));

@@ -582,7 +582,7 @@ public class DlgInputStok extends javax.swing.JDialog {
 
         BtnCari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Search-16x16.png"))); // NOI18N
         BtnCari.setMnemonic('C');
-        BtnCari.setText("Cari");
+        BtnCari.setText("Laporan");
         BtnCari.setToolTipText("Alt+C");
         BtnCari.setName("BtnCari"); // NOI18N
         BtnCari.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -819,7 +819,7 @@ public class DlgInputStok extends javax.swing.JDialog {
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        DlgStokOpname opname=new DlgStokOpname(null,false);
+        DlgStokOpname2 opname=new DlgStokOpname2(null,false);
         opname.isCek(); 
         opname.emptTeks();
         opname.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);

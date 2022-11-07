@@ -6341,6 +6341,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             headers.add("user_key",koneksiDB.USERKEYAPIBPJS());
             URL = link+"/SEP/2.0/delete";
             System.out.println("URL "+URL);
+            System.out.println("Headers "+headers);
             requestJson ="{\"request\":{\"t_sep\":{\"noSep\":\""+tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString()+"\",\"user\":\""+user+"\"}}}";  
             System.out.println("JSON : "+requestJson);
             requestEntity = new HttpEntity(requestJson,headers);

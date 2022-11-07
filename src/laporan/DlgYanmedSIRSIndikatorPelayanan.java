@@ -96,7 +96,7 @@ public class DlgYanmedSIRSIndikatorPelayanan extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan Kinerja RS ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan SIRS RL 1.2 Indikator Pelayanan ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -343,43 +343,17 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             htmlContent = new StringBuilder();
             htmlContent.append(                             
                 "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' rowspan='2'>No.</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='25%' rowspan='2'>Nama Rumkit</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='54%' colspan='6'>Nilai Parameter</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>Total Nilai Kinerja</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='10%' rowspan='2'>Keterangan</td>"+
-                "</tr>"+
-                "<tr class='isi'>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>BOR (%)</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>BTO (Kali)</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>ALOS (Hari)</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>TOI (Hari)</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>GDR (&#8240;)</td>"+
-                    "<td valign='middle' bgcolor='#FFFAF8' align='center'>NDR (&#8240;)</td>"+
-                "</tr>" +
-                "<tr class='isi'>"+
-                    "<td valign='middle' align='center'>1</td>"+
-                    "<td valign='middle' align='center'>2</td>"+
-                    "<td valign='middle' align='center'>3</td>"+
-                    "<td valign='middle' align='center'>4</td>"+
-                    "<td valign='middle' align='center'>5</td>"+
-                    "<td valign='middle' align='center'>6</td>"+
-                    "<td valign='middle' align='center'>7</td>"+
-                    "<td valign='middle' align='center'>8</td>"+
-                    "<td valign='middle' align='center'>9</td>"+
-                    "<td valign='middle' align='center'>10</td>"+
-                "</tr>" +
-                "<tr class='isi'>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
-                    "<td valign='middle' align='center'></td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' >KODE RS</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='8%' >KODE PROPINSI"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' >KAB/KOTA</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='3%' >TAHUN</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='5%' >BOR</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='4%' >LOS</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >BTO</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >TOI</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >NDR</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >GDR</td>"+
+                    "<td valign='middle' bgcolor='#FFFAF8' align='center' width='1%' >RATA KUNJUNGAN</td>"+
                 "</tr>"
             );
             lamaInap=Sequel.cariIsiAngka2("SELECT SUM(lama) AS lama FROM kamar_inap where tgl_masuk BETWEEN ? and ? ",Valid.SetTgl(Tgl1.getSelectedItem()+""),Valid.SetTgl(Tgl2.getSelectedItem()+""));
@@ -401,16 +375,17 @@ private void btnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_b
             
             htmlContent.append(                             
                 "<tr class='isi'>"+
-                    "<td valign='middle' align='center'>1</td>"+
-                    "<td valign='middle' align='center'>Rumah Sakit Tk. II dr. Soepraoen</td>"+
+                    "<td valign='middle' align='center'>3573022</td>"+
+                    "<td valign='middle' align='center'>35prop</td>"+
+                    "<td valign='middle' align='center'>Kota Malang</td>"+
+                    "<td valign='middle' align='center'>2022</td>"+
                     "<td valign='middle' align='center'>"+df.format(BOR)+"</td>"+
-                    "<td valign='middle' align='center'>"+df.format(BTO)+"</td>"+
                     "<td valign='middle' align='center'>"+df.format(ALOS)+"</td>"+
+                    "<td valign='middle' align='center'>"+df.format(BTO)+"</td>"+
                     "<td valign='middle' align='center'>"+df.format(TOI)+"</td>"+
-                    "<td valign='middle' align='center'>"+df.format(GDR)+"</td>"+
                     "<td valign='middle' align='center'>"+df.format(NDR)+"</td>"+
-                    "<td valign='middle' align='center'>-</td>"+
-                    "<td valign='middle' align='center'>-</td>"+
+                    "<td valign='middle' align='center'>"+df.format(GDR)+"</td>"+
+                    "<td valign='middle' align='center'>0</td>"+
                 "</tr>"
             ); 
             

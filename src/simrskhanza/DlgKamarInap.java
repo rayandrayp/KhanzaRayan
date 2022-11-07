@@ -5979,6 +5979,7 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             TCari.requestFocus();
         }else{
             if(tbKamIn.getSelectedRow()>-1){
+//                System.out.println(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString());
                 if(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),0).toString().equals("")){
                     try {
                         if(Sequel.cariRegistrasi(tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,0).toString())>0){
@@ -5994,14 +5995,31 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                                 psanak.setString(1,tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,0).toString());
                                 rs2=psanak.executeQuery();
                                 if(rs2.next()){
-                                    akses.setform("DlgKamarInap");
-                                    DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
-                                    periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-                                    periksalab.setLocationRelativeTo(internalFrame1);
-                                    periksalab.emptTeks();
-                                    periksalab.setNoRm(rs2.getString("no_rawat2"),"Ranap");  
-                                    periksalab.isCek();
-                                    periksalab.setVisible(true);
+                                    if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+rs2.getString("no_rawat2")+"'") > 0){
+                                        String noPermintaan = Sequel.cariIsi("SELECT noorder FROM permintaan_lab WHERE no_rawat = '"+rs2.getString("no_rawat2")+"'");
+                                        String KodeDokter = Sequel.cariIsi("SELECT kd_dokter FROM reg_periksa WHERE no_rawat = '"+rs2.getString("no_rawat2")+"'");
+                                        String DokterPerujuk = Sequel.cariIsi("SELECT knm_dokter FROM dokter WHERE kd_dokter = '"+KodeDokter+"'");
+
+                                        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                                        DlgPeriksaLaboratorium dlgro=new DlgPeriksaLaboratorium(null,false);
+                                        dlgro.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                        dlgro.setLocationRelativeTo(internalFrame1);
+                                        dlgro.emptTeks();
+                                        dlgro.isCek(); 
+                                        dlgro.setOrder(noPermintaan,rs2.getString("no_rawat2"),"Ranap");
+                                        dlgro.setDokterPerujuk(KodeDokter,DokterPerujuk);
+                                        dlgro.setVisible(true);
+                                        this.setCursor(Cursor.getDefaultCursor());
+                                    }else{
+                                        akses.setform("DlgKamarInap");
+                                        DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
+                                        periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                        periksalab.setLocationRelativeTo(internalFrame1);
+                                        periksalab.emptTeks();
+                                        periksalab.setNoRm(rs2.getString("no_rawat2"),"Ranap");  
+                                        periksalab.isCek();
+                                        periksalab.setVisible(true);
+                                    }
                                 }else{
                                       JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
                                       tbKamIn.requestFocus();
@@ -6021,14 +6039,31 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                         System.out.println(e);
                     } 
                 }else{
-                    akses.setform("DlgKamarInap");
-                    DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
-                    periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-                    periksalab.setLocationRelativeTo(internalFrame1);
-                    periksalab.emptTeks();
-                    periksalab.setNoRm(norawat.getText(),"Ranap");  
-                    periksalab.isCek();
-                    periksalab.setVisible(true);
+                    if(Sequel.cariInteger("SELECT COUNT(*) FROM permintaan_lab WHERE no_rawat = '"+norawat.getText()+"'") > 0){
+                        String noPermintaan = Sequel.cariIsi("SELECT noorder FROM permintaan_lab WHERE no_rawat = '"+norawat.getText()+"'");
+                        String KodeDokter = Sequel.cariIsi("SELECT kd_dokter FROM reg_periksa WHERE no_rawat = '"+norawat.getText()+"'");
+                        String DokterPerujuk = Sequel.cariIsi("SELECT knm_dokter FROM dokter WHERE kd_dokter = '"+KodeDokter+"'");
+
+                        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        DlgPeriksaLaboratorium dlgro=new DlgPeriksaLaboratorium(null,false);
+                        dlgro.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                        dlgro.setLocationRelativeTo(internalFrame1);
+                        dlgro.emptTeks();
+                        dlgro.isCek(); 
+                        dlgro.setOrder(noPermintaan,norawat.getText(),"Ranap");
+                        dlgro.setDokterPerujuk(KodeDokter,DokterPerujuk);
+                        dlgro.setVisible(true);
+                        this.setCursor(Cursor.getDefaultCursor());
+                    }else{
+                        akses.setform("DlgKamarInap");
+                        DlgPeriksaLaboratorium periksalab=new DlgPeriksaLaboratorium(null,false);
+                        periksalab.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                        periksalab.setLocationRelativeTo(internalFrame1);
+                        periksalab.emptTeks();
+                        periksalab.setNoRm(norawat.getText(),"Ranap");  
+                        periksalab.isCek();
+                        periksalab.setVisible(true);
+                    }
                 }
             }
         } 
@@ -8557,7 +8592,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 param.put("kamar",kdkamar.getText()+" "+TBangsal.getText());    
                 param.put("dpjp",Sequel.cariIsi("select dokter.nm_dokter from dpjp_ranap inner join dokter on dpjp_ranap.kd_dokter=dokter.kd_dokter where dpjp_ranap.no_rawat=? ",TNoRwCari.getText()));
                 param.put("logo",Sequel.cariGambar("select logo from setting")); 
-                Valid.MyReportqry("rptGelangPasienDewasa.jasper","report","::[ Gelang Pasien ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, "+
+                Valid.MyReportqry("rptGelangPasienDewasa.jasper","report","::[ Gelang Pasien ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk,"+
                        "pasien.tmp_lahir, pasien.tgl_lahir,pasien.nm_ibu, concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat, pasien.gol_darah, pasien.pekerjaan,"+
                        "pasien.stts_nikah,pasien.agama,pasien.tgl_daftar,pasien.no_tlp,pasien.umur,"+
                        "pasien.pnd, pasien.keluarga, pasien.namakeluarga,penjab.png_jawab,pasien.pekerjaanpj,"+
@@ -9290,7 +9325,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 param.put("emailrs",akses.getemailrs());
                 param.put("tanggal",Valid.SetTgl3(TIn.getText()));
                 param.put("logo",Sequel.cariGambar("select logo from setting"));
-                Valid.MyReportqry("rptBarcodeRM7.jasper","report","::[ Gelang Pasien ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, "+
+                Valid.MyReportqry("rptBarcodeRMBaru.jasper","report","::[ Gelang Pasien ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, "+
                     "pasien.tmp_lahir, pasien.tgl_lahir,pasien.nm_ibu, concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat, pasien.gol_darah, pasien.pekerjaan,"+
                     "pasien.stts_nikah,pasien.agama,pasien.tgl_daftar,pasien.no_tlp,pasien.umur,"+
                     "pasien.pnd, pasien.keluarga, pasien.namakeluarga,penjab.png_jawab,pasien.pekerjaanpj,"+
