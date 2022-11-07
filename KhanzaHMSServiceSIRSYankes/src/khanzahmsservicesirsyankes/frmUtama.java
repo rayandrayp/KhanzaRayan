@@ -5,17 +5,22 @@
  */
 package khanzahmsservicesirsyankes;
 
+import static com.oracle.javafx.scenebuilder.kit.editor.panel.inspector.editors.EditorUtils.round;
 import fungsi.SirsApi;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -32,14 +37,22 @@ public class frmUtama extends javax.swing.JFrame {
     private  Properties prop = new Properties();
     private  Connection koneksi=koneksiDB.condb();
     private  sekuel Sequel=new sekuel();
-    private  String requestXML,URL="";
+    private  String requestXML,URL="", queryString = "", kode_ruang = "", tipe_pasien = "";
     private  SirsApi api=new SirsApi();
     private  HttpHeaders headers;
     private  HttpEntity requestEntity;
     private  PreparedStatement ps;
     private  ResultSet rs;
-    private int totaltt=0,tersedia=0,menunggu=0,terpakai=0;
-
+//    private int totaltt=0,tersedia=0,menunggu=0,terpakai=0;
+    private String kodekelas = "", koderuang = "", namaruang = "";
+    private int kapasitas = 0, tersedia = 0, tersediapria = 0, tersediawanita = 0, menunggu = 0, terpakaipria = 0, terpakaiwanita = 0, tersediapriawanita = 0 ;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date date = new Date();
+    DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+    DateFormat dateFormat3 = new SimpleDateFormat("dd-MM-yyyy");
+    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    private int monthValue = localDate.getMonthValue();
+    private int yearValue = localDate.getYear();
     /**
      * Creates new form frmUtama
      */
@@ -168,75 +181,510 @@ public class frmUtama extends javax.swing.JFrame {
                 String menit = nol_menit + Integer.toString(nilai_menit);
                 String detik = nol_detik + Integer.toString(nilai_detik);
 //                TeksArea.append(jam+":"+menit+":"+detik+"\n");
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date();
-                if(menit.equals("01")&&detik.equals("01")){
+                
+                if(menit.equals("29")&&detik.equals("01")){
                     if(jam.equals("01")&&menit.equals("01")&&detik.equals("01")){
                         TeksArea.setText("");
                     }
-                        
-                    try {
-                        koneksi=koneksiDB.condb();
-                        TeksArea.append("Memulai update Siranap\n");
-                        ps=koneksi.prepareStatement(
-                                "select siranap_ketersediaan_kamar.kode_ruang_siranap,siranap_ketersediaan_kamar.kelas_ruang_siranap,siranap_ketersediaan_kamar.kd_bangsal," +
-                                "bangsal.nm_bangsal,siranap_ketersediaan_kamar.kelas,siranap_ketersediaan_kamar.kapasitas," +
-                                "siranap_ketersediaan_kamar.tersedia,siranap_ketersediaan_kamar.tersediapria," +
-                                "siranap_ketersediaan_kamar.tersediawanita,siranap_ketersediaan_kamar.menunggu " +
-                                "from siranap_ketersediaan_kamar inner join bangsal on siranap_ketersediaan_kamar.kd_bangsal=bangsal.kd_bangsal");
-                        try {
-                            rs=ps.executeQuery();
-                            while(rs.next()){
-                                TeksArea.append("Mengirimkan kamar "+rs.getString("kode_ruang_siranap")+" "+rs.getString("nm_bangsal")+"\n");
-                                try {    
-                                    totaltt=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
-                                    tersedia=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='KOSONG' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
-                                    terpakai=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='ISI' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
-                                    menunggu=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='DIBERSIHKAN' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
-                                    headers = new HttpHeaders();
-                                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
-                                    headers.add("X-pass",api.getHmac()); 
-                                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
-                                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+
-                                    "<xml>\n"+    
-                                        "<data>\n"+
-                                            "<kode_ruang>"+rs.getString("kelas_ruang_siranap").substring(0,4)+"</kode_ruang>\n"+
-                                            "<tipe_pasien>"+rs.getString("kode_ruang_siranap").substring(0,4)+"</tipe_pasien>\n"+
-                                            "<total_TT>"+Integer.toString(totaltt)+"</total_TT>\n"+
-                                            "<terpakai_male>"+Integer.toString(terpakai)+"</terpakai_male>\n"+
-                                            "<terpakai_female>"+Integer.toString(terpakai)+"</terpakai_female>\n"+
-                                            "<kosong_male>"+Integer.toString(tersedia)+"</kosong_male>\n"+
-                                            "<kosong_female>"+Integer.toString(tersedia)+"</kosong_female>\n"+
-                                            "<waiting>"+Integer.toString(menunggu)+"</waiting>\n"+
-                                            "<tgl_update>"+dateFormat.format(date)+"</tgl_update>\n"+
-                                        "</data>\n"+
-                                    "</xml>";              
-                                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
-                                    requestEntity = new HttpEntity(requestXML,headers);
-                                    requestXML=api.getRest().exchange(URL+"/ranap", HttpMethod.POST, requestEntity, String.class).getBody();
-                                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
-                                }catch (Exception ex) {
-                                    System.out.println("Notifikasi Bridging : "+ex);
-                                }
-                            }
-                        } catch (Exception ex) {
-                            System.out.println("Notif Ketersediaan : "+ex);
-                        } finally{
-                            if(rs!=null){
-                                rs.close();
-                            }
-                            if(ps!=null){
-                                ps.close();
-                            }
-                        }
-                        TeksArea.append("Proses update selesai\n");
-                    } catch (Exception ez) {
-                        System.out.println("Notif : "+ez);
-                    }
+                    bedMonitor();
+                    dataKunjungan();
+                    diagnosaPenyakit();
+                    indikatorPelayanan();
+                    TeksArea.append("Proses kirim data selesai.");
                 }
             }
         };
         // Timer
         new Timer(1000, taskPerformer).start();
+    }
+    
+    private void bedMonitor(){
+        try {
+            koneksi=koneksiDB.condb();
+            TeksArea.append("Memulai update Bed Monitor SIRS\n");
+//            queryString = "select siranap_ketersediaan_kamar.kode_ruang_siranap,siranap_ketersediaan_kamar.kelas_ruang_siranap,siranap_ketersediaan_kamar.kd_bangsal," +
+//                        "bangsal.nm_bangsal,siranap_ketersediaan_kamar.kelas,siranap_ketersediaan_kamar.kapasitas," +
+//                        "siranap_ketersediaan_kamar.tersedia,siranap_ketersediaan_kamar.tersediapria," +
+//                        "siranap_ketersediaan_kamar.tersediawanita,siranap_ketersediaan_kamar.menunggu " +
+//                        "from siranap_ketersediaan_kamar inner join bangsal on siranap_ketersediaan_kamar.kd_bangsal=bangsal.kd_bangsal";
+            queryString = "SELECT  k.kd_bangsal " +
+                        "       ,b.nm_bangsal " +
+                        "       ,k.kelas " +
+                        "       ,SUM(CASE WHEN k.status = 'KOSONG' THEN 1 ELSE 0 END) AS kosong " +
+                        "       ,SUM(CASE WHEN k.status = 'ISI' THEN 1 ELSE 0 END)    AS isi " +
+                        "       ,SUM(CASE WHEN k.status = 'DIBERSIHKAN' THEN 1 ELSE 0 END)    AS menunggu " +
+                        "FROM kamar k " +
+                        "INNER JOIN bangsal b " +
+                        "ON b.kd_bangsal = k.kd_bangsal " +
+                        "WHERE k.statusdata = '1' " +
+                        "GROUP BY  k.kd_bangsal, k.kelas";
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    TeksArea.append("Mengirimkan kamar "+rs.getString("nm_bangsal")+" "+rs.getString("kelas")+"\n");
+                    try {    
+//                        totaltt=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
+//                        tersedia=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='KOSONG' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
+//                        terpakai=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='ISI' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
+//                        menunggu=Sequel.cariInteger("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and status='DIBERSIHKAN' and kd_bangsal='"+rs.getString("kd_bangsal")+"'");
+                        //get kode ruang
+//                        System.out.println("kd_bangsal "+rs.getString("kd_bangsal"));
+                        switch(rs.getString("kd_bangsal")){
+                            case "CVCU" :
+                                kode_ruang = "0027"; //CVCU/ICCU
+                                break;
+                            case "HCU" :
+                                kode_ruang = "0029"; //HCU
+                                break;
+                            case "ICU" :
+                                kode_ruang = "0024"; //ICU/RICU
+                                break;
+                            case "NIC" :
+                                kode_ruang = "0025"; //NICU
+                                break;
+                            case "NIMCU" :
+                                kode_ruang = "0025"; //NICU
+                                break;
+                            case "PIC" :
+                                kode_ruang = "0026"; //PICU
+                                break;
+                            case "US" :
+                                kode_ruang = "0014"; //Umum
+                                break;
+                            case "USHCU" :
+                                kode_ruang = "0014"; //HCU
+                                break;
+                            default :
+                                kode_ruang = "0000"; //Umum
+                                break;
+                        }
+                        
+                        //get tipe pasien
+//                        System.out.println("kelas "+rs.getString("kelas"));
+                        switch(rs.getString("kelas")){
+                            case "HCU" :
+                                tipe_pasien = "0008"; //Rawat Khusus
+                                break;
+                            case "ICCU" :
+                                tipe_pasien = "0008"; //Rawat Khusus
+                                break;
+                            case "ICU" :
+                                tipe_pasien = "0008"; //Rawat Khusus
+                                break;
+                            case "KELAS I" :
+                                tipe_pasien = "0003"; // Kelas 1
+                                break;
+                            case "KELAS II" :
+                                tipe_pasien = "0004"; // Kelas 2
+                                break;
+                            case "KELAS III" :
+                                tipe_pasien = "0005"; // Kelas 3
+                                break;
+                            case "NICU" :
+                                tipe_pasien = "0008"; //Rawat Khusus
+                                break;
+                            case "PICU" :
+                                tipe_pasien = "0008"; //Rawat Khusus
+                                break;
+                            case "RUANG ISOLASI" :
+                                tipe_pasien = "0007"; // Isolaso
+                                break;
+                            case "UTAMA" :
+                                tipe_pasien = "0009"; // Stroke Care Unit ?
+                                break;
+                            case "VIP" :
+                                tipe_pasien = "0002"; // VIP
+                                break;
+                            case "VVIP" :
+                                tipe_pasien = "0001"; // Super VIP
+                                break;
+                            default :
+                                tipe_pasien = "0000";
+                                break;
+                        }
+                        
+                        kapasitas = rs.getInt("kosong") + rs.getInt("isi");
+                        menunggu = rs.getInt("menunggu");
+                        
+                        if (rs.getString("kd_bangsal").equalsIgnoreCase("edw")) {
+                            tersediawanita = rs.getInt("kosong");
+                            tersediapria = 0 ;
+                            terpakaipria = 0;
+                            terpakaiwanita = kapasitas - tersediawanita;
+                        } else {
+                            tersediawanita = rs.getInt("kosong");
+                            tersediapria = rs.getInt("kosong");
+                            terpakaipria = kapasitas - tersediapria;
+                            terpakaiwanita = kapasitas - tersediawanita;
+                        }
+                        
+                        headers = new HttpHeaders();
+                        headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                        headers.add("X-pass",api.getHmac()); 
+                        headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                        requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+
+                        "<xml>\n"+    
+                            "<data>\n"+
+                                "<kode_ruang>"+kode_ruang+"</kode_ruang>\n"+
+                                "<tipe_pasien>"+tipe_pasien+"</tipe_pasien>\n"+
+                                "<total_TT>"+Integer.toString(kapasitas)+"</total_TT>\n"+
+                                "<terpakai_male>"+Integer.toString(terpakaipria)+"</terpakai_male>\n"+
+                                "<terpakai_female>"+Integer.toString(terpakaiwanita)+"</terpakai_female>\n"+
+                                "<kosong_male>"+Integer.toString(tersediapria)+"</kosong_male>\n"+
+                                "<kosong_female>"+Integer.toString(tersediawanita)+"</kosong_female>\n"+
+                                "<waiting>"+Integer.toString(menunggu)+"</waiting>\n"+
+                                "<tgl_update>"+dateFormat.format(date)+"</tgl_update>\n"+
+                            "</data>\n"+
+                        "</xml>";              
+                        TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                        requestEntity = new HttpEntity(requestXML,headers);
+                        requestXML=api.getRest().exchange(URL+"/ranap", HttpMethod.POST, requestEntity, String.class).getBody();
+                        TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                        System.out.println("JSON dikirim : "+requestXML);
+                        System.out.println("URL "+URL+"/ranap");
+                        System.out.println("respon WS BPJS : "+requestXML);
+                    }catch (Exception ex) {
+                        System.out.println("Notifikasi Bridging : "+ex);
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("Notif Bed Monitor : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+            TeksArea.append("Proses update selesai\n");
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+    }
+    
+    private void dataKunjungan(){
+        TeksArea.append("Memulai update Data Kunjungan SIRS\n");
+        TeksArea.append("Mengirimkan data kunjungan Instalasi Rawat Jalan.\n");
+        try {
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT p.nm_poli, SUM(CASE WHEN r.kd_pj = 'BPJ' THEN 1 ELSE 0 END) AS jkn, SUM(CASE WHEN r.kd_pj <> 'BPJ' THEN 1 ELSE 0 END) AS nonjkn " +
+                        "FROM reg_periksa r INNER JOIN poliklinik p ON p.kd_poli = r.kd_poli " +
+                        "WHERE r.tgl_registrasi = '" + dateFormat2.format(date) + "' AND r.kd_poli <> 'UGD' " +
+                        "GROUP BY r.kd_poli";
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                String requestData = "";
+                while(rs.next()){
+                    requestData += 
+                        "<data>\n"+
+                            "<KLINIK>"+rs.getString("nm_poli")+"</KLINIK>\n"+
+                            "<JKN>"+rs.getString("jkn")+"</JKN>\n"+
+                            "<NONJKN>"+rs.getString("nonjkn")+"</NONJKN>\n"+
+                        "</data>\n";
+                }
+                try {  
+
+                    headers = new HttpHeaders();
+                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                    headers.add("X-pass",api.getHmac()); 
+                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                requestData +
+                                "</xml>";              
+                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                    requestEntity = new HttpEntity(requestXML,headers);
+                    System.out.println("URL dataKunjungan "+URL+"/irj/" + dateFormat3.format(date));
+                    requestXML=api.getRest().exchange(URL+"/irj/" + dateFormat2.format(date), HttpMethod.POST, requestEntity, String.class).getBody();
+//                    System.out.println("JSON dikirim : "+requestXML);
+                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging dataKunjungan IRJ : "+ex);
+                }
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+        
+        TeksArea.append("Mengirimkan data kunjungan Instalasi Gawat Darurat.\n");
+        try {
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT SUM(CASE WHEN r.kd_pj = 'BPJ' THEN 1 ELSE 0 END) AS jkn, SUM(CASE WHEN r.kd_pj <> 'BPJ' THEN 1 ELSE 0 END) AS nonjkn " +
+                        "FROM reg_periksa r WHERE r.tgl_registrasi = '" + dateFormat2.format(date) + "' AND r.kd_poli = 'UGD' GROUP BY r.kd_poli";
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                String requestData = "";
+                while(rs.next()){
+                    requestData += 
+                        "<data>\n"+
+                            "<JKN>"+rs.getString("jkn")+"</JKN>\n"+
+                            "<NONJKN>"+rs.getString("nonjkn")+"</NONJKN>\n"+
+                        "</data>\n";
+                }
+                try {  
+
+                    headers = new HttpHeaders();
+                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                    headers.add("X-pass",api.getHmac()); 
+                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                requestData +
+                                "</xml>";              
+                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                    requestEntity = new HttpEntity(requestXML,headers);
+                    System.out.println("URL dataKunjungan "+URL+"/igd/" + dateFormat3.format(date));
+                    requestXML=api.getRest().exchange(URL+"/igd/" + dateFormat2.format(date), HttpMethod.POST, requestEntity, String.class).getBody();
+                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                    System.out.println("JSON dikirim : "+requestXML);
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging dataKunjungan IGD : "+ex);
+                }
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+        
+        TeksArea.append("Mengirimkan data kunjungan Instalasi Rawat Inap.\n");
+        try {
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT k.kelas, SUM(CASE WHEN k.status = 'ISI' THEN 1 ELSE 0 END) AS isi " +
+                        "FROM kamar k WHERE k.statusdata = '1' GROUP BY k.kelas";
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                String requestData = "";
+                while(rs.next()){
+                    requestData += 
+                        "<data>\n"+
+                            "<CONTENT>"+rs.getString("kelas")+"</CONTENT>\n"+
+                            "<JLH>"+rs.getString("isi")+"</JLH>\n"+
+                        "</data>\n";
+                }
+                try {  
+
+                    headers = new HttpHeaders();
+                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                    headers.add("X-pass",api.getHmac()); 
+                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                requestData +
+                                "</xml>";              
+                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                    requestEntity = new HttpEntity(requestXML,headers);
+                    System.out.println("URL dataKunjungan "+URL+"/iri/" + dateFormat3.format(date));
+                    requestXML=api.getRest().exchange(URL+"/iri/" + dateFormat2.format(date), HttpMethod.POST, requestEntity, String.class).getBody();
+                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                System.out.println("JSON dikirim : "+requestXML);
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging dataKunjungan IRI : "+ex);
+                }
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+    }
+    
+    private void diagnosaPenyakit(){
+        TeksArea.append("Memulai update Diagnosa Penyakit SIRS\n");
+        TeksArea.append("Mengirimkan data kunjungan Instalasi Rawat Jalan.\n");
+        try {
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT b.diagawal, COUNT(b.diagawal) AS jml FROM bridging_sep b INNER JOIN reg_periksa p ON p.no_rawat = b.no_rawat " +
+                        "WHERE p.status_lanjut = 'Ralan' AND p.tgl_registrasi = '" + dateFormat2.format(date) + "' GROUP BY b.diagawal ORDER BY jml DESC LIMIT 10" ;
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                String requestData = "";
+                while(rs.next()){
+                    requestData += 
+                        "<data>\n"+
+                            "<ID_DIAG>"+rs.getString("diagawal")+"</ID_DIAG>\n"+
+                            "<JUMLAH_KASUS>"+rs.getString("jml")+"</JUMLAH_KASUS>\n"+
+                            "<TANGGAL>"+dateFormat3.format(date).toString()+"</TANGGAL>\n"+
+                        "</data>\n";
+                }
+                try {  
+
+                    headers = new HttpHeaders();
+                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                    headers.add("X-pass",api.getHmac()); 
+                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                requestData +
+                                "</xml>";              
+                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                    requestEntity = new HttpEntity(requestXML,headers);
+                    System.out.println("URL diagnosaPenyakit "+URL+"/diagnosa_irj/"+monthValue+"-"+yearValue);
+                    requestXML=api.getRest().exchange(URL+"/diagnosa_irj/"+monthValue+"-"+yearValue, HttpMethod.POST, requestEntity, String.class).getBody();
+                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                System.out.println("JSON dikirim : "+requestXML);
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging diagnosaPenyakit IRJ : "+ex);
+                }
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+        
+        TeksArea.append("Mengirimkan data kunjungan Instalasi Rawat Inap.\n");
+        try {
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT b.diagawal, COUNT(b.diagawal) AS jml FROM bridging_sep b INNER JOIN reg_periksa p ON p.no_rawat = b.no_rawat " +
+                        "WHERE p.status_lanjut = 'Ranap' AND p.tgl_registrasi = '" + dateFormat2.format(date) + "' GROUP BY b.diagawal ORDER BY jml DESC LIMIT 10" ;
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+                rs=ps.executeQuery();
+                String requestData = "";
+                while(rs.next()){
+                    requestData += 
+                        "<data>\n"+
+                            "<ID_DIAG>"+rs.getString("diagawal")+"</ID_DIAG>\n"+
+                            "<JUMLAH_KASUS>"+rs.getString("jml")+"</JUMLAH_KASUS>\n"+
+                            "<TANGGAL>"+dateFormat3.format(date).toString()+"</TANGGAL>\n"+
+                        "</data>\n";
+                }
+                try {  
+
+                    headers = new HttpHeaders();
+                    headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                    headers.add("X-pass",api.getHmac()); 
+                    headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                    requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                requestData +
+                                "</xml>";              
+                    TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                    requestEntity = new HttpEntity(requestXML,headers);
+                    System.out.println("URL diagnosaPenyakit "+URL+"/diagnosa_iri/"+monthValue+"-"+yearValue);
+                    requestXML=api.getRest().exchange(URL+"/diagnosa_iri/"+monthValue+"-"+yearValue, HttpMethod.POST, requestEntity, String.class).getBody();
+                    TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                System.out.println("JSON dikirim : "+requestXML);
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging diagnosaPenyakit IRI : "+ex);
+                }
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }
+        
+    }
+    
+    private void indikatorPelayanan(){
+        TeksArea.append("Memulai update Indikator Pelayanan SIRS\n");
+        TeksArea.append("Mengirimkan data BOR.\n");
+        try {
+            String month = "";
+            if (monthValue < 10){
+                month = "0" + String.valueOf(monthValue);
+            } else {
+                month = String.valueOf(monthValue);
+            }
+            int kamar=Sequel.cariInteger("select count(*) from kamar where statusdata='1'");
+            YearMonth yearMonthObject = YearMonth.of(yearValue, monthValue);
+            int jumlahhari = yearMonthObject.lengthOfMonth(); //28  
+            koneksi=koneksiDB.condb();
+            queryString = "SELECT sum(lama) AS jml FROM kamar_inap WHERE tgl_masuk LIKE '" + yearValue + "-" + month + "%'" ;
+            ps=koneksi.prepareStatement(queryString);
+            try {
+//                System.out.println(ps);
+//                System.out.println("jumlahhari "+jumlahhari);
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    try {  
+//                        double bor = round((rs.getDouble("jml")/(kamar*jumlahhari))*100,2);
+                        Double bor = new BigDecimal((rs.getDouble("jml")/(kamar*jumlahhari))*100).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        headers = new HttpHeaders();
+                        headers.add("X-rs-id",koneksiDB.IDSIRS()); 
+                        headers.add("X-pass",api.getHmac()); 
+                        headers.add("Content-Type","application/xml; charset=ISO-8859-1");
+                        requestXML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+ 
+                                        "<data>\n"+
+                                            "<BOR>"+String.valueOf(bor)+"</BOR>\n"+
+                                        "</data>\n" +
+                                    "</xml>";              
+                        TeksArea.append("JSON dikirim : "+requestXML+"\n");
+                        requestEntity = new HttpEntity(requestXML,headers);
+                        System.out.println("URL indikatorPelayanan "+URL+"/bor/"+monthValue+"-"+yearValue);
+                        requestXML=api.getRest().exchange(URL+"/bor/"+monthValue+"-"+yearValue, HttpMethod.POST, requestEntity, String.class).getBody();
+                        TeksArea.append("respon WS BPJS : "+requestXML+"\n");
+//                    System.out.println("JSON dikirim : "+requestXML);
+                    }catch (Exception ex) {
+                        System.out.println("Notifikasi Bridging indikatorPelayanan BOR : "+ex);
+                    }
+                        
+                }
+                
+                
+            } catch (Exception ex) {
+                System.out.println("Notif Ketersediaan : "+ex);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception ez) {
+            System.out.println("Notif : "+ez);
+        }        
     }
 }

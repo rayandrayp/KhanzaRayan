@@ -37,8 +37,8 @@ public class BPJSApiAplicare {
     public BPJSApiAplicare(){
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));            
-            Key = koneksiDB.SECRETKEYAPIAPLICARE();
-            Consid = koneksiDB.CONSIDAPIAPLICARE();
+            Key = "2lLD04E61A";//koneksiDB.SECRETKEYAPIAPLICARE();
+            Consid = "31533";//koneksiDB.CONSIDAPIAPLICARE();
         } catch (Exception ex) {
             System.out.println("Notifikasi : "+ex);
         }

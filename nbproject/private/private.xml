@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="5">
         <file>
             <url>src/keuangan/DlgPendapatanPerCaraBayar.java</url>
             <bookmark id="4">
@@ -17,37 +17,58 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>src/simrskhanza/frmUtama.java</url>
+            <bookmark id="5">
+                <name/>
+                <line>51</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgCariPeriksaLab.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgPeresepanDokter.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgDaftarPermintaanResep.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgKamarInap.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgCariObat2.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/bridging/BPJSCekHistoriPelayanan.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgPemberianDiet.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/fungsi/sekuel.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/keuangan/DlgBilingRalan.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/kepegawaian/DlgCariDokter.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/fungsi/akses.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgPenggunaObat2.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/kepegawaian/DlgCariPegawai.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgPeriksaLaboratorium.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgPenggunaObat.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgSirkulasiBarang.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/kepegawaian/DlgCariPetugas.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgBulananHAIs.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgStokOpname.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgCariObat.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/SIMRSKhanza.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/bridging/BPJSDataSEP.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/fungsi/validasi.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgYanmedINOS.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgPeriksaRadiologi.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/frmUtama.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/rekammedis/RMPenilaianAwalMedisRalanDewasa.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgBarang.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgYanmedRalan.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgYanmedRanap.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/InventoryStokAkhirFarmasiPerTanggal.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgPasien.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgSirkulasiBarang2.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/bridging/DUKCAPILCekNIK.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgStokOpname2.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgPemesanan.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgDataHAIs.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/fungsi/koneksiDB.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgHarianHAIs.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgReg.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgYanmedMorbiditas.java</file>
-            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgYanmedRanapSIRS.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgHarianHAIs.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/inventory/DlgInputStok.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/laporan/DlgHarianHAIs2.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/kepegawaian/DlgCariPetugasLab.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgKasirRalan.java</file>
+            <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/kepegawaian/DlgCariDokter2.java</file>
             <file>file:/C:/Users/Intel/Documents/SIMRS-Khanza/src/simrskhanza/DlgCariPeriksaRadiologi.java</file>
         </group>
     </open-files>

@@ -686,11 +686,11 @@ public class DlgRegistrasi extends javax.swing.JDialog {
         isNumber();
         LblNoReg.setText(NoReg.getText());
         LblNoRawat.setText(NoRawat.getText());
-        if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",19,
+        if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",22,
             new String[]{LblNoReg.getText(),LblNoRawat.getText(),LblTanggal.getText(),LblJam.getText(),
             LblKdDokter.getText(),LblNoRm.getText(),LblKdPoli.getText(),PngJawab.getText(),
             AlamatPngJawab.getText(),HubunganPngJawab.getText(),Biaya.getText(),"Belum",
-            Status.getText(),"Ralan",KdBayar.getText(),umur,sttsumur,"Belum Bayar",status})==true){
+            Status.getText(),"Ralan",KdBayar.getText(),umur,sttsumur,"Belum Bayar",status,"0",null,""})==true){
                 UpdateUmur();
                 DlgCetak cetak=new DlgCetak(null,true);
                 cetak.setSize(this.getWidth(),this.getHeight());
@@ -703,11 +703,11 @@ public class DlgRegistrasi extends javax.swing.JDialog {
             isNumber();
             LblNoReg.setText(NoReg.getText());
             LblNoRawat.setText(NoRawat.getText());
-            if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",19,
+            if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",22,
                 new String[]{LblNoReg.getText(),LblNoRawat.getText(),LblTanggal.getText(),LblJam.getText(),
                 LblKdDokter.getText(),LblNoRm.getText(),LblKdPoli.getText(),PngJawab.getText(),
                 AlamatPngJawab.getText(),HubunganPngJawab.getText(),Biaya.getText(),"Belum",
-                Status.getText(),"Ralan",KdBayar.getText(),umur,sttsumur,"Belum Bayar",status})==true){
+                Status.getText(),"Ralan",KdBayar.getText(),umur,sttsumur,"Belum Bayar",status,"0",null,""})==true){
                     UpdateUmur();
                     DlgCetak cetak=new DlgCetak(null,true);
                     cetak.setSize(this.getWidth(),this.getHeight());

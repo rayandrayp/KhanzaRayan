@@ -18,7 +18,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +35,7 @@ import org.springframework.http.MediaType;
 public class frmUtama extends javax.swing.JFrame {
     private  Connection koneksi=koneksiDB.condb();
     private  sekuel Sequel=new sekuel();
-    private  String requestJson,URL="",kodeppk=Sequel.cariIsi("select kode_ppk from setting");
+    private  String requestJson,URL=koneksiDB.URLAPIAPLICARE(),kodeppk=Sequel.cariIsi("select kode_ppk from setting"), queryString = "";
     private  BPJSApiAplicare api=new BPJSApiAplicare();
     private  HttpHeaders headers;
     private  HttpEntity requestEntity;
@@ -41,7 +44,11 @@ public class frmUtama extends javax.swing.JFrame {
     private  JsonNode nameNode;
     private  PreparedStatement ps;
     private  ResultSet rs;
-
+    private JsonNode response;
+    private Map<String, String> dataRefKelas = new HashMap<String, String>();
+    private String kodekelas = "", koderuang = "", namaruang = "";
+    private int kapasitas = 0, tersedia = 0, tersediapria = 0, tersediawanita = 0, tersediapriawanita = 0;
+    
     /**
      * Creates new form frmUtama
      */
@@ -163,67 +170,131 @@ public class frmUtama extends javax.swing.JFrame {
                 String jam = nol_jam + Integer.toString(nilai_jam);
                 String menit = nol_menit + Integer.toString(nilai_menit);
                 String detik = nol_detik + Integer.toString(nilai_detik);
-                if(menit.equals("01")&&detik.equals("01")){
-                    if(jam.equals("01")&&menit.equals("01")&&detik.equals("01")){
-                        TeksArea.setText("");
-                    }
+                if(nilai_jam%4 == 0) {
+                    if(menit.equals("01")&&detik.equals("01")){
                         
-                    try {
-                        koneksi=koneksiDB.condb();
-                        TeksArea.append("Memulai update aplicare\n");
-                        ps=koneksi.prepareStatement(
-                                "select aplicare_ketersediaan_kamar.kode_kelas_aplicare,aplicare_ketersediaan_kamar.kd_bangsal," +
-                                "bangsal.nm_bangsal,aplicare_ketersediaan_kamar.kelas,aplicare_ketersediaan_kamar.kapasitas," +
-                                "aplicare_ketersediaan_kamar.tersedia,aplicare_ketersediaan_kamar.tersediapria," +
-                                "aplicare_ketersediaan_kamar.tersediawanita,aplicare_ketersediaan_kamar.tersediapriawanita " +
-                                "from aplicare_ketersediaan_kamar inner join bangsal on aplicare_ketersediaan_kamar.kd_bangsal=bangsal.kd_bangsal");
+                        System.out.println("jam "+nilai_jam);
+    //                if(detik.equals("01")){
+                        if(jam.equals("00")&&menit.equals("01")&&detik.equals("01")){
+                            TeksArea.setText("");
+                        }
+
                         try {
-                            rs=ps.executeQuery();
-                            while(rs.next()){
-                                TeksArea.append("Mengirimkan kamar "+rs.getString("kode_kelas_aplicare")+" "+rs.getString("nm_bangsal")+"\n");
-                                try {     
-                                    headers = new HttpHeaders();
-                                    headers.setContentType(MediaType.APPLICATION_JSON);
-                                    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIAPLICARE());
-                                    headers.add("X-Timestamp",String.valueOf(api.GetUTCdatetimeAsString()));            
-                                    headers.add("X-Signature",api.getHmac());
-                                    requestJson ="{\"kodekelas\":\""+rs.getString("kode_kelas_aplicare")+"\", "+
-                                                  "\"koderuang\":\""+rs.getString("kd_bangsal")+"\","+ 
-                                                  "\"namaruang\":\""+rs.getString("nm_bangsal")+"\","+ 
-                                                  "\"kapasitas\":\""+Sequel.cariIsi("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"'")+"\","+ 
-                                                  "\"tersedia\":\""+Sequel.cariIsi("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"' and status='KOSONG'")+"\","+
-                                                  "\"tersediapria\":\""+Sequel.cariIsi("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"' and status='KOSONG'")+"\","+ 
-                                                  "\"tersediawanita\":\""+Sequel.cariIsi("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"' and status='KOSONG'")+"\","+ 
-                                                  "\"tersediapriawanita\":\""+Sequel.cariIsi("select count(kd_kamar) from kamar where statusdata='1' and kelas='"+rs.getString("kelas")+"' and kd_bangsal='"+rs.getString("kd_bangsal")+"' and status='KOSONG'")+"\""+
-                                                  "}";
-                                    TeksArea.append("JSON dikirim : "+requestJson+"\n");
-                                    requestEntity = new HttpEntity(requestJson,headers);
-                                    //System.out.println(rest.exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
-                                    root = mapper.readTree(api.getRest().exchange(URL+"/rest/bed/update/"+kodeppk, HttpMethod.POST, requestEntity, String.class).getBody());
-                                    nameNode = root.path("metadata");
-                                    TeksArea.append("respon WS BPJS : "+nameNode.path("message").asText()+"\n");
-                                }catch (Exception ex) {
-                                    System.out.println("Notifikasi Bridging : "+ex);
+    //                        queryString = "select aplicare_ketersediaan_kamar.kode_kelas_aplicare,aplicare_ketersediaan_kamar.kd_bangsal," +
+    //                                "bangsal.nm_bangsal,aplicare_ketersediaan_kamar.kelas,aplicare_ketersediaan_kamar.kapasitas," +
+    //                                "aplicare_ketersediaan_kamar.tersedia,aplicare_ketersediaan_kamar.tersediapria," +
+    //                                "aplicare_ketersediaan_kamar.tersediawanita,aplicare_ketersediaan_kamar.tersediapriawanita " +
+    //                                "from aplicare_ketersediaan_kamar inner join bangsal on aplicare_ketersediaan_kamar.kd_bangsal=bangsal.kd_bangsal";
+                            queryString = "SELECT k.kd_bangsal, b.nm_bangsal, k.kelas, " +
+                                        "SUM(CASE WHEN k.status = 'KOSONG' THEN 1 ELSE 0 END) AS kosong, " +
+                                        "SUM(CASE WHEN k.status = 'ISI' THEN 1 ELSE 0 END) AS isi " +
+                                        "FROM kamar k " +
+                                        "INNER JOIN bangsal b ON b.kd_bangsal = k.kd_bangsal " +
+                                        "WHERE k.statusdata = '1' " +
+                                        "GROUP BY k.kd_bangsal, k.kelas";
+                            koneksi=koneksiDB.condb();
+                            TeksArea.append("Memulai update aplicare\n" + jam + ":" + menit + ":" + detik + "\n");
+                            ps=koneksi.prepareStatement(queryString);
+                            getReferensiKamar();
+                            try {
+                                System.out.println("ps " + ps);
+                                rs=ps.executeQuery();
+                                while(rs.next()){
+                                    TeksArea.append("Mengirimkan kamar "+rs.getString("kelas")+" "+rs.getString("nm_bangsal")+"\n");
+                                    //System.out.println("kelas " + rs.getString("kelas") + " | " + dataRefKelas.get(rs.getString("kelas")));
+//                                    System.out.println(rs.getString("kd_bangsal") + " " + rs.getInt("kosong") + " " + rs.getInt("isi"));
+                                    kodekelas = dataRefKelas.get(rs.getString("kelas"));
+                                    koderuang = rs.getString("kd_bangsal");
+                                    namaruang = rs.getString("nm_bangsal");
+                                    kapasitas = rs.getInt("kosong") + rs.getInt("isi");
+                                    tersedia = rs.getInt("kosong");
+                                    tersediapria = 0;
+//                                    System.out.println("EDW ? : "+rs.getString("kd_bangsal").equalsIgnoreCase("edw"));
+                                    if (rs.getString("kd_bangsal").equalsIgnoreCase("edw")) {
+                                        tersediawanita = rs.getInt("kosong");
+                                        tersediapriawanita = 0 ;
+                                    } else {
+                                        tersediawanita = 0;
+                                        tersediapriawanita = rs.getInt("kosong") ;
+                                    }
+                                    try {     
+                                        headers = new HttpHeaders();
+                                        headers.setContentType(MediaType.APPLICATION_JSON);
+                                        headers.add("X-Cons-ID",koneksiDB.CONSIDAPIAPLICARE());
+                                        headers.add("X-Timestamp",String.valueOf(api.GetUTCdatetimeAsString()));            
+                                        headers.add("X-Signature",api.getHmac());
+                                        headers.add("user_key",koneksiDB.USERKEYAPIAPLICARE());
+
+                                        requestJson ="{\"kodekelas\":\""+kodekelas+"\", "+
+                                                      "\"koderuang\":\""+koderuang+"\","+ 
+                                                      "\"namaruang\":\""+namaruang+"\","+ 
+                                                      "\"kapasitas\":\""+kapasitas+"\","+ 
+                                                      "\"tersedia\":\""+tersedia+"\","+
+                                                      "\"tersediapria\":\""+tersediapria+"\","+ 
+                                                      "\"tersediawanita\":\""+tersediawanita+"\","+ 
+                                                      "\"tersediapriawanita\":\""+tersediapriawanita+"\""+
+                                                      "}";
+                                        TeksArea.append("JSON dikirim : "+requestJson+"\n");
+                                        requestEntity = new HttpEntity(requestJson,headers);
+    //                                    System.out.println("URL " +URL+"/rest/bed/update/"+kodeppk);
+    //                                    System.out.println("header "+headers);
+    //                                    System.out.println(rest.exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+                                        root = mapper.readTree(api.getRest().exchange(URL+"/rest/bed/update/"+kodeppk, HttpMethod.POST, requestEntity, String.class).getBody());
+                                        nameNode = root.path("metadata");
+                                        TeksArea.append("respon WS BPJS : "+nameNode.path("message").asText()+"\n");
+                                    }catch (Exception ex) {
+                                        System.out.println("Notifikasi Bridging : "+ex);
+                                    }
+                                }
+                            } catch (Exception ex) {
+                                System.out.println("Notif Ketersediaan : "+ex);
+                            } finally{
+                                if(rs!=null){
+                                    rs.close();
+                                }
+                                if(ps!=null){
+                                    ps.close();
                                 }
                             }
-                        } catch (Exception ex) {
-                            System.out.println("Notif Ketersediaan : "+ex);
-                        } finally{
-                            if(rs!=null){
-                                rs.close();
-                            }
-                            if(ps!=null){
-                                ps.close();
-                            }
+                            TeksArea.append("Proses update selesai\n");
+                            TeksArea.append("=====================================================================================================================\n");
+                        } catch (Exception ez) {
+                            System.out.println("Notif : "+ez);
                         }
-                        TeksArea.append("Proses update selesai\n");
-                    } catch (Exception ez) {
-                        System.out.println("Notif : "+ez);
                     }
                 }
             }
         };
         // Timer
         new Timer(1000, taskPerformer).start();
+    }
+    
+    private void getReferensiKamar(){
+        try {
+            headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.add("X-Cons-ID",koneksiDB.CONSIDAPIAPLICARE());
+	    headers.add("X-Timestamp",String.valueOf(api.GetUTCdatetimeAsString()));
+	    headers.add("X-Signature",api.getHmac());
+            headers.add("user_key",koneksiDB.USERKEYAPIAPLICARE());
+	    requestEntity = new HttpEntity(headers);
+            root = mapper.readTree(api.getRest().exchange(URL+"/rest/ref/kelas", HttpMethod.GET, requestEntity, String.class).getBody());
+            nameNode = root.path("metadata");
+            if(nameNode.path("message").asText().equals("OK")){
+                response = root.path("response");
+                if(response.path("list").isArray()){
+                    for(JsonNode list:response.path("list")){
+                        dataRefKelas.put(list.path("namakelas").asText(), list.path("kodekelas").asText());
+                    }
+                }
+            }else {
+                JOptionPane.showMessageDialog(null,nameNode.path("message").asText());                
+            }   
+        } catch (Exception ex) {
+            System.out.println("Notifikasi get referensi kamar : "+ex);
+            if(ex.toString().contains("UnknownHostException")){
+                JOptionPane.showMessageDialog(rootPane,"Koneksi ke server Aplicare terputus...!");
+            }
+        }
     }
 }

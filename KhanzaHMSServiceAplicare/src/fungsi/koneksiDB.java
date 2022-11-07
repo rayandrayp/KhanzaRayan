@@ -27,9 +27,10 @@ public class koneksiDB {
         if(connection == null){
             try{
                 prop.loadFromXML(new FileInputStream("setting/database.xml"));
-                dataSource.setURL("jdbc:mysql://"+EnkripsiAES.decrypt(prop.getProperty("HOST"))+":"+EnkripsiAES.decrypt(prop.getProperty("PORT"))+"/"+EnkripsiAES.decrypt(prop.getProperty("DATABASE"))+"?zeroDateTimeBehavior=convertToNull");
-                dataSource.setUser(EnkripsiAES.decrypt(prop.getProperty("USER")));
-                dataSource.setPassword(EnkripsiAES.decrypt(prop.getProperty("PAS")));
+                dataSource.setURL("jdbc:mysql://10.10.10.2:3306/sik?zeroDateTimeBehavior=convertToNull");
+//                dataSource.setURL("jdbc:mysql://"+EnkripsiAES.decrypt(prop.getProperty("HOST"))+":"+EnkripsiAES.decrypt(prop.getProperty("PORT"))+"/"+EnkripsiAES.decrypt(prop.getProperty("DATABASE"))+"?zeroDateTimeBehavior=convertToNull");
+                dataSource.setUser("itrst");//EnkripsiAES.decrypt(prop.getProperty("USER")));
+                dataSource.setPassword("ITrst321");//EnkripsiAES.decrypt(prop.getProperty("PAS")));
                 connection=dataSource.getConnection();       
                 System.out.println("  Koneksi Berhasil. Sorry bro loading, silahkan baca dulu.... \n\n"+
                         "	Software ini adalah Software Menejemen Rumah Sakit/Klinik/\n" +
@@ -272,23 +273,32 @@ public class koneksiDB {
     }
     
     public static String SECRETKEYAPIAPLICARE(){
-        try{
-            prop.loadFromXML(new FileInputStream("setting/database.xml"));
-            var=EnkripsiAES.decrypt(prop.getProperty("SECRETKEYAPIAPLICARE"));
-        }catch(Exception e){
-            var=""; 
-        }
-        return var;
+//        try{
+//            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+//            var=EnkripsiAES.decrypt(prop.getProperty("SECRETKEYAPIAPLICARE"));
+//        }catch(Exception e){
+//            var=""; 
+//        }
+        return "2lLD04E61A";//var;
     }
     
     public static String CONSIDAPIAPLICARE(){
-        try{
-            prop.loadFromXML(new FileInputStream("setting/database.xml"));
-            var=EnkripsiAES.decrypt(prop.getProperty("CONSIDAPIAPLICARE"));
-        }catch(Exception e){
-            var=""; 
-        }
-        return var;
+//        try{
+//            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+//            var=EnkripsiAES.decrypt(prop.getProperty("CONSIDAPIAPLICARE"));
+//        }catch(Exception e){
+//            var=""; 
+//        }
+        return "31533";//var;
+    }
+    public static String USERKEYAPIAPLICARE(){
+//        try{
+//            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+//            var=EnkripsiAES.decrypt(prop.getProperty("CONSIDAPIAPLICARE"));
+//        }catch(Exception e){
+//            var=""; 
+//        }
+        return "9089e0d979f93718d2a84e0b16664ef6";//var;
     }
     
     public static String URLAPIPCARE(){
