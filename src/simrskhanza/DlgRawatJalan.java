@@ -3925,7 +3925,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+   
     private void TNoRwKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TNoRwKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             isRawat();
@@ -6923,7 +6923,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         BtnInputObat.setVisible(akses.getberi_obat()); 
         if(akses.getberi_obat()==true){
             tinggi=tinggi+48;
-        }
+        } 
         BtnPermintaanLab.setVisible(akses.getpermintaan_lab());   
         if(akses.getpermintaan_lab()==true){
             tinggi=tinggi+24;

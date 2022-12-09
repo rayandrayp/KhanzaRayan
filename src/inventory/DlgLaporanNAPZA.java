@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,30 +53,32 @@ import simrskhanza.DlgCariBangsal;
  *
  * @author dosen
  */
-public final class DlgStokOpname2 extends javax.swing.JDialog {
+public final class DlgLaporanNAPZA extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();  
     private Connection koneksi=koneksiDB.condb();
-    private PreparedStatement pstampil;
-    private ResultSet rstampil;
+    private PreparedStatement pstampil,ps,psmasuk,pskeluar;
+    private ResultSet rstampil,rs,rsmasuk,rskeluar;
     private DlgCariJenis jenis = new DlgCariJenis(null, false);
     private DlgCariKategori kategori = new DlgCariKategori(null, false);
-    private DlgCariGolongan golongan = new DlgCariGolongan(null, false);
+//    private DlgCariGolongan golongan = new DlgCariGolongan(null, false);
     private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
     private DecimalFormat df2 = new DecimalFormat("###,###,###,###,###,###,###");
-    double stok_awal=0,masuk=0,keluar=0,sisa=0,jumlah=0;
-    private String sql_cond_jenis="",sql_cond_kategori="",sql_cond_golongan="";
+    private String golongan="";
+    int stok_awal=0,masuk=0,keluar=0,sisa=0,jumlah=0;
+    
     /** Creates new form DlgPenyakit
      * @param parent
      * @param modal */
-    public DlgStokOpname2(java.awt.Frame parent, boolean modal) {
+    public DlgLaporanNAPZA(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(10,2);
         setSize(628,674);
 
-        Object[] row={"NO.","NAMA MATKES","SATUAN","ED","HARGA","STOK AWAL","MASUK","KELUAR","SISA","JUMLAH"};
+        Object[] row={
+            "NO.","NAMA","KODE","SATUAN","ED","STOK AWAL","PENERIMAAN DARI","JUMLAH PENERIMAAN","PENGGUNAAN UNTUK","JUMLAH PENGGUNAAN","STOK AKHIR"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -84,7 +87,7 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         tbKamar.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbKamar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             TableColumn column = tbKamar.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(30);
@@ -99,13 +102,15 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
             }else if(i==5){
                 column.setPreferredWidth(60);
             }else if(i==6){
-                column.setPreferredWidth(60);
+                column.setPreferredWidth(120);
             }else if(i==7){
                 column.setPreferredWidth(60);
             }else if(i==8){
-                column.setPreferredWidth(60);
+                column.setPreferredWidth(120);
             }else if(i==9){
-                column.setPreferredWidth(100);
+                column.setPreferredWidth(60);
+            }else if(i==10){
+                column.setPreferredWidth(60);
             }
         }
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
@@ -139,138 +144,9 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
             });
         }
         
-        jenis.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if (jenis.getTable().getSelectedRow() != -1) {
-                    kdjenis.setText(jenis.getTable().getValueAt(jenis.getTable().getSelectedRow(), 0).toString());
-                    nmjns.setText(jenis.getTable().getValueAt(jenis.getTable().getSelectedRow(), 1).toString());
-                }
-                TCari.requestFocus();
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-            }
-        });
         
-        golongan.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if (golongan.getTable().getSelectedRow() != -1) {
-                    kdgolongan.setText(golongan.getTable().getValueAt(golongan.getTable().getSelectedRow(), 0).toString());
-                    nmgolongan.setText(golongan.getTable().getValueAt(golongan.getTable().getSelectedRow(), 1).toString());
-                }
-                
-                TCari.requestFocus();
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                golongan.emptTeks();
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-            }
-        });
-        
-        kategori.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if (kategori.getTable().getSelectedRow() != -1) {
-                    kdkategori.setText(kategori.getTable().getValueAt(kategori.getTable().getSelectedRow(), 0).toString());
-                    nmkategori.setText(kategori.getTable().getValueAt(kategori.getTable().getSelectedRow(), 1).toString());
-                }
-                TCari.requestFocus();
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                kategori.emptTeks();
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-            }
-        });
-        
-        bangsal.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(bangsal.getTable().getSelectedRow()!= -1){                   
-                    KdGudang.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),0).toString());
-                    NmGudang.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),1).toString());
-                }  
-                KdGudang.requestFocus();
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
+        Valid.LoadTahun(ThnCari);
     } 
-    double total=0,totalreal=0,totallebih=0;
 
 
     /** This method is called from within the constructor to
@@ -318,12 +194,10 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         panelisi3 = new widget.panelisi();
         label11 = new widget.Label();
-        Tgl1 = new widget.Tanggal();
-        label19 = new widget.Label();
-        Tgl2 = new widget.Tanggal();
-        label24 = new widget.Label();
-        NmGudang = new widget.TextBox();
-        BtnKategori1 = new widget.Button();
+        ThnCari = new widget.ComboBox();
+        BlnCari = new widget.ComboBox();
+        label12 = new widget.Label();
+        CBGolongan = new javax.swing.JComboBox<>();
         label9 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
@@ -332,24 +206,8 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         BtnHapus = new widget.Button();
         label10 = new widget.Label();
         LCount = new widget.Label();
-        label13 = new widget.Label();
-        LTotalBeli = new widget.Label();
-        label12 = new widget.Label();
-        LTotal = new widget.Label();
-        label14 = new widget.Label();
-        LTotal2 = new widget.Label();
         BtnPrint = new widget.Button();
         BtnKeluar = new widget.Button();
-        panelBiasa1 = new widget.PanelBiasa();
-        label20 = new widget.Label();
-        nmjns = new widget.TextBox();
-        BtnJenis = new widget.Button();
-        label22 = new widget.Label();
-        nmkategori = new widget.TextBox();
-        BtnKategori = new widget.Button();
-        label23 = new widget.Label();
-        nmgolongan = new widget.TextBox();
-        BtnGolongan = new widget.Button();
 
         Kd2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Kd2.setHighlighter(null);
@@ -602,7 +460,7 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Stok Opname Obat, Alkes & BHP Medis ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Laporan Pemakaian Obat Narkotika dan Psikotropika ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50)));
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -634,48 +492,35 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         panelisi3.setPreferredSize(new java.awt.Dimension(100, 44));
         panelisi3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 4, 9));
 
-        label11.setText("Tanggal :");
+        label11.setText("Tahun & Bulan :");
         label11.setName("label11"); // NOI18N
-        label11.setPreferredSize(new java.awt.Dimension(55, 23));
+        label11.setPreferredSize(new java.awt.Dimension(85, 23));
         panelisi3.add(label11);
 
-        Tgl1.setDisplayFormat("dd-MM-yyyy");
-        Tgl1.setName("Tgl1"); // NOI18N
-        Tgl1.setPreferredSize(new java.awt.Dimension(90, 23));
-        panelisi3.add(Tgl1);
+        ThnCari.setName("ThnCari"); // NOI18N
+        ThnCari.setPreferredSize(new java.awt.Dimension(80, 23));
+        panelisi3.add(ThnCari);
 
-        label19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label19.setText("s.d.");
-        label19.setName("label19"); // NOI18N
-        label19.setPreferredSize(new java.awt.Dimension(30, 23));
-        panelisi3.add(label19);
-
-        Tgl2.setDisplayFormat("dd-MM-yyyy");
-        Tgl2.setName("Tgl2"); // NOI18N
-        Tgl2.setPreferredSize(new java.awt.Dimension(90, 23));
-        panelisi3.add(Tgl2);
-
-        label24.setText("Lokasi :");
-        label24.setName("label24"); // NOI18N
-        label24.setPreferredSize(new java.awt.Dimension(50, 23));
-        panelisi3.add(label24);
-
-        NmGudang.setEditable(false);
-        NmGudang.setName("NmGudang"); // NOI18N
-        NmGudang.setPreferredSize(new java.awt.Dimension(150, 23));
-        panelisi3.add(NmGudang);
-
-        BtnKategori1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnKategori1.setMnemonic('2');
-        BtnKategori1.setToolTipText("Alt+2");
-        BtnKategori1.setName("BtnKategori1"); // NOI18N
-        BtnKategori1.setPreferredSize(new java.awt.Dimension(28, 23));
-        BtnKategori1.addActionListener(new java.awt.event.ActionListener() {
+        BlnCari.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        BlnCari.setName("BlnCari"); // NOI18N
+        BlnCari.setPreferredSize(new java.awt.Dimension(62, 23));
+        BlnCari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnKategori1ActionPerformed(evt);
+                BlnCariActionPerformed(evt);
             }
         });
-        panelisi3.add(BtnKategori1);
+        panelisi3.add(BlnCari);
+
+        label12.setText("Golongan");
+        label12.setName("label12"); // NOI18N
+        label12.setPreferredSize(new java.awt.Dimension(70, 23));
+        panelisi3.add(label12);
+
+        CBGolongan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Narkotika", "Psikotropika"}));
+        CBGolongan.setName("CBGolongan"); // NOI18N
+        CBGolongan.setPreferredSize(new java.awt.Dimension(120, 23));
+        panelisi3.add(CBGolongan);
+        CBGolongan.getAccessibleContext().setAccessibleName("");
 
         label9.setText("Key Word :");
         label9.setName("label9"); // NOI18N
@@ -758,48 +603,17 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         LCount.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         LCount.setText("0");
         LCount.setName("LCount"); // NOI18N
-        LCount.setPreferredSize(new java.awt.Dimension(40, 30));
+        LCount.setPreferredSize(new java.awt.Dimension(50, 30));
         panelisi1.add(LCount);
 
-        label13.setText("Real :");
-        label13.setName("label13"); // NOI18N
-        label13.setPreferredSize(new java.awt.Dimension(45, 30));
-        panelisi1.add(label13);
-
-        LTotalBeli.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        LTotalBeli.setText("0");
-        LTotalBeli.setName("LTotalBeli"); // NOI18N
-        LTotalBeli.setPreferredSize(new java.awt.Dimension(100, 30));
-        panelisi1.add(LTotalBeli);
-
-        label12.setText("Hilang :");
-        label12.setName("label12"); // NOI18N
-        label12.setPreferredSize(new java.awt.Dimension(50, 30));
-        panelisi1.add(label12);
-
-        LTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        LTotal.setText("0");
-        LTotal.setName("LTotal"); // NOI18N
-        LTotal.setPreferredSize(new java.awt.Dimension(85, 30));
-        panelisi1.add(LTotal);
-
-        label14.setText("Lebih :");
-        label14.setName("label14"); // NOI18N
-        label14.setPreferredSize(new java.awt.Dimension(50, 30));
-        panelisi1.add(label14);
-
-        LTotal2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        LTotal2.setText("0");
-        LTotal2.setName("LTotal2"); // NOI18N
-        LTotal2.setPreferredSize(new java.awt.Dimension(85, 30));
-        panelisi1.add(LTotal2);
-
-        BtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/b_print.png"))); // NOI18N
+        BtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/download24.png")));
         BtnPrint.setMnemonic('T');
-        BtnPrint.setText("Cetak");
+        BtnPrint.setText("Download");
         BtnPrint.setToolTipText("Alt+T");
+        BtnPrint.setMaximumSize(new java.awt.Dimension(100, 23));
+        BtnPrint.setMinimumSize(new java.awt.Dimension(100, 23));
         BtnPrint.setName("BtnPrint"); // NOI18N
-        BtnPrint.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnPrint.setPreferredSize(new java.awt.Dimension(150, 30));
         BtnPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnPrintActionPerformed(evt);
@@ -833,78 +647,6 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
         jPanel1.add(panelisi1, java.awt.BorderLayout.CENTER);
 
         internalFrame1.add(jPanel1, java.awt.BorderLayout.PAGE_END);
-
-        panelBiasa1.setName("panelBiasa1"); // NOI18N
-        panelBiasa1.setPreferredSize(new java.awt.Dimension(1023, 47));
-        panelBiasa1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 3, 10));
-
-        label20.setText("Jenis :");
-        label20.setName("label20"); // NOI18N
-        label20.setPreferredSize(new java.awt.Dimension(40, 23));
-        panelBiasa1.add(label20);
-
-        nmjns.setEditable(false);
-        nmjns.setName("nmjns"); // NOI18N
-        nmjns.setPreferredSize(new java.awt.Dimension(192, 23));
-        panelBiasa1.add(nmjns);
-
-        BtnJenis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnJenis.setMnemonic('2');
-        BtnJenis.setToolTipText("Alt+2");
-        BtnJenis.setName("BtnJenis"); // NOI18N
-        BtnJenis.setPreferredSize(new java.awt.Dimension(28, 23));
-        BtnJenis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnJenisActionPerformed(evt);
-            }
-        });
-        panelBiasa1.add(BtnJenis);
-
-        label22.setText("Kategori :");
-        label22.setName("label22"); // NOI18N
-        label22.setPreferredSize(new java.awt.Dimension(65, 23));
-        panelBiasa1.add(label22);
-
-        nmkategori.setEditable(false);
-        nmkategori.setName("nmkategori"); // NOI18N
-        nmkategori.setPreferredSize(new java.awt.Dimension(192, 23));
-        panelBiasa1.add(nmkategori);
-
-        BtnKategori.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnKategori.setMnemonic('2');
-        BtnKategori.setToolTipText("Alt+2");
-        BtnKategori.setName("BtnKategori"); // NOI18N
-        BtnKategori.setPreferredSize(new java.awt.Dimension(28, 23));
-        BtnKategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnKategoriActionPerformed(evt);
-            }
-        });
-        panelBiasa1.add(BtnKategori);
-
-        label23.setText("Golongan :");
-        label23.setName("label23"); // NOI18N
-        label23.setPreferredSize(new java.awt.Dimension(65, 23));
-        panelBiasa1.add(label23);
-
-        nmgolongan.setEditable(false);
-        nmgolongan.setName("nmgolongan"); // NOI18N
-        nmgolongan.setPreferredSize(new java.awt.Dimension(192, 23));
-        panelBiasa1.add(nmgolongan);
-
-        BtnGolongan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        BtnGolongan.setMnemonic('2');
-        BtnGolongan.setToolTipText("Alt+2");
-        BtnGolongan.setName("BtnGolongan"); // NOI18N
-        BtnGolongan.setPreferredSize(new java.awt.Dimension(28, 23));
-        BtnGolongan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnGolonganActionPerformed(evt);
-            }
-        });
-        panelBiasa1.add(BtnGolongan);
-
-        internalFrame1.add(panelBiasa1, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
 
@@ -943,10 +685,10 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
             TCari.requestFocus();
         }else if(tbKamar.getRowCount()!=0){   
             try {
-                exportSEPExcelActionPerformed(evt);
-            } catch (IOException ex) {
-                Logger.getLogger(DlgStokOpname3.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    exportSEPExcelActionPerformed(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(DlgLaporanNAPZA.class.getName()).log(Level.SEVERE, null, ex);
+                }
 //            Map<String, Object> param = new HashMap<>();    
 //            param.put("namars",akses.getnamars());
 //            param.put("alamatrs",akses.getalamatrs());
@@ -955,7 +697,44 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
 //            param.put("kontakrs",akses.getkontakrs());
 //            param.put("emailrs",akses.getemailrs());   
 //            param.put("logo",Sequel.cariGambar("select logo from setting")); 
-//            if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&NmGudang.getText().equals("")&&TCari.getText().equals("")){
+//            if(NmGudang.getText().equals("")&&TCari.getText().equals("")){
+//                Valid.MyReportqry("rptOpname.jasper","report","::[ Stok Opname ]::",
+//                    "select opname.kode_brng, databarang.nama_brng,opname.h_beli, databarang.kode_sat, opname.tanggal, opname.stok, "+
+//                    "opname.real, opname.selisih, opname.lebih, (opname.real*opname.h_beli) as totalreal,opname.nomihilang,opname.nomilebih, opname.keterangan, bangsal.kd_bangsal, bangsal.nm_bangsal, "+
+//                    "opname.no_batch,opname.no_faktur from opname inner join databarang on opname.kode_brng=databarang.kode_brng "+
+//                    "inner join bangsal on opname.kd_bangsal=bangsal.kd_bangsal "+
+//                    "inner join jenis on databarang.kdjns=jenis.kdjns "+
+//                    "inner join kategori_barang on databarang.kode_kategori=kategori_barang.kode "+
+//                    "inner join golongan_barang on databarang.kode_golongan=golongan_barang.kode where "+
+//                     "opname.tanggal between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' order by opname.tanggal",param);
+//            }else{
+//                Valid.MyReportqry("rptOpname.jasper","report","::[ Stok Opname ]::",
+//                     "select opname.kode_brng, databarang.nama_brng,opname.h_beli, databarang.kode_sat, opname.tanggal, opname.stok, "+
+//                     "opname.real, opname.selisih, opname.lebih, (opname.real*opname.h_beli) as totalreal,opname.nomihilang,opname.nomilebih, opname.keterangan, bangsal.kd_bangsal, bangsal.nm_bangsal, "+
+//                     "opname.no_batch,opname.no_faktur from opname inner join databarang on opname.kode_brng=databarang.kode_brng "+
+//                     "inner join bangsal on opname.kd_bangsal=bangsal.kd_bangsal "+
+//                     "inner join jenis on databarang.kdjns=jenis.kdjns "+
+//                     "inner join kategori_barang on databarang.kode_kategori=kategori_barang.kode "+
+//                     "inner join golongan_barang on databarang.kode_golongan=golongan_barang.kode where "+
+//                     "opname.tanggal between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' "+
+//                     "and concat(databarang.kdjns,jenis.nama) like '%"+kdjenis.getText()+nmjns.getText().trim()+"%' "+
+//                     "and concat(databarang.kode_kategori,kategori_barang.nama) like '%"+kdkategori.getText()+nmkategori.getText().trim()+"%' "+
+//                     "and concat(databarang.kode_golongan,golongan_barang.nama) like '%"+kdgolongan.getText()+nmgolongan.getText().trim()+"%' "+
+//                     "and concat(bangsal.kd_bangsal,bangsal.nm_bangsal) like '%"+KdGudang.getText()+NmGudang.getText().trim()+"%' "+
+//                     "and (opname.kode_brng like '%"+TCari.getText().trim()+"%' or databarang.nama_brng like '%"+TCari.getText().trim()+"%' or "+
+//                     "opname.kode_brng like '%"+TCari.getText().trim()+"%' or bangsal.kd_bangsal like '%"+TCari.getText().trim()+"%' or "+
+//                     "bangsal.nm_bangsal like '%"+TCari.getText().trim()+"%' or databarang.kode_sat like '%"+TCari.getText().trim()+"%' or "+
+//                     "opname.keterangan like '%"+TCari.getText().trim()+"%') order by opname.tanggal",param);
+//            }
+//            Map<String, Object> param = new HashMap<>();    
+//            param.put("namars",akses.getnamars());
+//            param.put("alamatrs",akses.getalamatrs());
+//            param.put("kotars",akses.getkabupatenrs());
+//            param.put("propinsirs",akses.getpropinsirs());
+//            param.put("kontakrs",akses.getkontakrs());
+//            param.put("emailrs",akses.getemailrs());   
+//            param.put("logo",Sequel.cariGambar("select logo from setting")); 
+//            if(NmGudang.getText().equals("")&&TCari.getText().equals("")){
 //                Valid.MyReportqry("rptOpname.jasper","report","::[ Stok Opname ]::",
 //                    "select opname.kode_brng, databarang.nama_brng,opname.h_beli, databarang.kode_sat, opname.tanggal, opname.stok, "+
 //                    "opname.real, opname.selisih, opname.lebih, (opname.real*opname.h_beli) as totalreal,opname.nomihilang,opname.nomilebih, opname.keterangan, bangsal.kd_bangsal, bangsal.nm_bangsal, "+
@@ -1055,14 +834,7 @@ public final class DlgStokOpname2 extends javax.swing.JDialog {
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        nmgolongan.setText("");
-        nmjns.setText("");
-        nmkategori.setText("");
-        kdgolongan.setText("");
-        kdjenis.setText("");
-        kdkategori.setText("");
-        KdGudang.setText("");
-        NmGudang.setText("");
+        
         tampil();
     }//GEN-LAST:event_BtnAllActionPerformed
 
@@ -1083,32 +855,8 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
 }//GEN-LAST:event_StokKeyPressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       tampil();
+//       tampil();
     }//GEN-LAST:event_formWindowOpened
-
-    private void BtnJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnJenisActionPerformed
-        jenis.isCek();
-        jenis.setSize(internalFrame1.getWidth() -20, internalFrame1.getHeight() -20);
-        jenis.setLocationRelativeTo(internalFrame1);
-        jenis.setAlwaysOnTop(false);
-        jenis.setVisible(true);
-    }//GEN-LAST:event_BtnJenisActionPerformed
-
-    private void BtnKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKategoriActionPerformed
-        kategori.isCek();
-        kategori.setSize(internalFrame1.getWidth() -20, internalFrame1.getHeight() -20);
-        kategori.setLocationRelativeTo(internalFrame1);
-        kategori.setAlwaysOnTop(false);
-        kategori.setVisible(true);
-    }//GEN-LAST:event_BtnKategoriActionPerformed
-
-    private void BtnGolonganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGolonganActionPerformed
-        golongan.isCek();
-        golongan.setSize(internalFrame1.getWidth() -20, internalFrame1.getHeight() -20);
-        golongan.setLocationRelativeTo(internalFrame1);
-        golongan.setAlwaysOnTop(false);
-        golongan.setVisible(true);
-    }//GEN-LAST:event_BtnGolonganActionPerformed
 
     private void kdjenisKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kdjenisKeyPressed
         // TODO add your handling code here:
@@ -1138,20 +886,16 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
         // TODO add your handling code here:
     }//GEN-LAST:event_TotalRealKeyPressed
 
-    private void BtnKategori1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKategori1ActionPerformed
-        bangsal.isCek();
-        bangsal.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        bangsal.setLocationRelativeTo(internalFrame1);
-        bangsal.setAlwaysOnTop(false);
-        bangsal.setVisible(true);   
-    }//GEN-LAST:event_BtnKategori1ActionPerformed
+    private void BlnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlnCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BlnCariActionPerformed
 
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            DlgStokOpname2 dialog = new DlgStokOpname2(new javax.swing.JFrame(), true);
+            DlgLaporanNAPZA dialog = new DlgLaporanNAPZA(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1163,26 +907,20 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private widget.ComboBox BlnCari;
     private widget.Button BtnAll;
     private widget.Button BtnCari;
-    private widget.Button BtnGolongan;
     private widget.Button BtnHapus;
-    private widget.Button BtnJenis;
-    private widget.Button BtnKategori;
-    private widget.Button BtnKategori1;
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
+    private javax.swing.JComboBox<String> CBGolongan;
     private widget.TextBox Harga;
     private widget.TextBox Kd2;
     private widget.TextBox KdGudang;
     private widget.TextBox Kdbar;
     private widget.TextBox Keterangan;
     private widget.Label LCount;
-    private widget.Label LTotal;
-    private widget.Label LTotal2;
-    private widget.Label LTotalBeli;
     private widget.TextBox Lebih;
-    private widget.TextBox NmGudang;
     private widget.TextBox Nmbar;
     private widget.TextBox NomiLebih;
     private widget.TextBox Nominal;
@@ -1192,8 +930,7 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
     private widget.TextBox Stok;
     private widget.TextBox TCari;
     private widget.Tanggal Tanggal;
-    private widget.Tanggal Tgl1;
-    private widget.Tanggal Tgl2;
+    private widget.ComboBox ThnCari;
     private widget.TextBox TotalReal;
     private widget.InternalFrame internalFrame1;
     private javax.swing.JPanel jPanel1;
@@ -1204,15 +941,8 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
     private widget.Label label10;
     private widget.Label label11;
     private widget.Label label12;
-    private widget.Label label13;
-    private widget.Label label14;
     private widget.Label label17;
     private widget.Label label18;
-    private widget.Label label19;
-    private widget.Label label20;
-    private widget.Label label22;
-    private widget.Label label23;
-    private widget.Label label24;
     private widget.Label label32;
     private widget.Label label34;
     private widget.Label label36;
@@ -1220,13 +950,9 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
     private widget.Label label38;
     private widget.Label label39;
     private widget.Label label9;
-    private widget.TextBox nmgolongan;
     private widget.TextBox nmgudang;
-    private widget.TextBox nmjns;
-    private widget.TextBox nmkategori;
     private widget.TextBox nobatch;
     private widget.TextBox nofaktur;
-    private widget.PanelBiasa panelBiasa1;
     private widget.panelisi panelisi1;
     private widget.panelisi panelisi3;
     private widget.panelisi panelisi4;
@@ -1235,53 +961,170 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
 
     private void tampil() {
         Valid.tabelKosong(tabMode);
-        total=0;
-        totalreal=0;
-        totallebih=0;
+        stok_awal=0;
+        masuk=0;
+        keluar=0;
+        sisa=0;
+        jumlah=0;
         int i = 1;
-        try{    
-            sql_cond_golongan=(!nmgolongan.getText().equals("")) ? " AND d.kode_golongan = (SELECT kode FROM golongan_barang WHERE nama = '"+nmgolongan.getText().toString()+"') " : "";
-            sql_cond_kategori=(!nmkategori.getText().equals("")) ? " AND d.kode_kategori = (SELECT kode FROM kategori_barang WHERE nama = '"+nmkategori.getText().toString()+"') " : "";
-            sql_cond_jenis=(!nmjns.getText().equals("")) ? " AND d.kdjns = (SELECT kdjns FROM jenis WHERE nama = '"+nmjns.getText().toString()+"') " : "";
-            
-            
-            pstampil=koneksi.prepareStatement(
-                    "SELECT d.nama_brng, k.satuan, ifnull(d.expire,'') as expire,d.h_beli,d.kode_brng " +
-                    "FROM databarang d  " +
-                    "INNER JOIN kodesatuan k ON k.kode_sat = d.kode_sat " +
-                    "WHERE d.`status`='1' AND d.kode_brng NOT IN ('','B000009066','B000009374') "+
-                    sql_cond_golongan +
-                    sql_cond_kategori +
-                    sql_cond_jenis +
-                    "ORDER BY d.nama_brng asc");               
-            try {     
+        if(CBGolongan.getSelectedItem().toString() == "Narkotika"){
+            golongan = "G06";
+        } else {
+            golongan = "G01";
+        }
+        String tanggal = ThnCari.getSelectedItem().toString()+"-"+BlnCari.getSelectedItem().toString();
+        try{     
+            pstampil=koneksi.prepareStatement("SELECT d.nama_brng, d.kode_brng, k.satuan, ifnull(d.expire,'-') AS ed " +
+                                            "FROM databarang d  " +
+                                            "INNER JOIN kodesatuan k ON k.kode_sat = d.kode_sat " +
+                                            "WHERE d.`status`='1' AND d.kode_golongan = '"+golongan+"'");
+            try {                    
                 rstampil=pstampil.executeQuery();
                 while(rstampil.next()){     
-//                    System.out.println("tanggal "+tanggal);
-//                    System.out.println("kode barang "+rstampil.getString("kode_brng"));
                     
-                    stok_awal=Sequel.cariIsiAngka2("SELECT stok_awal FROM riwayat_barang_medis WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND tanggal BETWEEN ? AND ?  " +
-                            "AND kd_bangsal = (SELECT kd_bangsal FROM bangsal WHERE nm_bangsal = '"+NmGudang.getText().toString()+"') ORDER BY tanggal ASC, jam ASC LIMIT 1",
-                            Valid.SetTgl(Tgl1.getSelectedItem()+""),Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                    ArrayList<String[]> obat_masuk = new ArrayList<String[]>();
+                    ArrayList<String[]> obat_keluar = new ArrayList<String[]>();
                     
-                    masuk=Sequel.cariIsiAngka2("SELECT SUM(masuk) AS masuk FROM riwayat_barang_medis WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND posisi <> 'Opname' AND tanggal BETWEEN ? AND ? "+
-                            "AND kd_bangsal = (SELECT kd_bangsal FROM bangsal WHERE nm_bangsal = '"+NmGudang.getText().toString()+"') ",
-                            Valid.SetTgl(Tgl1.getSelectedItem()+""),Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                    stok_awal=Sequel.cariInteger("SELECT SUM(stok_awal) AS stok_awal \n" +
+                                                "FROM riwayat_barang_medis t1\n" +
+                                                "JOIN (\n" +
+                                                "	SELECT kode_brng, kd_bangsal, tanggal, jam, MIN(CONCAT(tanggal, ' ', jam)) AS tstamp \n" +
+                                                "	FROM riwayat_barang_medis WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND tanggal LIKE '"+tanggal+"%' \n" +
+                                                "	GROUP BY kd_bangsal\n" +
+                                                "	) t2 ON t1.kode_brng = t2.kode_brng AND t1.tanggal = t2.tanggal AND t1.jam = t2.jam AND t1.kd_bangsal = t2.kd_bangsal");
+                    masuk=Sequel.cariInteger("SELECT SUM(d.jumlah) AS total FROM detailpesan d INNER JOIN pemesanan p ON p.no_faktur = d.no_faktur WHERE d.kode_brng = '"+rstampil.getString("kode_brng")+"' AND p.tgl_faktur LIKE '"+tanggal+"%'");
+                    keluar=Sequel.cariInteger("SELECT SUM(d.jml) AS total FROM detail_pemberian_obat d WHERE d.kode_brng = '"+rstampil.getString("kode_brng")+"' AND d.tgl_perawatan LIKE '"+tanggal+"%'");
+                    sisa=(stok_awal+masuk)-keluar;
+//                    System.out.println(rstampil.getString("nama_brng"));
+//                    System.out.println("masuk "+masuk);
+//                    System.out.println("keluar "+keluar);
+                    if(masuk != 0){
+                        psmasuk = koneksi.prepareStatement("SELECT d.nama_suplier, SUM(dp.jumlah) AS jml FROM detailpesan dp " +
+                                    "INNER JOIN pemesanan p ON dp.no_faktur = p.no_faktur " +
+                                    "INNER JOIN datasuplier d ON d.kode_suplier = p.kode_suplier " +
+                                    "WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND p.tgl_faktur LIKE '"+tanggal+"%'  GROUP BY p.kode_suplier");
+                        rsmasuk = psmasuk.executeQuery();
+                        while(rsmasuk.next()){
+//                            System.out.println(rsmasuk.getString("nama_suplier")+" "+rsmasuk.getString("jml"));
+                            obat_masuk.add(new String[] {rsmasuk.getString("nama_suplier"), rsmasuk.getString("jml")});
+                        }
+                    }
                     
-                    keluar=Sequel.cariIsiAngka2("SELECT SUM(keluar) AS keluar FROM riwayat_barang_medis WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND tanggal BETWEEN ? AND ? "+
-                            "AND kd_bangsal = (SELECT kd_bangsal FROM bangsal WHERE nm_bangsal = '"+NmGudang.getText().toString()+"') ",
-                            Valid.SetTgl(Tgl1.getSelectedItem()+""),Valid.SetTgl(Tgl2.getSelectedItem()+""));
-                            
-                    sisa=Sequel.cariIsiAngka2("SELECT stok_akhir FROM riwayat_barang_medis WHERE kode_brng = '"+rstampil.getString("kode_brng")+"' AND tanggal BETWEEN ? AND ?  " +
-                            "AND kd_bangsal = (SELECT kd_bangsal FROM bangsal WHERE nm_bangsal = '"+NmGudang.getText().toString()+"') ORDER BY tanggal DESC, jam DESC LIMIT 1",
-                            Valid.SetTgl(Tgl1.getSelectedItem()+""),Valid.SetTgl(Tgl2.getSelectedItem()+""));
+                    if(keluar != 0){
+                        pskeluar = koneksi.prepareStatement("SELECT b.nm_bangsal, SUM(dpo.jml) AS jml FROM detail_pemberian_obat dpo " +
+                                    "INNER JOIN bangsal b ON b.kd_bangsal = dpo.kd_bangsal " +
+                                    "WHERE dpo.kode_brng = '"+rstampil.getString("kode_brng")+"' AND dpo.tgl_perawatan LIKE '"+tanggal+"%' GROUP BY dpo.kd_bangsal");
+                        rskeluar = pskeluar.executeQuery();
+                        while(rskeluar.next()){
+//                            System.out.println(rskeluar.getString("nm_bangsal")+" "+rskeluar.getString("jml"));
+                            obat_keluar.add(new String[] {rskeluar.getString("nm_bangsal"), rskeluar.getString("jml")});
+                        } 
+                    }
                     
-                    jumlah=sisa*rstampil.getDouble("h_beli");
-                    Object[] row={"NO.","NAMA MATKES","SATUAN","ED","HARGA","STOK AWAL","MASUK","KELUAR","SISA","JUMLAH"};
-                    tabMode.addRow(new Object[]{
-                        i,rstampil.getString("nama_brng"),rstampil.getString("satuan"),rstampil.getString("expire"),Valid.SetAngka4(rstampil.getDouble("h_beli")),
-                        Valid.SetAngka(stok_awal), Valid.SetAngka(masuk), Valid.SetAngka(keluar), Valid.SetAngka(sisa), Valid.SetAngka4(jumlah)
-                    });
+                    
+                    if(masuk == 0 && keluar == 0){
+                        tabMode.addRow(new Object[]{
+                            i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                            Valid.SetAngka(stok_awal), "","","","", Valid.SetAngka(sisa)
+                        });
+                    } else if (masuk != 0 && keluar == 0){
+                        if(obat_masuk.size()==1){
+                            tabMode.addRow(new Object[]{
+                                i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                Valid.SetAngka(stok_awal),obat_masuk.get(0)[0],obat_masuk.get(0)[1],"","", Valid.SetAngka(sisa)
+                            });
+                        } else {
+                            tabMode.addRow(new Object[]{
+                                i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                Valid.SetAngka(stok_awal), obat_masuk.get(0)[0],obat_masuk.get(0)[1],"","", Valid.SetAngka(sisa)
+                            });
+                            for(int j = 1; j < obat_masuk.size();j++){
+                                tabMode.addRow(new Object[]{
+                                    "","","","","","", obat_masuk.get(j)[0],obat_masuk.get(j)[1],"","", ""
+                                });
+                            }
+                        }
+                    } else if (masuk == 0 && keluar != 0){
+                        if(obat_keluar.size()==1){
+                            tabMode.addRow(new Object[]{
+                                i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                Valid.SetAngka(stok_awal),"","",obat_keluar.get(0)[0],obat_keluar.get(0)[1], Valid.SetAngka(sisa)
+                            });
+                        } else {
+                            tabMode.addRow(new Object[]{
+                                i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                Valid.SetAngka(stok_awal),"","", obat_keluar.get(0)[0],obat_keluar.get(0)[1], Valid.SetAngka(sisa)
+                            });
+                            for(int j = 1; j < obat_keluar.size();j++){
+                                tabMode.addRow(new Object[]{
+                                    "","","","","","", "","",obat_keluar.get(j)[0],obat_keluar.get(j)[1], ""
+                                });
+                            }
+                        }
+                    } else {
+                        if(obat_masuk.size()==1){
+                            if(obat_keluar.size()==1){
+                                tabMode.addRow(new Object[]{
+                                    i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                    Valid.SetAngka(stok_awal),obat_masuk.get(0)[0],obat_masuk.get(0)[1],obat_keluar.get(0)[0],obat_keluar.get(0)[1],Valid.SetAngka(sisa)
+                                });
+                            }else{
+                                tabMode.addRow(new Object[]{
+                                    i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                    Valid.SetAngka(stok_awal),obat_masuk.get(0)[0],obat_masuk.get(0)[1],obat_keluar.get(0)[0],obat_keluar.get(0)[1],Valid.SetAngka(sisa)
+                                });
+                                for(int j = 1; j < obat_keluar.size();j++){
+                                    tabMode.addRow(new Object[]{
+                                        "","","","","","", "","",obat_keluar.get(j)[0],obat_keluar.get(j)[1], ""
+                                    });
+                                }
+                            }
+                        } else {
+                            if(obat_keluar.size()==1){
+                                tabMode.addRow(new Object[]{
+                                    i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                    Valid.SetAngka(stok_awal),obat_masuk.get(0)[0],obat_masuk.get(0)[1],obat_keluar.get(0)[0],obat_keluar.get(0)[1],Valid.SetAngka(sisa)
+                                });
+                                for(int j = 1; j < obat_masuk.size();j++){
+                                    tabMode.addRow(new Object[]{
+                                        "","","","","","", obat_masuk.get(j)[0],obat_masuk.get(j)[1],"","", ""
+                                    });
+                                }
+                            }else{
+                                tabMode.addRow(new Object[]{
+                                    i,rstampil.getString("nama_brng"),rstampil.getString("kode_brng"),rstampil.getString("satuan"),rstampil.getString("ed").toString(),
+                                    Valid.SetAngka(stok_awal),obat_masuk.get(0)[0],obat_masuk.get(0)[1],obat_keluar.get(0)[0],obat_keluar.get(0)[1],Valid.SetAngka(sisa)
+                                });
+                                if(obat_masuk.size() < obat_keluar.size()){
+                                    for(int j = 1; j < obat_keluar.size();j++){
+                                        if(j<obat_masuk.size()){
+                                            tabMode.addRow(new Object[]{
+                                                "","","","","","", obat_masuk.get(j)[0],obat_masuk.get(j)[1],obat_keluar.get(j)[0],obat_keluar.get(j)[1], ""
+                                            });
+                                        } else {
+                                            tabMode.addRow(new Object[]{
+                                                "","","","","","", "","",obat_keluar.get(j)[0],obat_keluar.get(j)[1], ""
+                                            });
+                                        }
+                                    }
+                                } else {
+                                    for(int j = 1; j < obat_masuk.size();j++){
+                                        if(j<obat_keluar.size()){
+                                            tabMode.addRow(new Object[]{
+                                                "","","","","","", obat_masuk.get(j)[0],obat_masuk.get(j)[1],obat_keluar.get(j)[0],obat_keluar.get(j)[1], ""
+                                            });
+                                        } else {
+                                            tabMode.addRow(new Object[]{
+                                                "","","","","","", obat_masuk.get(j)[0],obat_masuk.get(j)[1],"","", ""
+                                            });
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                                        
                     i++;
                 }
             } catch (Exception e) {
@@ -1298,9 +1141,6 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
             System.out.println("Notifikasi : "+e);
         }
         LCount.setText(""+tabMode.getRowCount());
-        LTotalBeli.setText(df2.format(totalreal));
-        LTotal.setText(df2.format(total));
-        LTotal2.setText(df2.format(totallebih));
     }
 
     public void emptTeks() {
@@ -1355,16 +1195,14 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
     public void isCek(){
         BtnHapus.setEnabled(akses.getstok_opname_obat());
         BtnPrint.setEnabled(akses.getstok_opname_obat());    
-        NmGudang.setText("Depo 1 (IGD)");
     }
     
     private void exportSEPExcelActionPerformed(java.awt.event.ActionEvent evt) throws IOException { 
-        File theDir = new File("C:\\DataLaporanSO\\");
+        File theDir = new File("C:\\DataLaporanNAPZA\\");
         if (!theDir.exists()){
             theDir.mkdirs();
         }
-//        String excelFileName = "C:\\DataLaporanSO\\Laporan-"+ThnCari.getSelectedItem()+""+BlnCari.getSelectedItem()+".xls";//name of excel file
-        String excelFileName = "";
+        String excelFileName = "C:\\DataLaporanNAPZA\\Laporan-"+CBGolongan.getSelectedItem().toString()+"-"+ThnCari.getSelectedItem()+""+BlnCari.getSelectedItem()+".xls";//name of excel file
         String sheetName = "Sheet1";//name of sheet
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet(sheetName) ;
@@ -1391,6 +1229,30 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
         cell08.setCellValue("SISA");
         HSSFCell cell09 = row.createCell(9);
         cell09.setCellValue("JUMLAH");
+        
+//        for (int i = 0; i < 10; i++) {
+//            if(i==0){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==1){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==2){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==3){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==4){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==5){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==6){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==7){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==8){
+//                sheet.setColumnWidth(i, 255);
+//            }else if(i==9){
+//                sheet.setColumnWidth(i, 255);
+//            }
+//        }
         
         int rowNum = 1; int i=0;
         for(i=0;i<tabMode.getRowCount();i++){  
@@ -1424,7 +1286,7 @@ private void StokKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Stok
         wb.write(fileOut);
         fileOut.flush();
         fileOut.close();
-        System.out.println("Data Stok Opname berhasil diexport di "+excelFileName);
-        JOptionPane.showMessageDialog(null,"Data Stok Opname berhasil diexport di "+excelFileName);
+        System.out.println("Laporan Narkotika dan Psikotropika berhasil diexport di "+excelFileName);
+        JOptionPane.showMessageDialog(null,"Laporan Narkotika dan Psikotropika berhasil diexport di "+excelFileName);
     }
 }

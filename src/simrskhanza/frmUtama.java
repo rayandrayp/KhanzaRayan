@@ -351,6 +351,7 @@ import inventory.DlgObatPerTanggal;
 import inventory.DlgPengeluaranApotek;
 import inventory.DlgPenggunaObat;
 import inventory.DlgPenggunaObat2;
+import inventory.DlgLaporanNAPZA;
 import inventory.DlgPenjualanPerTanggal;
 import inventory.DlgPermintaan;
 import inventory.DlgRekapPenerimaan;
@@ -7891,6 +7892,7 @@ public class frmUtama extends javax.swing.JFrame {
     private void initCustomComponents() {
         
         btnPenggunaObatResep2 = new widget.ButtonBig();
+        btnLaporanNapza = new widget.ButtonBig();
         
         btnDataHAIsIDO = new widget.ButtonBig();
         btnDataHAIsIDO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/1360816018_tests.png"))); // NOI18N
@@ -8364,6 +8366,17 @@ public class frmUtama extends javax.swing.JFrame {
         btnPenggunaObatResep2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPenggunaObat2ResepActionPerformed(evt);
+            }
+        });
+        
+        btnLaporanNapza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/1360816018_tests.png"))); // NOI18N
+        btnLaporanNapza.setText("Laporan Penggunaan Narkotika & Psikotropika");
+        btnLaporanNapza.setIconTextGap(0);
+        btnLaporanNapza.setName("btnLaporanNapza"); // NOI18N
+        btnLaporanNapza.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnLaporanNapza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLaporanNarkotikaPsikotropikaActionPerformed(evt);
             }
         });
     }
@@ -18911,6 +18924,17 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         DlgHome.dispose();
         this.setCursor(Cursor.getDefaultCursor());
     } 
+    private void btnLaporanNarkotikaPsikotropikaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        isTutup();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        DlgLaporanNAPZA laporannapza=new DlgLaporanNAPZA(this,false);
+        laporannapza.isCek();
+        laporannapza.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
+        laporannapza.setLocationRelativeTo(PanelUtama);
+        laporannapza.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    } 
     /**
     * @param args the command line arguments
     */
@@ -19529,6 +19553,7 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
     private widget.ButtonBig btnYanmedSIRSRujukan;
     private widget.ButtonBig btnYanmedSIRSTempatTidur;
     private widget.ButtonBig btnPenggunaObatResep2;
+    private widget.ButtonBig btnLaporanNapza;
     
     
     private widget.ButtonBig btnKategoriPerpustakaan,btnRuangPerpustakaan,btnJenisPerpustakaan,btnPengarangPerpustakaan,btnPenerbitPerpustakaan,
@@ -20311,6 +20336,10 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
             }
             if(akses.getpengguna_obat_resep()==true){
                 Panelmenu.add(btnPenggunaObatResep2);
+                jmlmenu++;
+            }
+            if(akses.getpengguna_obat_resep()==true){
+                Panelmenu.add(btnLaporanNapza);
                 jmlmenu++;
             }
             
@@ -24235,6 +24264,10 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         }
         if(akses.getpengguna_obat_resep()==true){
             Panelmenu.add(btnPenggunaObatResep2);
+            jmlmenu++;
+        }
+        if(akses.getpengguna_obat_resep()==true){
+            Panelmenu.add(btnLaporanNapza);
             jmlmenu++;
         }
 
@@ -28384,6 +28417,10 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
                 Panelmenu.add(btnPenggunaObatResep2);
                 jmlmenu++;
             } 
+            if(akses.getpengguna_obat_resep()==true){
+                Panelmenu.add(btnLaporanNapza);
+                jmlmenu++;
+            }
         }  
         
         if(akses.getrekap_pemesanan()==true){

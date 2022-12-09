@@ -385,7 +385,7 @@ public final class DlgCariPetugasLab extends javax.swing.JDialog {
             ps=koneksi.prepareStatement("select nip,nama,jk,tmp_lahir,tgl_lahir, "+
                     "gol_darah,agama,stts_nikah,alamat,nm_jbtn,no_telp "+
                     "from petugas inner join jabatan on jabatan.kd_jbtn=petugas.kd_jbtn "+
-                    "where petugas.status='1' order by nip");
+                    "where petugas.status='1' and nip in ('196501081996032001','31081720280187','196811291996032001','197301311997031001','197012231991032001','197212101996032002','20110882111','20120887141','20150979318','20170895449','20170892448','20211098523','20211091524') order by nip");
             try {
                 rs=ps.executeQuery();
                 while(rs.next()){

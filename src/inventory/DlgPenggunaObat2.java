@@ -881,7 +881,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         try{   
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)); 
             Valid.tabelKosong(tabMode); 
-            if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&TCari.getText().equals("")){
+            if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&TCari.getText().equals("")&&nmasal.getText().equals("")&&nmpenjab.getText().equals("")){
                 psbarang=koneksi.prepareStatement(
                     "select databarang.kode_brng,databarang.nama_brng,kodesatuan.satuan,SUM(detail_pemberian_obat.jml) AS total from databarang "+
                     "inner join jenis on databarang.kdjns=jenis.kdjns "+
@@ -891,21 +891,60 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     "LEFT JOIN detail_pemberian_obat ON detail_pemberian_obat.kode_brng = databarang.kode_brng "+
                     "where databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374') and detail_pemberian_obat.tgl_perawatan between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' GROUP BY databarang.kode_brng  order by nama_brng");
             }else{
-                psbarang=koneksi.prepareStatement(
-                    "select databarang.kode_brng,databarang.nama_brng,kodesatuan.satuan,SUM(detail_pemberian_obat.jml) AS total from databarang "+
-                    "inner join jenis on databarang.kdjns=jenis.kdjns "+
-                    "inner join kategori_barang on kategori_barang.kode=databarang.kode_kategori "+
-                    "inner join golongan_barang on golongan_barang.kode=databarang.kode_golongan "+
-                    "INNER JOIN kodesatuan ON kodesatuan.kode_sat = databarang.kode_sat "+
-                    "LEFT JOIN detail_pemberian_obat ON detail_pemberian_obat.kode_brng = databarang.kode_brng "+
-                    "where databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374')  and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and kode_brng like ? or "+
-                    "databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374') and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and nama_brng like ? "+
-                    "  and detail_pemberian_obat.tgl_perawatan between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' "+ 
-                    "GROUP BY databarang.kode_brng order by nama_brng");
+//                psbarang=koneksi.prepareStatement(
+//                    "select databarang.kode_brng,databarang.nama_brng,kodesatuan.satuan,SUM(detail_pemberian_obat.jml) AS total from databarang "+
+//                    "inner join jenis on databarang.kdjns=jenis.kdjns "+
+//                    "inner join kategori_barang on kategori_barang.kode=databarang.kode_kategori "+
+//                    "inner join golongan_barang on golongan_barang.kode=databarang.kode_golongan "+
+//                    "INNER JOIN kodesatuan ON kodesatuan.kode_sat = databarang.kode_sat "+
+//                    "LEFT JOIN detail_pemberian_obat ON detail_pemberian_obat.kode_brng = databarang.kode_brng "+
+//                    "where databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374')  and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and databarang.kode_brng like ? or "+
+//                    "databarang.status='1' AND databarang.kode_brng NOT IN ('','B000009066','B000009374') and concat(databarang.kdjns,jenis.nama) like ? and concat(databarang.kode_kategori,kategori_barang.nama) like ? and concat(databarang.kode_golongan,golongan_barang.nama) like ? and databarang.nama_brng like ? "+
+//                    "  and detail_pemberian_obat.tgl_perawatan between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' "+ 
+//                    "GROUP BY databarang.kode_brng order by nama_brng");
+                String sql_cond_asal = "";
+                String sql_cond_penjab = "";
+                if(!nmasal.getText().equals("")){sql_cond_asal = " AND b.nm_bangsal = '"+nmasal.getText().toString()+"' ";}
+                if(!nmpenjab.getText().equals("")){sql_cond_penjab = " AND p.png_jawab = '"+nmpenjab.getText().toString()+"' ";}
+                psbarang = koneksi.prepareStatement(
+                        "SELECT d.kode_brng\n" +
+                        "       ,d.nama_brng\n" +
+                        "       ,ks.satuan\n" +
+                        "       ,a.jml  AS total\n" +
+                        "       ,a.nm_bangsal\n" +
+                        "       ,a.png_jawab\n" +
+                        "FROM databarang d\n" +
+                        "INNER JOIN jenis j ON j.kdjns = d.kdjns\n" +
+                        "INNER JOIN kategori_barang k ON k.kode = d.kode_kategori\n" +
+                        "INNER JOIN golongan_barang g ON g.kode = d.kode_golongan\n" +
+                        "INNER JOIN kodesatuan ks ON ks.kode_sat = d.kode_sat\n" +
+                        "inner JOIN (\n" +
+                        "	SELECT dpo.no_rawat, dpo.kode_brng, SUM(jml) AS jml, b.nm_bangsal, p.png_jawab\n" +
+                        "	FROM detail_pemberian_obat dpo\n" +
+                        "	INNER JOIN bangsal b ON b.kd_bangsal = dpo.kd_bangsal\n" +
+                        "	INNER JOIN reg_periksa r ON r.no_rawat = dpo.no_rawat\n" +
+                        "	INNER JOIN penjab p ON p.kd_pj = r.kd_pj\n" +
+                        "	WHERE tgl_perawatan BETWEEN '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' AND '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' \n" +
+                        sql_cond_asal + sql_cond_penjab +
+                        "	GROUP BY dpo.kode_brng\n" +
+                        ") a ON a.kode_brng = d.kode_brng\n" +
+                        "WHERE d.status='1'\n" +
+                        "AND d.kode_brng NOT IN ('', 'B000009066', 'B000009374')\n" +
+                        "AND concat(d.kdjns, j.nama) like ?\n" +
+                        "AND concat(d.kode_kategori, k.nama) like ?\n" +
+                        "AND concat(d.kode_golongan, g.nama) like ?\n" +
+                        "AND d.kode_brng LIKE ? \n" +
+                        "or d.status = '1'\n" +
+                        "AND d.kode_brng NOT IN ('', 'B000009066', 'B000009374')\n" +
+                        "AND concat(d.kdjns, j.nama) like ?\n" +
+                        "AND concat(d.kode_kategori, k.nama) like ?\n" +
+                        "AND concat(d.kode_golongan, g.nama) like ?\n" +
+                        "AND d.nama_brng like ?\n" +
+                        "ORDER BY d.nama_brng;");
             }
             
             try {
-                if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&TCari.getText().equals("")){}else{
+                if(nmjns.getText().equals("")&&nmkategori.getText().equals("")&&nmgolongan.getText().equals("")&&TCari.getText().equals("")&&nmasal.getText().equals("")&&nmpenjab.getText().equals("")){}else{
                     psbarang.setString(1,"%"+kdjenis.getText()+nmjns.getText()+"%");
                     psbarang.setString(2,"%"+kdkategori.getText()+nmkategori.getText()+"%");
                     psbarang.setString(3,"%"+kdgolongan.getText()+nmgolongan.getText()+"%");
@@ -916,7 +955,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     psbarang.setString(8,"%"+TCari.getText()+"%");
                 }
                 rsbarang=psbarang.executeQuery();
-                System.out.println("psbarang "+psbarang);
+//                System.out.println("psbarang "+psbarang);
                 i=1;
                 while(rsbarang.next()){
                     tabMode.addRow(new Object[]{rsbarang.getString("kode_brng"),rsbarang.getString("nama_brng"),Valid.SetAngka(rsbarang.getDouble("total")),rsbarang.getString("satuan"),"","","",""}); 

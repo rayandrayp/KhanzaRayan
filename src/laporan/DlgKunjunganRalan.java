@@ -1298,7 +1298,7 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                     
                 rs=ps.executeQuery();
                 i=1;   
-                lama=0;baru=0;laki=0;per=0;
+                lama=0;baru=0;laki=0;per=0;jml_bpjs=0;jml_umum=0;
                 while(rs.next()){
                     setbaru="";
                     setlama="";

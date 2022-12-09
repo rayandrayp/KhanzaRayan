@@ -769,8 +769,16 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(skdp2.getTable().getSelectedRow()!= -1){                   
+                if(skdp2.getTable().getSelectedRow()!= -1){      
+                    String nm_penyakit = skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),6).toString();
+                    String[] array = nm_penyakit.split("\\-",-1); 
                     NoSKDP.setText(skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),8).toString());
+                    KdPenyakit.setText(array[0]);
+                    NmPenyakit.setText(nm_penyakit);
+                    KdDPJP.setText(skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),10).toString());
+                    NmDPJP.setText(skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),11).toString());
+                    KdDPJPLayanan.setText(skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),10).toString());
+                    NmDPJPLayanan.setText(skdp2.getTable().getValueAt(skdp2.getTable().getSelectedRow(),11).toString());
                     NoSKDP.requestFocus();
                 }                  
             }

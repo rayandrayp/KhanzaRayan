@@ -46,6 +46,7 @@ import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import kepegawaian.DlgCariPetugasLab;
 import keuangan.Jurnal;
 
 /**
@@ -60,7 +61,7 @@ public final class DlgPeriksaLaboratorium extends javax.swing.JDialog {
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
     private Jurnal jur=new Jurnal();
-    private DlgCariPetugas petugas=new DlgCariPetugas(null,false);
+    private DlgCariPetugasLab petugas=new DlgCariPetugasLab(null,false);
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private PreparedStatement pstindakan,pstindakan2,pstindakan3,pstindakan4,pstampil,pstampil2,pstampil3,pstampil4,pslica,
             pscariperawatan,psset_tarif,pssetpj,psrekening;
@@ -2853,23 +2854,17 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if(jml>0){
             int tanya=JOptionPane.showConfirmDialog(rootPane,"Ada hasil lab yang belum diisi, yakin mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (tanya == JOptionPane.YES_OPTION) {
-                String m = JOptionPane.showInputDialog("Apakah ada catatan khusus?");
-                System.out.println(m);
-                System.out.println("joptionpane "+ JOptionPane.OK_CANCEL_OPTION);
-//                simpanlab();
+                simpanlab();
             }
         }else{
             int reply = JOptionPane.showConfirmDialog(rootPane,"Eeiiiiiits, udah bener belum data yang mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                String m = JOptionPane.showInputDialog("Apakah ada catatan khusus?");
-                System.out.println(m);
-                System.out.println("joptionpane2 "+ JOptionPane.OK_CANCEL_OPTION);
-//                simpanlab();
+                simpanlab();
             }
         }     
     }
 
-    private void simpanlab() {        
+    private void simpanlab() {
         ChkJln.setSelected(false);
         try {                    
             ttljmdokter=0;ttljmpetugas=0;ttlkso=0;ttlpendapatan=0;ttlbhp=0;ttljasasarana=0;ttljmperujuk=0;ttlmenejemen=0;
@@ -2963,6 +2958,13 @@ private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             }                    
 
             if(sukses==true){
+                String message = JOptionPane.showInputDialog("Apakah ada catatan khusus?");
+                if(message != null) 
+                    Sequel.menyimpantf2("periksa_lab_pesan","?,?,?,?","Kode Pemeriksaan",4,new String[]{
+                        TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),
+                            CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),message
+                    });
+        
                 for(i=0;i<tbPemeriksaan.getRowCount();i++){ 
                     if((!tbPemeriksaan.getValueAt(i,6).toString().equals(""))&&tbPemeriksaan.getValueAt(i,0).toString().equals("true")){ 
 //                        //save ke permintaan lab

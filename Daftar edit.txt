@@ -1,0 +1,90 @@
+Daftar edit
+
+bridging
+    BPJSCekHistoriPelayanan
+    BPJSCekKartu
+    BPJSCekNIK2
+    BPJSCekNoRujukanPCare
+    BPJSCekNoRujukanRS
+    BPJSCekRujukanKartuPCare
+    BPJSCekRujukanKartuRS
+    BPJSCekSKDP
+    BPJSDataSEP
+    InhealthCekEligibilitas
+    InhealthCekMappingPoli
+    PCareDataPemberianObat
+    PCareDataPemberianTindakan
+    PCareDataPendaftaran
+
+fungsi
+    akses
+    sekuel
+
+inventory
+    DlgBarang
+    DlgCariObat
+    DlgCariObat2
+    DlgCariObat3
+    DlgCariPemesanan
+    DlgCariPenjualan
+    DlgCopyResep
+    DlgDaftarPermintaanResep
+    DlgInputStok
+    ++ DlgLaporanNapza
+    DlgPemberianObat
+    DlgCariPemesanan
+    DlgPemesanan
+    DlgPenggunaObat
+    ++ DlgPenggunaObat2
+    DlgCariPenjualan
+    DlgPeresepanDokter
+    DlgPindahGudang
+    DlgResepObat
+    ++ DlgStokOpname2
+    ++ DlgStokOpname3
+    DlgUbahPemesanan
+
+kepegawaian
+    ++ DlgCariPetugasLab
+
+keuangan
+    DlgBilingParsialRalan
+    DlgBilingRalan
+    DlgBilingRanap
+    DlgCariPerawatanRanap2
+
+laporan
+    DlgBulananHAIs
+    DlgDataHAIs
+    ++ DlgDataHAIsIDO
+    DlgDataInsidenKeselamatan
+    DlgHarianHAIs
+    DlgHarianHAIs2
+    DlgKunjunganRalan
+    ++ DlgYanmed__XXXX
+    PanelDiagnosa
+
+permintaan
+    DlgPermintaanRadiologi
+
+rekammedis
+    RMPenilaianAwalKeperawatanRalan
+    RMPenilaianAwalMedisRalanDewasa
+
+simrskhanza
+    DlgCariPeriksaLab
+    DlgCariPeriksaLabPA
+    DlgCariPeriksRadiologi
+    DlgCariTagihanOperasi
+    DlgIGD
+    DlgKamarInap
+    DlgKasirRalan
+    DlgPasien
+    DlgPemberianDiet
+    DlgPeriksaLaboratorium
+    DlgRawatInap
+    DlgRawatJalan
+    DlgReg
+    DlgSpesialis
+    DlgUbahPeriksaLab
+    frmUtama
